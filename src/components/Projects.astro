@@ -1,0 +1,60 @@
+---
+import NextJS from './icons/NextJS.astro';
+import Tailwind from './icons/Tailwind.astro';
+
+const TAGS = {
+  NEXTJS: {
+    name: 'Next.js',
+    class: 'bg-black text-white',
+    icon: NextJS,
+  },
+  REACT: {
+    name: 'React',
+    color: 'text-red-300',
+    icon: NextJS,
+  },
+  TAILWINDCSS: {
+    name: 'TailwindCSS',
+    class: 'bg-sky-500 text-white',
+    icon: Tailwind,
+  },
+};
+
+const PROJECTS = [
+  {
+    title: 'Administrative Dashboard',
+    description:
+      'Panel administrativo completo desarrollado con Next.js que ofrece una interfaz intuitiva para la gestión de datos y visualización de estadísticas en tiempo real. Incluye autenticación de usuarios, formularios validados, dashboards interactivos y componentes reutilizables.',
+    link: 'https://crud-dataviewer.vercel.app/',
+    github: 'https://github.com/luisalmenarez/Dashboard',
+    image: 'projects/dashboard1.webp',
+    tags: [TAGS.NEXTJS, TAGS.TAILWINDCSS],
+  },
+];
+---
+
+{
+  PROJECTS.map(({ title, description, tags, image }) => (
+    <article>
+      <h3 class="text mb-2 text-3xl font-semibold text-blue-400">{title}</h3>
+      <p class="text-pretty mb-4 text-lg">{description}</p>
+      <ul class="gap-x-4 flex flex-row mb-4">
+        {tags.map((tag) => (
+          <li>
+            <span
+              class={`flex items-center gap-x-2 rounded-full text-sm py-1 px-2 ${tag.class}  `}
+            >
+              <tag.icon class="size-6" />
+              {tag.name}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <img
+        class="shadow-white/10 rounded shadow-2xl"
+        src={image}
+        alt={`Imagen del proyecto ${title}`}
+      />
+    </article>
+  ))
+}

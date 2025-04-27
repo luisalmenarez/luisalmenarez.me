@@ -1,0 +1,28 @@
+---
+import ExperienceItem from './ExperienceItem.astro';
+
+const EXPERIENCE = [
+  {
+    date: 'Septiembre 2024 - Actualidad',
+    title: 'Desarrollador Frontend',
+    description:
+      'Encargado de realizar la implementación de interfaces de usuario personalizadas con React.js, Drupal y Site Studio, desarrollando componentes modulares en Storybook e integrando Twig y SASS. Logrando reducir el tiempo de desarrollo en un 30% mediante componentes reutilizables y mejorar la velocidad de carga en un 20% optimizando recursos y aplicando mejores prácticas en la gestión de estilos.',
+  },
+  {
+    date: 'Septiembre 2022 - Septiembre 2024',
+    title: 'Desarrollador De Software',
+    description:
+      'Encargado de realizar la implementación de automatizaciones para procesos críticos de negocio mediante Node.js, MongoDB y APIs RESTful, desarrollando soluciones para integrar sistemas heredados con nuevas aplicaciones utilizando Express.js, Next.js y SQL Server. Logrando automatizar el 50% de los procesos manuales, reducir el tiempo de inactividad del sistema en un 40% y optimizar consultas en SQL Server para mejorar el rendimiento en la extracción de datos y generación de informes.',
+  },
+];
+---
+
+<ol class="border-s dark:border-gray-700 relative ml-3 border-gray-200">
+  {
+    EXPERIENCE.map((experience) => (
+      <li class="ms-4">
+        <ExperienceItem {...experience} />
+      </li>
+    ))
+  }
+</ol>
