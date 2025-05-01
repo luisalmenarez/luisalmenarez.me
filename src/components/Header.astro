@@ -1,11 +1,44 @@
+---
+const navItems = [
+  {
+    title: 'Experiencia',
+    label: 'experiencia',
+    url: '/#experiencia',
+  },
+  {
+    title: 'Proyectos',
+    label: 'proyectos',
+    url: '/#proyectos',
+  },
+  {
+    title: 'Sobre mí',
+    label: 'sobre-mi',
+    url: '/#sobre-mi',
+  },
+  {
+    title: 'Contacto',
+    label: 'contacto',
+    url: 'mailto:luisalmenarez0428@gmail.com',
+  },
+];
+---
+
 <header
-  class="flex justify-center items-center py-5 w-full lg:w-[1120px] mx-auto"
+  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
-  <nav class="gap-x-10 opacity-80 flex flex-row">
-    <a href="#top">Inicio</a>
-    <a href="#experiencia">Experiencia</a>
-    <a href="#projectos">Proyectos</a>
-    <a href="#sobre-mi">Sobre mi</a>
-    <a href="#contacto">Contacto</a>
+  <nav
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+  >
+    {
+      navItems.map((link) => (
+        <a
+          class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500"
+          aria-label={link.label}
+          href={link.url}
+        >
+          {link.title}
+        </a>
+      ))
+    }
   </nav>
 </header>
