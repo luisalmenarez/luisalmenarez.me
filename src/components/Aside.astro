@@ -1,0 +1,53 @@
+---
+import SectionContainer from '@/components/SectionContainer.astro';
+import Badge from '@/components/Badge.astro';
+import LinkedInIcon from '@/components/icons/LinkedIn.astro';
+import GitHubIcon from '@/components/icons/GitHub.astro';
+import MailIcon from '@/components/icons/Mail.astro';
+import SocialPill from '@/components/SocialPill.astro';
+---
+
+<SectionContainer class="pb-20 xl:pb-4">
+  <img
+    src="https://avatars.githubusercontent.com/u/125621759?v=4"
+    alt="photo luis almenarez"
+    class="size-32 mb-4 rounded-full"
+  />
+
+  <h1
+    class="gap-x-4 sm:text-3xl flex flex-col items-start pb-4 text-xl font-bold text-white"
+  >
+    Luis Almenarez
+    <a
+      href="https://linkedin.com/in/luisalmenarez"
+      target="_blank"
+      rel="noreferrer"
+      class="flex items-center justify-center"
+    >
+      <Badge>Frontend Developer</Badge>
+    </a>
+  </h1>
+  <h2 class="opacity-80 text-wrap md:text-2xl text-lg">
+    +3 años de experiencia en diseño y desarrollo de aplicaciones web.
+    Especializado en la integración de sistemas existentes, la optimización de
+    flujos de trabajo, y la entrega de soluciones a medida. De Medellín Colombia
+    🇨🇴
+  </h2>
+
+  <nav class="flex flex-wrap gap-2 mt-4">
+    <SocialPill href="https://linkedin.com/in/luisalmenarez">
+      <LinkedInIcon class="size-4 md:size-6" />
+      LinkedIn
+    </SocialPill>
+
+    <SocialPill href="https://github.com/luisalmenarez">
+      <GitHubIcon class="size-4 md:size-6" />
+      GitHub
+    </SocialPill>
+
+    <SocialPill href="mailto:luisalmenarez0428@gmail.com">
+      <MailIcon class="size-4 md:size-6" />
+      luisalmenarez0428@gmail.com
+    </SocialPill>
+  </nav>
+</SectionContainer>
