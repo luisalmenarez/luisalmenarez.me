@@ -1,28 +1,160 @@
 ---
-import ExperienceItem from '@/components/ExperienceItem.astro';
+import ArrowOutward from './icons/ArrowOutward.astro';
+import ArrowDown from './icons/ArrowDown.astro';
 
 const EXPERIENCE = [
   {
-    date: 'Septiembre 2024 - Actualidad',
+    date: 'Sept 2024 - Actualidad',
     title: 'Desarrollador Frontend',
-    description:
-      'Encargado de realizar la implementación de interfaces de usuario personalizadas con React.js, Drupal y Site Studio, desarrollando componentes modulares en Storybook e integrando Twig y SASS. Logrando reducir el tiempo de desarrollo en un 30% mediante componentes reutilizables y mejorar la velocidad de carga en un 20% optimizando recursos y aplicando mejores prácticas en la gestión de estilos.',
+    company: 'Esinergia S.A.S',
+    companyUrl: 'https://esinergia.co',
+    location: 'Remoto',
+    summary:
+      'Desarrollo e implementación de interfaces personalizadas utilizando React.js, Drupal y Site Studio, enfocado en crear componentes modulares y optimizar el rendimiento de aplicaciones web.',
+    responsibilities: [
+      'Implementación de interfaces de usuario personalizadas con React.js, Drupal y Site Studio.',
+      'Desarrollo de componentes modulares y escalables en Storybook con integraciones de Twig y SASS.',
+      'Optimización de aplicaciones para mejorar rendimiento y tiempos de carga.',
+      'Participación en reuniones con stakeholders para alinear soluciones con objetivos del cliente.',
+    ],
+    achievements: [
+      'Reducción del 30% en tiempo de desarrollo mediante componentes reutilizables en Storybook.',
+      'Aumento del 20% en velocidad de carga de interfaces optimizando estilos y recursos.',
+      'Incorporación de Twig para plantillas dinámicas, mejorando la adaptabilidad del diseño a múltiples plataformas.',
+      'Implementación de un flujo de trabajo eficiente utilizando npm, Gulp, Docker y ddev para la gestión del entorno de desarrollo.',
+    ],
+    technologies: [
+      'React',
+      'Drupal',
+      'SASS',
+      'Storybook',
+      'Site Studio',
+      'Twig',
+      'Docker',
+    ],
   },
   {
-    date: 'Septiembre 2022 - Septiembre 2024',
+    date: 'Sept 2022 - Sept 2024',
     title: 'Desarrollador De Software',
-    description:
-      'Encargado de realizar la implementación de automatizaciones para procesos críticos de negocio mediante Node.js, MongoDB y APIs RESTful, desarrollando soluciones para integrar sistemas heredados con nuevas aplicaciones utilizando Express.js, Next.js y SQL Server. Logrando automatizar el 50% de los procesos manuales, reducir el tiempo de inactividad del sistema en un 40% y optimizar consultas en SQL Server para mejorar el rendimiento en la extracción de datos y generación de informes.',
+    company: 'Coordinadora de Tanques S.A.S',
+    companyUrl: 'https://coorditanques.com',
+    location: 'Medellín, Colombia',
+    summary:
+      'Desarrollo de soluciones y automatización de procesos críticos mediante Node.js, Express.js y bases de datos relacionales, mejorando la eficiencia operativa y la integración de sistemas.',
+    responsibilities: [
+      'Implementación de automatizaciones para procesos críticos usando Node.js, MongoDB y APIs RESTful.',
+      'Desarrollo de soluciones para integrar sistemas heredados con Express.js, Next.js y SQL Server.',
+      'Implementación de nuevas funcionalidades en plataformas internas con Angular y TypeScript.',
+      'Optimización de consultas y generación de informes dinámicos.',
+    ],
+    achievements: [
+      'Automatización del 50% de procesos manuales, mejorando significativamente la productividad operativa y estableciendo bases para futuras implementaciones de RPA.',
+      'Reducción del 40% en tiempo de inactividad mediante mantenimiento preventivo.',
+      'Optimización de consultas SQL para mejorar la extracción de datos y reportes en Power BI.',
+      'Desarrollo de dashboards interactivos en Power BI integrados con SQL Server, proporcionando visualizaciones para toma de decisiones.',
+    ],
+    technologies: [
+      'Node.js',
+      'MongoDB',
+      'Express.js',
+      'Next.js',
+      'SQL Server',
+      'Angular',
+      'TypeScript',
+      'Power BI',
+    ],
   },
 ];
 ---
 
-<ol class="border-s dark:border-gray-700 relative ml-3 border-gray-200">
+<div class="flex flex-col gap-8">
   {
-    EXPERIENCE.map((experience) => (
-      <li class="ms-4">
-        <ExperienceItem {...experience} />
-      </li>
+    EXPERIENCE.map((experience, index) => (
+      <div class="group relative grid pb-1 sm:grid-cols-12 sm:gap-8 md:gap-6">
+        <header class="relative mt-1 text-xs font-semibold sm:col-span-2 text-pretty">
+          <time datetime={experience.date}>
+            {experience.date.split(' - ')[0]}
+          </time>{' '}
+          -{' '}
+          <time>
+            {experience.date.includes('Actualidad')
+              ? 'Actualidad'
+              : experience.date.split(' - ')[1]}
+          </time>
+        </header>
+        <div class="relative flex flex-col pb-6 before:-ml-6 sm:col-span-10 before:w-px before:absolute before:bg-blue-300 before:h-full before:mt-2">
+          <div class="absolute size-2 bg-blue-400 rounded-full mt-2 -translate-x-[1.71rem] ring ring-gray-800" />
+          <h3>
+            <div class="inline-flex items-center text-xl leading-tight">
+              <span>
+                {experience.title}
+                <a
+                  class="text-blue-400"
+                  href={experience.companyUrl}
+                  title={`Ver ${experience.company}`}
+                  target="_blank"
+                >
+                  {experience.company}
+                </a>
+                <span class="inline-block text-blue-400">
+                  <ArrowOutward />
+                </span>
+              </span>
+            </div>
+          </h3>
+          <div class="text-sm text-gray-400">{experience.location}</div>
+          <div
+            class="mt-4 flex flex-col gap-4 text-sm"
+            x-data="{ expanded: false }"
+          >
+            <div class="flex flex-col gap-1">
+              <h4 class="text-md font-semibold">Resumen:</h4>
+              <ul class="text-gray-400 [&>li]:ml-4 flex list-disc flex-col gap-2">
+                <li>{experience.summary}</li>
+              </ul>
+            </div>
+            <div
+              class="flex relative flex-col gap-4 overflow-hidden transition-all duration-500"
+              x-bind:class="expanded ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'"
+            >
+              <div class="flex flex-col gap-1">
+                <h4>Responsabilidades:</h4>
+                <ul class="text-gray-400 [&>li]:ml-4 flex list-disc flex-col gap-2">
+                  {experience.responsibilities.map((resp) => (
+                    <li>{resp}</li>
+                  ))}
+                </ul>
+              </div>
+              <div class="flex flex-col gap-1">
+                <h4>Logros:</h4>
+                <ul class="text-gray-400 [&>li]:ml-4 flex list-disc flex-col gap-2">
+                  {experience.achievements.map((achievement) => (
+                    <li>{achievement}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <button
+              @click="expanded = !expanded"
+              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-gray-400 transition-all duration-300 hover:text-white flex"
+            >
+              <span x-text="expanded ? 'Mostrar menos' : 'Mostrar más'">
+                Mostras más
+              </span>
+              <ArrowDown />
+            </button>
+
+            <ul class="flex flex-wrap gap-2" aria-label="Technologies used">
+              {experience.technologies.map((tech) => (
+                <li class="bg-blue-900/20 border-blue-400/20 text-blue-400 flex gap-1 items-center border-solid border rounded-md px-2 py-0.5 text-xs">
+                  <span>{tech}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
     ))
   }
-</ol>
+</div>
