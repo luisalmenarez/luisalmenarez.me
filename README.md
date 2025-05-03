@@ -1,3 +1,3 @@
 # luisalmenarez.me
 
-![image](https://github.com/user-attachments/assets/6ee29891-92e8-46b2-a83e-4a4b47edd0b4)
+![image](https://github.com/user-attachments/assets/0d0cffdd-3a3c-4e18-9775-6ef6bd9acb13)
