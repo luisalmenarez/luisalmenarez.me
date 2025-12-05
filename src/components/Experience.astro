@@ -49,7 +49,7 @@ import { EXPERIENCE } from '@/data/experience';
           >
             <div class="flex flex-col gap-1">
               <h4 class="text-lg font-semibold">Resumen:</h4>
-              <ul class="text-gray-400 [&>li]:ml-6 text-base flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
+              <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                 <li class="text-secondary-100">{experience.summary}</li>
               </ul>
             </div>
@@ -59,7 +59,7 @@ import { EXPERIENCE } from '@/data/experience';
             >
               <div class="flex flex-col gap-1">
                 <h4 class="text-lg font-semibold">Responsabilidades:</h4>
-                <ul class="text-gray-400 [&>li]:ml-6 text-base flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
+                <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                   {experience.responsibilities.map((resp) => (
                     <li class="text-secondary-200">{resp}</li>
                   ))}
@@ -67,7 +67,7 @@ import { EXPERIENCE } from '@/data/experience';
               </div>
               <div class="flex flex-col gap-1">
                 <h4 class="text-lg font-semibold">Logros:</h4>
-                <ul class="text-gray-400 [&>li]:ml-6 text-base flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
+                <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                   {experience.achievements.map((achievement) => (
                     <li class="text-secondary-200">{achievement}</li>
                   ))}
@@ -77,10 +77,10 @@ import { EXPERIENCE } from '@/data/experience';
 
             <button
               @click="expanded = !expanded"
-              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-gray-400 transition-all duration-300 hover:text-white flex"
+              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-400 transition-all duration-300 hover:text-white flex"
             >
               <span
-                class="text-base text-secondary-400 underline italic"
+                class="text-xs text-secondary-400 underline italic"
                 x-text="expanded ? 'Mostrar menos' : 'Mostrar más'"
               >
                 Mostras más
@@ -93,7 +93,7 @@ import { EXPERIENCE } from '@/data/experience';
               aria-label="Technologies used"
             >
               {experience.technologies.map((tech) => (
-                <li class="text-primary-400 flex gap-1 items-center border-solid border rounded-md px-2 py-1 text-sm">
+                <li class="text-primary-400 flex gap-1 items-center border-solid border rounded-md px-2 py-1 text-xs">
                   <span>{tech}</span>
                 </li>
               ))}
