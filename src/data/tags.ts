@@ -9,6 +9,7 @@ import Clerk from '@/components/icons/Clerk.astro';
 import Prisma from '@/components/icons/Prisma.astro';
 import Chart from '@/components/icons/Chart.astro';
 import NextJS from '@/components/icons/NextJS.astro';
+import Drupal from '@/components/icons/IconDrupal.astro';
 
 
 export const TAGS = {
@@ -66,5 +67,10 @@ export const TAGS = {
       name: 'SCSS',
       class: 'bg-rose-400 text-white',
       icon: SCSS,
+    },
+    DRUPAL: {
+      name: 'Drupal',
+      class: 'bg-blue-500 text-white',
+      icon: Drupal,
     },
   };
