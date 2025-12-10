@@ -1,3 +1,3 @@
 # luisalmenarez.me
 
-![image](https://github.com/user-attachments/assets/0d0cffdd-3a3c-4e18-9775-6ef6bd9acb13)
+<img width="1330" height="1222" alt="image" src="https://github.com/user-attachments/assets/53210d21-899b-4e01-a52d-d3dc93d96d50" />
