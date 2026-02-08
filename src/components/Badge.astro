@@ -1,5 +1,5 @@
 <span
-  class="inline-flex text-base italic items-center justify-center rounded-md border border-primary-400 bg-[linear-gradient(110deg,#000103,45%,#3A0CA3,55%,#000103)] bg-[length:200%_100%] px-4 text-primary-400 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 focus:ring-offset-primary-500 group overflow-hidden"
+  class="inline-flex text-base italic items-center justify-center rounded-md border border-indigo-300 dark:border-indigo-500 bg-[length:200%_100%] px-4 text-indigo-600 dark:text-indigo-300 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 group overflow-hidden badge-gradient"
   style="animation: background-shine 3s linear infinite;"
 >
   <div class="relative overflow-hidden">
@@ -17,6 +17,26 @@
 </span>
 
 <style>
+  .badge-gradient {
+    color: black;
+    background-image: linear-gradient(
+      110deg,
+      #f0f0ff 45%,
+      #21103f 55%,
+      #f0f0ff
+    );
+  }
+
+  :global(.dark) .badge-gradient {
+    color: white;
+    background-image: linear-gradient(
+      110deg,
+      #0a0a1a 45%,
+      #4338ca 55%,
+      #0a0a1a
+    );
+  }
+
   @keyframes background-shine {
     from {
       background-position: 0 0;

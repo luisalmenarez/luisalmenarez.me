@@ -1,5 +1,6 @@
 ---
 import LanguageSwitcher from '@/components/LanguageSwitcher.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
 import { useTranslations, defaultLocale } from '@/i18n';
 import type { Locale } from '@/i18n';
 
@@ -36,22 +37,37 @@ const navItems = [
 ---
 
 <header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+  x-data="{ scrolled: false }"
+  x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 }, { passive: true })"
+  class="fixed top-0 z-50 w-full"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="grid grid-cols-[1fr_auto_1fr] items-center max-w-7xl mx-auto px-4 py-3"
   >
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500"
-          aria-label={link.label}
-          href={link.url}
-        >
-          {link.title}
-        </a>
-      ))
-    }
-    <LanguageSwitcher />
+    <div></div>
+
+    <div
+      class="flex items-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 border transition-all duration-300"
+      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-b border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
+    >
+      {
+        navItems.map((link: { title: string; label: string; url: string }) => (
+          <a
+            class="relative block px-3 py-1.5 transition rounded-full hover:text-indigo-500 dark:hover:text-indigo-400"
+            aria-label={link.label}
+            href={link.url}
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </div>
+
+    <div
+      class="flex items-center justify-end gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300"
+    >
+      <LanguageSwitcher />
+      <ThemeToggle />
+    </div>
   </nav>
 </header>

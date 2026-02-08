@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Colores primarios */
   --primary-50: oklch(0.97 0.014 254.604);
