@@ -4,15 +4,25 @@ import ArrowOutward from '@/components/icons/ArrowOutward.astro';
 import ArrowDown from '@/components/icons/ArrowDown.astro';
 import GitHub from '@/components/icons/GitHub.astro';
 import ExternalLink from '@/components/icons/ExternalLink.astro';
-import {PROJECTS} from '@/data/projects.ts';
+import { PROJECTS } from '@/data/projects';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const projects = PROJECTS[lang];
 ---
 
 <div class="md:grid-cols-2 print:flex print:flex-col grid grid-cols-1 gap-6">
   {
-    PROJECTS.map(({ title, description, tags, link, github, highlights }) => (
+    projects.map(({ title, description, tags, link, github, highlights }) => (
       <article
         class="bg-zinc-900 border-zinc-800 hover:border-zinc-700 relative flex flex-col p-6 transition-colors duration-200 border rounded-lg shadow-lg"
-        x-data="{ expanded: false }"
+        x-data={`{ expanded: false, showMore: '${t('projects.showMore')}', showLess: '${t('projects.showLess')}' }`}
       >
         <div class="flex items-center justify-between mb-3">
           {link && (
@@ -36,7 +46,7 @@ import {PROJECTS} from '@/data/projects.ts';
           class="relative flex flex-col gap-4 mb-4 overflow-hidden transition-all duration-500"
           x-bind:class="expanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'"
         >
-          <h4 class="text-lg font-semibold">Caracteristicas:</h4>
+          <h4 class="text-lg font-semibold">{t('projects.features')}</h4>
           <ul class="text-zinc-300 space-y-2 text-sm">
             {highlights.map((highlight) => (
               <li class="flex items-start gap-2">
@@ -52,9 +62,9 @@ import {PROJECTS} from '@/data/projects.ts';
         >
           <span
             class="text-zinc-400 text-sm italic underline"
-            x-text="expanded ? 'Mostrar menos' : 'Mostrar más'"
+            x-text="expanded ? showLess : showMore"
           >
-            Mostrar más
+            {t('projects.showMore')}
           </span>
           <ArrowDown
             class="text-zinc-400 size-4 transition-transform duration-300"
@@ -80,7 +90,7 @@ import {PROJECTS} from '@/data/projects.ts';
               class="text-zinc-400 hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
             >
               <GitHub class="size-5" />
-              Ver en GitHub
+              {t('projects.viewGithub')}
             </a>
           )}
           {link && (
@@ -91,7 +101,7 @@ import {PROJECTS} from '@/data/projects.ts';
               class="text-zinc-400 hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
             >
               <ExternalLink class="size-5" />
-              Visitar sitio
+              {t('projects.visitSite')}
             </a>
           )}
         </div>

@@ -1,30 +1,22 @@
+---
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
 <section class="flex gap-x-8 md:flex-row flex-col-reverse">
   <div
     class="flex flex-col [&>p]:mb-4 [&>p>strong]:text-blue-300 [&>p>strong] text-pretty"
   >
-    <p>
-      Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>
-        Llevo más de 3 años construyendo aplicaciones web
-      </strong> que resuelven problemas reales y se sienten bien al usarlas.
-    </p>
-
-    <p>
-      He trabajado en proyectos donde <strong>
-        los equipos reducían semanas de trabajo a días con las herramientas
-        correctas, y donde procesos manuales simplemente dejaban de existir.
-      </strong> Eso es lo que me motiva: ver el impacto directo de lo que se construye.
-    </p>
-
-    <p>
-      Trabajo remoto desde Medellín 🇨🇴, como <strong
-        class="text-blue-300 italic"
-      >
-        Full Stack Developer en PrevalentWare</strong
-      >, principalmente con React, Next.js y TypeScript. Fuera del código, me
-      encontrarás entrenando en el gym, jugando Fortnite, o metiéndole mano a la
-      automatización con
-      <strong class="text-blue-300 italic">Automation Anywhere.</strong>
-    </p>
+    <p set:html={t('about.p1')} />
+    <p set:html={t('about.p2')} />
+    <p set:html={t('about.p3')} />
   </div>
   <img
     src="https://avatars.githubusercontent.com/u/125621759?v=4"
