@@ -1,0 +1,16 @@
+---
+import { getLangFromUrl, defaultLocale } from '@/i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const targetLang = lang === 'es' ? 'en' : 'es';
+const targetPath = targetLang === defaultLocale ? '/' : `/${targetLang}/`;
+const label = lang === 'es' ? 'EN' : 'ES';
+---
+
+<a
+  href={targetPath}
+  class="relative block px-2 py-2 transition hover:text-blue-500 dark:hover:text-blue-500 font-semibold text-sm"
+  aria-label={`Switch to ${targetLang === 'es' ? 'Español' : 'English'}`}
+>
+  {label}
+</a>

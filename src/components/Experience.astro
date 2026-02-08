@@ -1,13 +1,22 @@
 ---
 import ArrowOutward from './icons/ArrowOutward.astro';
 import ArrowDown from './icons/ArrowDown.astro';
-
 import { EXPERIENCE } from '@/data/experience';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const experiences = EXPERIENCE[lang];
 ---
 
 <div class="flex flex-col gap-8">
   {
-    EXPERIENCE.map((experience, index) => (
+    experiences.map((experience) => (
       <div class="group relative grid pb-1 sm:grid-cols-12 sm:gap-8 md:gap-6">
         <header class="relative mt-1 text-sm font-semibold sm:col-span-2 text-pretty">
           <time datetime={experience.date}>
@@ -15,9 +24,7 @@ import { EXPERIENCE } from '@/data/experience';
           </time>{' '}
           -{' '}
           <time>
-            {experience.date.includes('Actualidad')
-              ? 'Actualidad'
-              : experience.date.split(' - ')[1]}
+            {experience.date.split(' - ')[1]}
           </time>
         </header>
         <div class="relative flex flex-col pb-6 before:-ml-6 text-base sm:col-span-10 before:w-px before:absolute before:bg-blue-300 before:h-full before:mt-2">
@@ -29,7 +36,7 @@ import { EXPERIENCE } from '@/data/experience';
                 <a
                   class="group/more text-primary-400 font-bold inline-flex items-center gap-1"
                   href={experience.companyUrl}
-                  title={`Ver ${experience.company}`}
+                  title={`${t('experience.view')} ${experience.company}`}
                   target="_blank"
                 >
                   {experience.company}
@@ -45,10 +52,10 @@ import { EXPERIENCE } from '@/data/experience';
           </div>
           <div
             class="mt-4 flex flex-col gap-4 text-sm"
-            x-data="{ expanded: false }"
+            x-data={`{ expanded: false, showMore: '${t('experience.showMore')}', showLess: '${t('experience.showLess')}' }`}
           >
             <div class="flex flex-col gap-1">
-              <h4 class="text-lg font-semibold">Resumen:</h4>
+              <h4 class="text-lg font-semibold">{t('experience.summary')}</h4>
               <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                 <li class="text-secondary-100">{experience.summary}</li>
               </ul>
@@ -58,7 +65,7 @@ import { EXPERIENCE } from '@/data/experience';
               x-bind:class="expanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'"
             >
               <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">Responsabilidades:</h4>
+                <h4 class="text-lg font-semibold">{t('experience.responsibilities')}</h4>
                 <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                   {experience.responsibilities.map((resp) => (
                     <li class="text-secondary-200">{resp}</li>
@@ -66,7 +73,7 @@ import { EXPERIENCE } from '@/data/experience';
                 </ul>
               </div>
               <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">Logros:</h4>
+                <h4 class="text-lg font-semibold">{t('experience.achievements')}</h4>
                 <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
                   {experience.achievements.map((achievement) => (
                     <li class="text-secondary-200">{achievement}</li>
@@ -81,9 +88,9 @@ import { EXPERIENCE } from '@/data/experience';
             >
               <span
                 class="text-xs text-secondary-400 underline italic"
-                x-text="expanded ? 'Mostrar menos' : 'Mostrar más'"
+                x-text="expanded ? showLess : showMore"
               >
-                Mostras más
+                {t('experience.showMore')}
               </span>
               <ArrowDown class="text-secondary-400 size-6" />
             </button>

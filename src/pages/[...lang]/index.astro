@@ -1,6 +1,5 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-
 import AboutMe from '@/components/AboutMe.astro';
 import Briefcase from '@/components/icons/Briefcase.astro';
 import CodeIcon from '@/components/icons/Code.astro';
@@ -8,9 +7,19 @@ import Experience from '@/components/Experience.astro';
 import ProfileCheck from '@/components/icons/ProfileCheck.astro';
 import Projects from '@/components/Projects.astro';
 import SectionContainer from '@/components/SectionContainer.astro';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+import type { GetStaticPaths } from 'astro';
+import Footer from '@/components/Footer.astro';
+
+export const getStaticPaths = (() => {
+  return [{ params: { lang: undefined } }, { params: { lang: 'en' } }];
+}) satisfies GetStaticPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<Layout title="Luis Almenarez - Home">
+<Layout title={t('meta.title')} lang={lang}>
   <main class="px-6 mx-auto">
     <SectionContainer
       id="experiencia"
@@ -18,25 +27,25 @@ import SectionContainer from '@/components/SectionContainer.astro';
     >
       <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
         <Briefcase class="size-7" />
-        Experiencia
+        {t('section.experience')}
       </h2>
-      <Experience />
+      <Experience lang={lang} />
     </SectionContainer>
 
     <SectionContainer id="proyectos" class="w-full lg:w-[740px] mx-auto pb-20">
       <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
         <CodeIcon class="size-7" />
-        Proyectos
+        {t('section.projects')}
       </h2>
-      <Projects />
+      <Projects lang={lang} />
     </SectionContainer>
 
     <SectionContainer id="sobre-mi" class="w-full lg:w-[740px] mx-auto pb-20">
       <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
         <ProfileCheck class="size-7" />
-        Sobre mi
+        {t('section.about')}
       </h2>
-      <AboutMe />
+      <AboutMe lang={lang} />
     </SectionContainer>
   </main>
 </Layout>

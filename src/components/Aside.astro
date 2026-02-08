@@ -6,6 +6,15 @@ import GitHubIcon from '@/components/icons/GitHub.astro';
 import MailIcon from '@/components/icons/Mail.astro';
 import SocialPill from '@/components/SocialPill.astro';
 import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
 <SectionContainer class="pb-20 xl:pb-4">
@@ -25,14 +34,14 @@ import WhatsAppIcon from './icons/WhatsAppIcon.astro';
       rel="noreferrer"
       class="flex items-center justify-center"
     >
-      <Badge>Software Engineer</Badge>
+      <Badge>
+        {t('aside.badge')}
+        <span slot="hover-text">{t('aside.badge')}</span>
+      </Badge>
     </a>
   </h1>
   <h2 class="opacity-80 text-wrap text-base">
-    +3 años desarrollando aplicaciones web modernas con React, Next.js y
-    TypeScript. Enfocado en crear soluciones escalables, automatizar procesos y
-    optimizar experiencias de usuario para proyectos de alto impacto. Medellín,
-    Colombia 🇨🇴
+    {t('aside.description')}
   </h2>
   <nav class="flex flex-wrap gap-1 mt-4">
     <SocialPill href="https://linkedin.com/in/luisalmenarez">
