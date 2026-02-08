@@ -167,3 +167,12 @@
 .text-secondary-950 {
   color: var(--secondary-950);
 }
+
+/* Ocultar scrollbar manteniendo scroll (p. ej. nav móvil) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

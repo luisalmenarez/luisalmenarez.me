@@ -10,7 +10,7 @@ const label = lang === 'es' ? 'En' : 'Es';
 
 <a
   href={targetPath}
-  class="flex items-center gap-1.5 px-2 py-2 transition hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-sm"
+  class="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 py-1.5 md:py-2 transition hover:text-accent font-semibold text-inherit"
   aria-label={`Switch to ${targetLang === 'es' ? 'Español' : 'English'}`}
 >
   <span>{flag}</span>

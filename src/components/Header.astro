@@ -32,8 +32,11 @@ const navItems = [
     title: t('nav.contact'),
     label: 'contacto',
     url: 'mailto:luisalmenarez0428@gmail.com',
+    mobileHidden: true,
   },
 ];
+
+const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
 ---
 
 <header
@@ -42,18 +45,37 @@ const navItems = [
   class="fixed top-0 z-50 w-full"
 >
   <nav
-    class="grid grid-cols-[1fr_auto_1fr] items-center max-w-7xl mx-auto px-4 py-3"
+    class="flex md:grid md:grid-cols-[1fr_auto_1fr] items-center gap-2 max-w-7xl mx-auto px-3 md:px-4 py-2 md:py-3"
   >
-    <div></div>
+    <div class="hidden md:block" aria-hidden="true"></div>
 
     <div
-      class="flex items-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1 border transition-all duration-300"
-      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-b border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
+      class="min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-all duration-300"
+      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
+    >
+      {
+        navItemsMobile.map(
+          (link: { title: string; label: string; url: string }) => (
+            <a
+              class="relative block px-1.5 py-1 transition rounded-full hover:text-accent whitespace-nowrap"
+              aria-label={link.label}
+              href={link.url}
+            >
+              {link.title}
+            </a>
+          ),
+        )
+      }
+    </div>
+
+    <div
+      class="min-w-0 hidden md:flex md:flex-initial items-center justify-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1.5 border transition-all duration-300"
+      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
     >
       {
         navItems.map((link: { title: string; label: string; url: string }) => (
           <a
-            class="relative block px-3 py-1.5 transition rounded-full hover:text-indigo-500 dark:hover:text-indigo-400"
+            class="relative block px-3 py-1 transition rounded-full hover:text-accent whitespace-nowrap"
             aria-label={link.label}
             href={link.url}
           >
@@ -64,7 +86,7 @@ const navItems = [
     </div>
 
     <div
-      class="flex items-center justify-end gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300"
+      class="flex flex-shrink-0 items-center justify-end gap-x-0.5 md:gap-x-1 text-xs md:text-sm font-medium text-gray-600 dark:text-gray-300"
     >
       <LanguageSwitcher />
       <ThemeToggle />
