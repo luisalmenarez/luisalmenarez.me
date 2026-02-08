@@ -22,19 +22,16 @@ const experiences = EXPERIENCE[lang];
           <time datetime={experience.date}>
             {experience.date.split(' - ')[0]}
           </time>{' '}
-          -{' '}
-          <time>
-            {experience.date.split(' - ')[1]}
-          </time>
+          - <time>{experience.date.split(' - ')[1]}</time>
         </header>
-        <div class="relative flex flex-col pb-6 before:-ml-6 text-base sm:col-span-10 before:w-px before:absolute before:bg-blue-300 before:h-full before:mt-2">
-          <div class="absolute size-[10px] bg-secondary-500 rounded-full mt-2 -translate-x-[1.80rem] ring ring-gray-800" />
+        <div class="relative flex flex-col pb-6 before:-ml-6 text-base sm:col-span-10 before:w-px before:absolute before:bg-indigo-200 dark:before:bg-indigo-500/40 before:h-full before:mt-2">
+          <div class="absolute size-[10px] bg-indigo-400 dark:bg-indigo-500 rounded-full mt-2 -translate-x-[1.80rem] ring ring-gray-300 dark:ring-gray-800" />
           <h3>
             <div class="inline-flex items-center text-xl text-balance leading-tight">
               <span>
                 {experience.title}
                 <a
-                  class="group/more text-primary-400 font-bold inline-flex items-center gap-1"
+                  class="group/more text-indigo-600 dark:text-indigo-400 font-bold inline-flex items-center gap-1"
                   href={experience.companyUrl}
                   title={`${t('experience.view')} ${experience.company}`}
                   target="_blank"
@@ -56,8 +53,10 @@ const experiences = EXPERIENCE[lang];
           >
             <div class="flex flex-col gap-1">
               <h4 class="text-lg font-semibold">{t('experience.summary')}</h4>
-              <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
-                <li class="text-secondary-100">{experience.summary}</li>
+              <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
+                <li class="text-gray-700 dark:text-gray-200">
+                  {experience.summary}
+                </li>
               </ul>
             </div>
             <div
@@ -65,18 +64,24 @@ const experiences = EXPERIENCE[lang];
               x-bind:class="expanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'"
             >
               <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">{t('experience.responsibilities')}</h4>
-                <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
+                <h4 class="text-lg font-semibold">
+                  {t('experience.responsibilities')}
+                </h4>
+                <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
                   {experience.responsibilities.map((resp) => (
-                    <li class="text-secondary-200">{resp}</li>
+                    <li class="text-gray-700 dark:text-gray-300">{resp}</li>
                   ))}
                 </ul>
               </div>
               <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">{t('experience.achievements')}</h4>
-                <ul class="text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-blue-500 marker:text-xl">
+                <h4 class="text-lg font-semibold">
+                  {t('experience.achievements')}
+                </h4>
+                <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
                   {experience.achievements.map((achievement) => (
-                    <li class="text-secondary-200">{achievement}</li>
+                    <li class="text-gray-700 dark:text-gray-300">
+                      {achievement}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -84,15 +89,15 @@ const experiences = EXPERIENCE[lang];
 
             <button
               @click="expanded = !expanded"
-              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-400 transition-all duration-300 hover:text-white flex"
+              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-600 dark:text-gray-400 transition-all duration-300 hover:text-black dark:hover:text-white flex"
             >
               <span
-                class="text-xs text-secondary-400 underline italic"
+                class="text-xs text-gray-500 dark:text-gray-400 underline italic"
                 x-text="expanded ? showLess : showMore"
               >
                 {t('experience.showMore')}
               </span>
-              <ArrowDown class="text-secondary-400 size-6" />
+              <ArrowDown class="text-gray-500 dark:text-gray-400 size-6" />
             </button>
 
             <ul
@@ -100,7 +105,7 @@ const experiences = EXPERIENCE[lang];
               aria-label="Technologies used"
             >
               {experience.technologies.map((tech) => (
-                <li class="text-primary-400 flex gap-1 items-center border-solid border rounded-md px-2 py-1 text-xs">
+                <li class="text-indigo-600 dark:text-indigo-400 flex gap-1 items-center border border-indigo-200 dark:border-indigo-500/30 rounded-md px-2 py-1 text-xs">
                   <span>{tech}</span>
                 </li>
               ))}
