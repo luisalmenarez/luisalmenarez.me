@@ -47,10 +47,7 @@ const experiences = EXPERIENCE[lang];
           <div class="text-md text-gray-500 font-bold italic">
             {experience.location}
           </div>
-          <div
-            class="mt-4 flex flex-col gap-4 text-sm"
-            x-data={`{ expanded: false, showMore: '${t('experience.showMore')}', showLess: '${t('experience.showLess')}' }`}
-          >
+          <div class="mt-4 flex flex-col gap-4 text-sm">
             <div class="flex flex-col gap-1">
               <h4 class="text-lg font-semibold">{t('experience.summary')}</h4>
               <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
@@ -59,46 +56,41 @@ const experiences = EXPERIENCE[lang];
                 </li>
               </ul>
             </div>
-            <div
-              class="flex relative flex-col gap-4 overflow-hidden transition-all duration-500"
-              x-bind:class="expanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'"
-            >
-              <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">
-                  {t('experience.responsibilities')}
-                </h4>
-                <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
-                  {experience.responsibilities.map((resp) => (
-                    <li class="text-gray-700 dark:text-gray-300">{resp}</li>
-                  ))}
-                </ul>
-              </div>
-              <div class="flex flex-col gap-1">
-                <h4 class="text-lg font-semibold">
-                  {t('experience.achievements')}
-                </h4>
-                <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
-                  {experience.achievements.map((achievement) => (
-                    <li class="text-gray-700 dark:text-gray-300">
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
 
-            <button
-              @click="expanded = !expanded"
-              class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-600 dark:text-gray-400 transition-all duration-300 hover:text-black dark:hover:text-white flex"
-            >
-              <span
-                class="text-xs text-gray-500 dark:text-gray-400 underline italic"
-                x-text="expanded ? showLess : showMore"
+            <details class="exp-details group/details">
+              <summary
+                class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-black dark:hover:text-white flex list-none [&::-webkit-details-marker]:hidden"
               >
-                {t('experience.showMore')}
-              </span>
-              <ArrowDown class="text-gray-500 dark:text-gray-400 size-6" />
-            </button>
+                <span class="exp-toggle-text text-xs text-gray-500 dark:text-gray-400 underline italic">
+                  {t('experience.showMore')}
+                </span>
+                <ArrowDown class="text-gray-500 dark:text-gray-400 size-6 transition-transform duration-300 group-open/details:rotate-180" />
+              </summary>
+              <div class="flex flex-col gap-4 mt-4 animate-fade-in">
+                <div class="flex flex-col gap-1">
+                  <h4 class="text-lg font-semibold">
+                    {t('experience.responsibilities')}
+                  </h4>
+                  <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
+                    {experience.responsibilities.map((resp) => (
+                      <li class="text-gray-700 dark:text-gray-300">{resp}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <h4 class="text-lg font-semibold">
+                    {t('experience.achievements')}
+                  </h4>
+                  <ul class="text-gray-600 dark:text-gray-400 [&>li]:ml-6 text-xs flex list-disc flex-col gap-2 marker:text-indigo-400 marker:text-xl">
+                    {experience.achievements.map((achievement) => (
+                      <li class="text-gray-700 dark:text-gray-300">
+                        {achievement}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </details>
 
             <ul
               class="flex flex-wrap gap-2 italic"
@@ -116,3 +108,17 @@ const experiences = EXPERIENCE[lang];
     ))
   }
 </div>
+
+<script>
+  document.querySelectorAll('.exp-details').forEach((details) => {
+    const toggleText = details.querySelector('.exp-toggle-text');
+    if (!toggleText) return;
+    const showMore = toggleText.textContent?.trim() || '';
+    const showLess = details.closest('[data-show-less]')?.getAttribute('data-show-less') ||
+      (showMore === 'Mostrar más' ? 'Mostrar menos' : 'Show less');
+
+    details.addEventListener('toggle', () => {
+      toggleText.textContent = (details as HTMLDetailsElement).open ? showLess : showMore;
+    });
+  });
+</script>

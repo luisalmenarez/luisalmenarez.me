@@ -40,8 +40,7 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
 ---
 
 <header
-  x-data="{ scrolled: false }"
-  x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 }, { passive: true })"
+  id="main-header"
   class="fixed top-0 z-50 w-full"
 >
   <nav
@@ -50,14 +49,13 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
     <div class="hidden md:block" aria-hidden="true"></div>
 
     <div
-      class="min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-all duration-300"
-      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
+      class="nav-blur min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-colors duration-300 bg-transparent border-transparent"
     >
       {
         navItemsMobile.map(
           (link: { title: string; label: string; url: string }) => (
             <a
-              class="relative block px-1.5 py-1 transition rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
+              class="relative block px-1.5 py-1 transition-colors rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
               aria-label={link.label}
               href={link.url}
             >
@@ -69,13 +67,12 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
     </div>
 
     <div
-      class="min-w-0 hidden md:flex md:flex-initial items-center justify-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1.5 border transition-all duration-300"
-      x-bind:class="scrolled ? 'bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg border-gray-300/50 dark:border-gray-700/30 shadow-sm' : 'bg-transparent border-transparent'"
+      class="nav-blur min-w-0 hidden md:flex md:flex-initial items-center justify-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1.5 border transition-colors duration-300 bg-transparent border-transparent"
     >
       {
         navItems.map((link: { title: string; label: string; url: string }) => (
           <a
-            class="relative block px-3 py-1 transition rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
+            class="relative block px-3 py-1 transition-colors rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
             aria-label={link.label}
             href={link.url}
           >
@@ -93,3 +90,27 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
     </div>
   </nav>
 </header>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const navBlurs = document.querySelectorAll('.nav-blur');
+    const scrolledClasses = ['bg-white/70', 'dark:bg-gray-900/70', 'backdrop-blur-lg', 'border-gray-300/50', 'dark:border-gray-700/30', 'shadow-sm'];
+    const defaultClasses = ['bg-transparent', 'border-transparent'];
+
+    function updateNav() {
+      const scrolled = window.scrollY > 20;
+      navBlurs.forEach((el) => {
+        if (scrolled) {
+          el.classList.remove(...defaultClasses);
+          el.classList.add(...scrolledClasses);
+        } else {
+          el.classList.remove(...scrolledClasses);
+          el.classList.add(...defaultClasses);
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  });
+</script>
