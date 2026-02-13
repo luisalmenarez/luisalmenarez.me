@@ -22,7 +22,6 @@ const projects = PROJECTS[lang];
     projects.map(({ title, description, tags, link, github, highlights }) => (
       <article
         class="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 relative flex flex-col p-6 transition-colors duration-200 border rounded-lg shadow-lg"
-        x-data={`{ expanded: false, showMore: '${t('projects.showMore')}', showLess: '${t('projects.showLess')}' }`}
       >
         <div class="flex items-center justify-between mb-3">
           {link && (
@@ -44,35 +43,31 @@ const projects = PROJECTS[lang];
         <p class="text-zinc-700 dark:text-zinc-300 mb-4 text-sm">
           {description}
         </p>
-        <div
-          class="relative flex flex-col gap-4 mb-4 overflow-hidden transition-all duration-500"
-          x-bind:class="expanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'"
-        >
-          <h4 class="text-lg font-semibold">{t('projects.features')}</h4>
-          <ul class="text-zinc-700 dark:text-zinc-300 space-y-2 text-sm">
-            {highlights.map((highlight) => (
-              <li class="flex items-start gap-2">
-                <div class="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500 flex-shrink-0 mt-2" />
-                <span>{highlight}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <button
-          @click="expanded = !expanded"
-          class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-zinc-500 dark:text-zinc-400 transition-all duration-300 hover:text-black dark:hover:text-white flex mb-4"
-        >
-          <span
-            class="text-zinc-500 dark:text-zinc-400 text-sm italic underline"
-            x-text="expanded ? showLess : showMore"
+
+        <details class="proj-details group/details mb-4">
+          <summary
+            class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-zinc-500 dark:text-zinc-400 transition-colors duration-300 hover:text-black dark:hover:text-white flex list-none [&::-webkit-details-marker]:hidden"
           >
-            {t('projects.showMore')}
-          </span>
-          <ArrowDown
-            class="text-zinc-500 dark:text-zinc-400 size-4 transition-transform duration-300"
-            x-bind:class="expanded ? 'rotate-180' : ''"
-          />
-        </button>
+            <span class="proj-toggle-text text-zinc-500 dark:text-zinc-400 text-sm italic underline">
+              {t('projects.showMore')}
+            </span>
+            <ArrowDown
+              class="text-zinc-500 dark:text-zinc-400 size-4 transition-transform duration-300 group-open/details:rotate-180"
+            />
+          </summary>
+          <div class="flex flex-col gap-4 mt-4 animate-fade-in">
+            <h4 class="text-lg font-semibold">{t('projects.features')}</h4>
+            <ul class="text-zinc-700 dark:text-zinc-300 space-y-2 text-sm">
+              {highlights.map((highlight) => (
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500 flex-shrink-0 mt-2" />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
+
         <div class="flex flex-wrap gap-2 mb-4">
           {tags.map((tag) => (
             <span
@@ -111,3 +106,16 @@ const projects = PROJECTS[lang];
     ))
   }
 </div>
+
+<script>
+  document.querySelectorAll('.proj-details').forEach((details) => {
+    const toggleText = details.querySelector('.proj-toggle-text');
+    if (!toggleText) return;
+    const showMore = toggleText.textContent?.trim() || '';
+    const showLess = showMore === 'Mostrar más' ? 'Mostrar menos' : 'Show less';
+
+    details.addEventListener('toggle', () => {
+      toggleText.textContent = (details as HTMLDetailsElement).open ? showLess : showMore;
+    });
+  });
+</script>
