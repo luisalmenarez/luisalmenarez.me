@@ -1,7 +1,9 @@
 import type { ImageMetadata } from 'astro';
 import type { Locale } from '@/i18n';
 import { TAGS } from './tags';
-import dashboard1 from '@/assets/projects/dashboard1.webp';
+import adminDashboard from '@/assets/projects/admin-dashboard.webp';
+import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
+import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
 
 export type ProjectRole = 'developed' | 'contributed' | 'team';
 export type ProjectStatus = 'live' | 'archived' | 'wip';
@@ -41,6 +43,7 @@ export const PROJECTS: ProjectEntry[] = [
     kind: 'professional',
     period: '2024 - 2025',
     featured: true,
+    image: uniandesEcosistema,
     link: 'https://ecosistema.uniandes.edu.co/',
     company: {
       name: 'Esinergia S.A.S',
@@ -84,7 +87,7 @@ export const PROJECTS: ProjectEntry[] = [
     status: 'live',
     kind: 'personal',
     period: '2024',
-    image: dashboard1,
+    image: adminDashboard,
     link: 'https://crud-dataviewer.vercel.app/',
     github: 'https://github.com/luisalmenarez/Dashboard',
     tags: [TAGS.NEXTJS, TAGS.TAILWINDCSS, TAGS.CLERK, TAGS.PRISMA, TAGS.RECHARTS],
@@ -127,6 +130,7 @@ export const PROJECTS: ProjectEntry[] = [
     status: 'live',
     kind: 'professional',
     period: '2023 - 2026',
+    image: cloudfleetExtract,
     company: {
       name: 'Coordinadora de Tanques S.A.S',
       url: 'https://coorditanques.com',
