@@ -10,6 +10,10 @@ import Prisma from '@/components/icons/Prisma.astro';
 import Chart from '@/components/icons/Chart.astro';
 import NextJS from '@/components/icons/NextJS.astro';
 import Drupal from '@/components/icons/IconDrupal.astro';
+import NodeJS from '@/components/icons/NodeJS.astro';
+import SqlServer from '@/components/icons/SqlServer.astro';
+import PowerBI from '@/components/icons/PowerBI.astro';
+import RestApi from '@/components/icons/RestApi.astro';
 
 
 export const TAGS = {
@@ -20,7 +24,7 @@ export const TAGS = {
     },
     REACT: {
       name: 'React',
-      color: 'text-red-300',
+      class: 'bg-cyan-600 text-white',
       icon: React,
     },
     TAILWINDCSS: {
@@ -72,5 +76,25 @@ export const TAGS = {
       name: 'Drupal',
       class: 'bg-blue-500 text-white',
       icon: Drupal,
+    },
+    NODEJS: {
+      name: 'Node.js',
+      class: 'bg-green-700 text-white',
+      icon: NodeJS,
+    },
+    SQLSERVER: {
+      name: 'SQL Server',
+      class: 'bg-red-700 text-white',
+      icon: SqlServer,
+    },
+    POWERBI: {
+      name: 'Power BI',
+      class: 'bg-yellow-400 text-black',
+      icon: PowerBI,
+    },
+    RESTAPI: {
+      name: 'REST API',
+      class: 'bg-zinc-700 text-white',
+      icon: RestApi,
     },
   };

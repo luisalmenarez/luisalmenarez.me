@@ -22,6 +22,11 @@ export const ui = {
     'projects.showLess': 'Mostrar menos',
     'projects.viewGithub': 'Ver en GitHub',
     'projects.visitSite': 'Visitar sitio',
+    'projects.role.developed': 'Construido',
+    'projects.role.contributed': 'Contribución',
+    'projects.role.team': 'Equipo',
+    'projects.status.archived': 'Archivado',
+    'projects.status.wip': 'En desarrollo',
     'footer.madeBy': 'Hecho por',
     'about.p1':
       'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Llevo más de 3 años construyendo aplicaciones web</strong> que resuelven problemas reales y se sienten bien al usarlas.',
@@ -53,6 +58,11 @@ export const ui = {
     'projects.showLess': 'Show less',
     'projects.viewGithub': 'View on GitHub',
     'projects.visitSite': 'Visit site',
+    'projects.role.developed': 'Built',
+    'projects.role.contributed': 'Contributed',
+    'projects.role.team': 'Team',
+    'projects.status.archived': 'Archived',
+    'projects.status.wip': 'WIP',
     'footer.madeBy': 'Made by',
     'about.p1':
       "My name is Luis Carlos, though everyone calls me Lucho. <strong>I've been building web applications for over 3 years</strong> that solve real problems and feel great to use.",

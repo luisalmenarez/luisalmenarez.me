@@ -13,7 +13,7 @@
     "@tailwindcss/postcss": "^4.1.5",
     "@tailwindcss/vite": "^4.1.5",
     "@vercel/analytics": "^1.6.1",
-    "astro": "^5.7.5",
+    "astro": "^6.1.9",
     "tailwindcss": "^4.1.5"
   }
 }
