@@ -4,6 +4,7 @@ import Badge from '@/components/Badge.astro';
 import LinkedInIcon from '@/components/icons/LinkedIn.astro';
 import GitHubIcon from '@/components/icons/GitHub.astro';
 import MailIcon from '@/components/icons/Mail.astro';
+import DownloadIcon from '@/components/icons/Download.astro';
 import SocialPill from '@/components/SocialPill.astro';
 import WhatsAppIcon from './icons/WhatsAppIcon.astro';
 import { useTranslations } from '@/i18n';
@@ -46,7 +47,7 @@ const t = useTranslations(lang);
   <h2 class="opacity-80 text-wrap text-base">
     {t('aside.description')}
   </h2>
-  <nav class="flex flex-wrap gap-1 mt-4">
+  <nav class="print:hidden flex flex-wrap gap-1 mt-4">
     <SocialPill href="https://linkedin.com/in/luisalmenarez">
       <LinkedInIcon class="size-4 md:size-6" />
     </SocialPill>
@@ -63,4 +64,19 @@ const t = useTranslations(lang);
       <WhatsAppIcon class="size-4 md:size-6" />
     </SocialPill>
   </nav>
+
+  <button
+    type="button"
+    data-download-cv
+    class="bg-indigo-700 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-500 text-white print:hidden inline-flex items-center gap-2 px-4 py-2 mt-4 text-sm font-medium transition-colors rounded-full cursor-pointer"
+  >
+    <DownloadIcon class="size-4" />
+    {t('aside.downloadCV')}
+  </button>
 </SectionContainer>
+
+<script>
+  document.querySelectorAll('[data-download-cv]').forEach((btn) => {
+    btn.addEventListener('click', () => window.print());
+  });
+</script>

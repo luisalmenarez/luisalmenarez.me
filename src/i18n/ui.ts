@@ -13,6 +13,7 @@ export const ui = {
     'aside.badge': 'Software Engineer',
     'aside.description':
       '+3 años desarrollando aplicaciones web modernas con React, Next.js y TypeScript, y orquestando flujos de automatización con n8n. Enfocado en crear soluciones escalables y eliminar procesos manuales en proyectos de alto impacto. Rionegro, Antioquia, Colombia 🇨🇴',
+    'aside.downloadCV': 'Descargar CV',
     'experience.summary': 'Resumen:',
     'experience.responsibilities': 'Responsabilidades:',
     'experience.achievements': 'Logros:',
@@ -60,6 +61,7 @@ export const ui = {
     'aside.badge': 'Software Engineer',
     'aside.description':
       '+3 years building modern web applications with React, Next.js, and TypeScript, and orchestrating automation workflows with n8n. Focused on shipping scalable solutions and eliminating manual processes in high-impact projects. Rionegro, Antioquia, Colombia 🇨🇴',
+    'aside.downloadCV': 'Download CV',
     'experience.summary': 'Summary:',
     'experience.responsibilities': 'Responsibilities:',
     'experience.achievements': 'Achievements:',
