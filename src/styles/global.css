@@ -16,3 +16,39 @@
 @utility animate-fade-in {
   animation: fade-in 0.3s ease-out;
 }
+
+@media print {
+  /* Force light colours regardless of theme. */
+  html,
+  html.dark,
+  html.dark body {
+    background: white !important;
+    color: black !important;
+    color-scheme: light !important;
+  }
+
+  /* Expand every <details> so the printed CV shows full content. */
+  details > summary {
+    display: none !important;
+  }
+  details > *:not(summary) {
+    display: revert !important;
+  }
+
+  /* Keep cards from breaking awkwardly across pages. */
+  article {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Make links readable and traceable on paper. */
+  a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+
+  /* Tighten section spacing for paper. */
+  main section {
+    padding-bottom: 1.25rem !important;
+  }
+}
