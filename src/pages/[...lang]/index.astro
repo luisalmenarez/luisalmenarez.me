@@ -1,8 +1,10 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import AboutMe from '@/components/AboutMe.astro';
+import AwardIcon from '@/components/icons/Award.astro';
 import Briefcase from '@/components/icons/Briefcase.astro';
 import CodeIcon from '@/components/icons/Code.astro';
+import Credentials from '@/components/Credentials.astro';
 import Experience from '@/components/Experience.astro';
 import ProfileCheck from '@/components/icons/ProfileCheck.astro';
 import Projects from '@/components/Projects.astro';
@@ -46,6 +48,17 @@ const t = useTranslations(lang);
         {t('section.about')}
       </h2>
       <AboutMe lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer
+      id="credenciales"
+      class="w-full lg:w-[740px] mx-auto pb-20"
+    >
+      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
+        <AwardIcon class="size-7" />
+        {t('section.credentials')}
+      </h2>
+      <Credentials lang={lang} />
     </SectionContainer>
   </main>
 </Layout>
