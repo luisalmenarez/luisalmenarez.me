@@ -1,6 +1,9 @@
 export const ui = {
   es: {
     'meta.title': 'Luis Almenarez - Inicio',
+    'meta.description':
+      'Luis Almenarez (Lucho) — Full Stack Developer en Colombia. +3 años construyendo aplicaciones web modernas con Next.js, TypeScript y Node.js, y orquestando flujos de automatización con n8n.',
+    'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
     'nav.experience': 'Experiencia',
     'nav.projects': 'Proyectos',
     'nav.about': 'Sobre mí',
@@ -49,6 +52,9 @@ export const ui = {
   },
   en: {
     'meta.title': 'Luis Almenarez - Home',
+    'meta.description':
+      "Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 3+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.",
+    'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
     'nav.experience': 'Experience',
     'nav.projects': 'Projects',
     'nav.about': 'About me',
