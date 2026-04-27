@@ -5,7 +5,12 @@ import ArrowOutward from '@/components/icons/ArrowOutward.astro';
 import ArrowDown from '@/components/icons/ArrowDown.astro';
 import GitHub from '@/components/icons/GitHub.astro';
 import ExternalLink from '@/components/icons/ExternalLink.astro';
-import { PROJECTS, type ProjectRole, type ProjectStatus } from '@/data/projects';
+import {
+  PROJECTS,
+  type ProjectKind,
+  type ProjectRole,
+  type ProjectStatus,
+} from '@/data/projects';
 import { useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
@@ -44,7 +49,90 @@ const STATUS_CLASS: Record<keyof typeof STATUS_LABEL, string> = {
 const projects = [...PROJECTS].sort(
   (a, b) => Number(!!b.featured) - Number(!!a.featured)
 );
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+// Build dynamically so filters with 0 matches do not render.
+type FilterScope = 'all' | 'kind' | 'role';
+interface FilterEntry {
+  id: string;
+  label: string;
+  count: number;
+  scope: FilterScope;
+  value?: string;
+}
+
+const KIND_FILTERS = [
+  { value: 'professional', key: 'projects.filter.professional' },
+  { value: 'personal', key: 'projects.filter.personal' },
+  { value: 'oss', key: 'projects.filter.oss' },
+] as const satisfies readonly { value: ProjectKind; key: string }[];
+
+const ROLE_FILTERS = [
+  { value: 'contributed', key: 'projects.filter.contributed' },
+  { value: 'team', key: 'projects.filter.team' },
+] as const satisfies readonly { value: ProjectRole; key: string }[];
+
+const filters: FilterEntry[] = [
+  {
+    id: 'all',
+    label: t('projects.filter.all'),
+    count: projects.length,
+    scope: 'all',
+  },
+];
+
+for (const f of KIND_FILTERS) {
+  const count = projects.filter((p) => p.kind === f.value).length;
+  if (count > 0) {
+    filters.push({
+      id: `kind-${f.value}`,
+      label: t(f.key),
+      count,
+      scope: 'kind',
+      value: f.value,
+    });
+  }
+}
+
+for (const f of ROLE_FILTERS) {
+  const count = projects.filter((p) => p.role === f.value).length;
+  if (count > 0) {
+    filters.push({
+      id: `role-${f.value}`,
+      label: t(f.key),
+      count,
+      scope: 'role',
+      value: f.value,
+    });
+  }
+}
+
+const showFilters = filters.length > 1;
 ---
+
+{
+  showFilters && (
+    <div
+      class="print:hidden flex flex-wrap items-center gap-2 mb-6"
+      role="toolbar"
+      aria-label="Project filters"
+    >
+      {filters.map((filter, index) => (
+        <button
+          type="button"
+          data-filter
+          data-filter-scope={filter.scope}
+          data-filter-value={filter.value ?? ''}
+          data-active={index === 0 ? 'true' : 'false'}
+          class="text-zinc-600 dark:text-zinc-400 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 data-[active=true]:bg-zinc-900 data-[active=true]:text-white dark:data-[active=true]:bg-zinc-100 dark:data-[active=true]:text-zinc-900 cursor-pointer transition-colors duration-200 rounded-full px-3 py-1 text-xs font-medium"
+        >
+          {filter.label}
+          <span class="ml-1 opacity-60">({filter.count})</span>
+        </button>
+      ))}
+    </div>
+  )
+}
 
 <div class="md:grid-cols-2 print:flex print:flex-col grid grid-cols-1 gap-6">
   {
@@ -56,11 +144,15 @@ const projects = [...PROJECTS].sort(
         project.status in STATUS_LABEL
           ? (project.status as keyof typeof STATUS_LABEL)
           : null;
-
       const companyDescription = project.company?.description?.[lang];
 
       return (
-        <article class="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 relative flex flex-col p-6 transition-colors duration-200 border rounded-lg shadow-lg">
+        <article
+          class="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 relative flex flex-col p-6 transition-colors duration-200 border rounded-lg shadow-lg"
+          data-project
+          data-kind={project.kind ?? ''}
+          data-role={project.role}
+        >
           {project.image && (
             <Image
               src={project.image}
@@ -204,6 +296,27 @@ const projects = [...PROJECTS].sort(
       toggleText.textContent = (details as HTMLDetailsElement).open
         ? showLess
         : showMore;
+    });
+  });
+
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-project]');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const scope = btn.dataset.filterScope;
+      const value = btn.dataset.filterValue ?? '';
+
+      buttons.forEach((b) => (b.dataset.active = 'false'));
+      btn.dataset.active = 'true';
+
+      cards.forEach((card) => {
+        const matches =
+          scope === 'all' ||
+          (scope === 'kind' && card.dataset.kind === value) ||
+          (scope === 'role' && card.dataset.role === value);
+        card.style.display = matches ? '' : 'none';
+      });
     });
   });
 </script>
