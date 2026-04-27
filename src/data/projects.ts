@@ -2,6 +2,7 @@ import type { ImageMetadata } from 'astro';
 import type { Locale } from '@/i18n';
 import { TAGS } from './tags';
 import adminDashboard from '@/assets/projects/admin-dashboard.webp';
+import b2pago from '@/assets/projects/b2pago.webp';
 import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
 import manfit from '@/assets/projects/manfit.webp';
 import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
@@ -79,6 +80,50 @@ export const PROJECTS: ProjectEntry[] = [
         'Installable PWA with push notifications (VAPID) on event triggers and daily cron',
         'Progression charts with Recharts, PDF generation with react-pdf, transactional emails with Resend, and bulk CSV import with validation',
         'Unit tests with Vitest covering nutrition logic and recipe-ingredient parsing',
+      ],
+    },
+  },
+  {
+    slug: 'b2pago',
+    role: 'developed',
+    status: 'live',
+    kind: 'professional',
+    period: '2025 - Actualidad',
+    image: b2pago,
+    company: {
+      name: 'PrevalentWare',
+      url: 'https://prevalentware.com',
+      description: {
+        es: 'Cliente sector financiero',
+        en: 'Financial sector client',
+      },
+    },
+    tags: [TAGS.N8N, TAGS.TYPESCRIPT, TAGS.AWS, TAGS.SQLSERVER, TAGS.PRISMA],
+    title: { es: 'B2Pago', en: 'B2Pago' },
+    description: {
+      es: 'Sistema de automatización para la liquidación quincenal de comisiones comerciales construido sobre n8n. Implementa más de 60 reglas de negocio incluyendo lógica tributaria colombiana completa (Art. 383, RETEICA, IVA, ReteIVA, seguridad social) y un esquema de retención y liberación de pagos cuando la comisión no cubre la cotización a SS. Acompañado por un backend de soporte en Bun + Hono + TypeScript desplegado en AWS Lambda con infraestructura como código (CDK).',
+      en: 'n8n-based automation for biweekly commission settlement. Implements 60+ business rules including the full Colombian tax stack (Art. 383 progressive table, ICA withholding, VAT, VAT withholding, social security) and a hold/release scheme for payments that don\'t cover the social-security threshold. Backed by a Bun + Hono + TypeScript service running on AWS Lambda with infrastructure as code (CDK).',
+    },
+    highlights: {
+      es: [
+        'Más de 60 reglas de negocio orquestadas en n8n, con lógica tributaria colombiana completa: tabla progresiva del Art. 383 (7 rangos UVT), RETEICA, IVA, ReteIVA y seguridad social con cálculo de IBC (40% del acumulado, piso SMMLV, tope 25 SMMLV)',
+        'Esquema de retención/liberación: si la comisión no cubre la cotización a SS se retiene "bruta limpia" (sin retenciones) y se libera intra-mes —agrupándose con la siguiente comisión— o fin de mes —como registro sintético en el mes siguiente—',
+        'Recálculo progresivo de RTI Art. 383 y SS sobre el acumulado mensual con retención del diferencial vs pagos previos; distribución proporcional por bruta y por contribución al pool en la liberación intra-mes',
+        'Workarounds técnicos sobre limitaciones de n8n: estrategia pre-loop para acumulados (los nodos SQL no comparten visibilidad de INSERTs en el loop) y uso de $getWorkflowStaticData(\'global\') como bus de estado mutable entre iteraciones',
+        'Validaciones robustas con normalización canónica (insensible a mayúsculas, tildes y espacios), rechazo de valores espurios de Excel (NaN, #N/A, #REF!, #VALUE!) y validaciones cruzadas régimen × IVA × facturación',
+        'Backend de soporte en Bun + Hono + TypeScript desplegado en AWS Lambda; infraestructura como código en CDK multi-stack (network, dev, test, prod, CI/CD)',
+        'Persistencia en SQL Server (RDS) con Prisma + adapter MSSQL, autorización con Casbin (RBAC), autenticación con Better-Auth + Cognito, archivos en S3 y secretos en Secrets Manager',
+        'UPSERT idempotente del maestro de comisionistas, generación de reportes XLSX consolidados y de excepciones, e integración con SharePoint para ingesta y entrega de archivos',
+      ],
+      en: [
+        '60+ business rules orchestrated in n8n covering the full Colombian tax stack: Art. 383 progressive table (7 UVT brackets), ICA withholding, VAT, VAT withholding and social security with IBC computation (40% of monthly accrual, SMMLV floor, 25-SMMLV cap)',
+        'Hold/release scheme: when a commission doesn\'t cover the social-security contribution, the gross amount is held untouched (no withholdings applied) and later released either intra-month —pooled with the next commission— or end-of-month —as a synthetic record at the start of the next month—',
+        'Progressive recalculation of Art. 383 income tax withholding and social security over the monthly accrual, retaining only the differential vs prior payments; proportional distribution by gross and by net contribution to the pool during intra-month release',
+        'Technical workarounds for n8n limitations: pre-loop strategy for monthly accruals (SQL nodes do not share INSERT visibility within the loop) and use of $getWorkflowStaticData(\'global\') as a mutable state bus across iterations',
+        'Robust input validation with canonical normalization (case/accent/whitespace insensitive), rejection of spurious Excel values (NaN, #N/A, #REF!, #VALUE!) and cross-field validation across tax regime × VAT × billing responsibility',
+        'Supporting backend in Bun + Hono + TypeScript deployed to AWS Lambda; infrastructure as code in CDK multi-stack setup (network, dev, test, prod, CI/CD)',
+        'Persistence on SQL Server (RDS) with Prisma + MSSQL adapter, authorization via Casbin (RBAC), authentication with Better-Auth + Cognito, file storage on S3 and secrets in Secrets Manager',
+        'Idempotent UPSERT of the commissioners master, generation of consolidated and exception XLSX reports, and SharePoint integration for source-file ingestion and output delivery',
       ],
     },
   },

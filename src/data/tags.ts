@@ -17,6 +17,8 @@ import RestApi from '@/components/icons/RestApi.astro';
 import TypeScript from '@/components/icons/TypeScript.astro';
 import Postgres from '@/components/icons/Postgres.astro';
 import PWA from '@/components/icons/PWA.astro';
+import N8N from '@/components/icons/N8N.astro';
+import AWS from '@/components/icons/AWS.astro';
 
 
 export const TAGS = {
@@ -114,5 +116,15 @@ export const TAGS = {
       name: 'PWA',
       class: 'bg-violet-600 text-white',
       icon: PWA,
+    },
+    N8N: {
+      name: 'n8n',
+      class: 'bg-pink-600 text-white',
+      icon: N8N,
+    },
+    AWS: {
+      name: 'AWS',
+      class: 'bg-orange-500 text-white',
+      icon: AWS,
     },
   };
