@@ -3,6 +3,7 @@ import type { Locale } from '@/i18n';
 import { TAGS } from './tags';
 import adminDashboard from '@/assets/projects/admin-dashboard.webp';
 import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
+import manfit from '@/assets/projects/manfit.webp';
 import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
 
 export type ProjectRole = 'developed' | 'contributed' | 'team';
@@ -37,12 +38,56 @@ export interface ProjectEntry {
 
 export const PROJECTS: ProjectEntry[] = [
   {
+    slug: 'manfit',
+    role: 'developed',
+    status: 'live',
+    kind: 'professional',
+    period: '2026 - Actualidad',
+    featured: true,
+    image: manfit,
+    link: 'https://manfit.com.co',
+    tags: [
+      TAGS.NEXTJS,
+      TAGS.TYPESCRIPT,
+      TAGS.PRISMA,
+      TAGS.POSTGRES,
+      TAGS.TAILWINDCSS,
+      TAGS.PWA,
+    ],
+    title: { es: 'MANFIT', en: 'MANFIT' },
+    description: {
+      es: 'Plataforma SaaS en producción para entrenadores personales: gestión de clientes con roles, rutinas con progresión automática de cargas, biblioteca de ejercicios con video, tracking de adherencia con gráficas, módulo de nutrición con generador automático de planes y 89 recetas, y notificaciones push. PWA instalable construida con Next.js 16.',
+      en: 'Production-ready SaaS platform for personal trainers: role-based client management, routines with automatic load progression, video-backed exercise library, adherence tracking with charts, nutrition module with auto-generated meal plans and 89 recipes, and push notifications. Installable PWA built with Next.js 16.',
+    },
+    highlights: {
+      es: [
+        'Plataforma desplegada en producción en manfit.com.co con ciclo de release continuo (100+ PRs mergeados)',
+        'Sistema de roles (super-admin, entrenador, cliente) con NextAuth, Google OAuth, reset de contraseña por email e invitaciones por link',
+        'Biblioteca de 138 ejercicios con video YouTube unlisted y detección automática de Shorts vertical 9:16',
+        'Planes con duración flexible (1/4/8 semanas), tracking por serie individual y progresión automática de cargas (+2.5 kg upper / +5 kg lower)',
+        'Módulo de nutrición completo: anamnesis (12 campos), motor BMR/TDEE, generador automático con rotación semanal y combos culturales, 89 recetas (61 colombianas + 28 internacionales)',
+        'PWA instalable con notificaciones push (VAPID) por evento + cron diario',
+        'Gráficas de progresión con Recharts, generación de PDFs con react-pdf, emails transaccionales con Resend e importación masiva CSV con validación',
+        'Tests unitarios con Vitest sobre la lógica de nutrición y parsing de ingredientes',
+      ],
+      en: [
+        'Production deployment at manfit.com.co with continuous release cadence (100+ merged PRs)',
+        'Role-based access (super-admin, trainer, client) with NextAuth, Google OAuth, email-based password reset and invite-link onboarding',
+        'Exercise library of 138 entries backed by unlisted YouTube videos with automatic vertical-Shorts 9:16 detection',
+        'Plans with flexible duration (1/4/8 weeks), per-set tracking and automatic load progression (+2.5 kg upper / +5 kg lower)',
+        'Full nutrition module: 12-field anamnesis, BMR/TDEE engine, auto-generator with weekly rotation and cultural combos, 89 recipes (61 Colombian + 28 international)',
+        'Installable PWA with push notifications (VAPID) on event triggers and daily cron',
+        'Progression charts with Recharts, PDF generation with react-pdf, transactional emails with Resend, and bulk CSV import with validation',
+        'Unit tests with Vitest covering nutrition logic and recipe-ingredient parsing',
+      ],
+    },
+  },
+  {
     slug: 'uniandes-ecosistema',
     role: 'developed',
     status: 'live',
     kind: 'professional',
     period: '2024 - 2025',
-    featured: true,
     image: uniandesEcosistema,
     link: 'https://ecosistema.uniandes.edu.co/',
     company: {

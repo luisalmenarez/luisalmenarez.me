@@ -14,6 +14,9 @@ import NodeJS from '@/components/icons/NodeJS.astro';
 import SqlServer from '@/components/icons/SqlServer.astro';
 import PowerBI from '@/components/icons/PowerBI.astro';
 import RestApi from '@/components/icons/RestApi.astro';
+import TypeScript from '@/components/icons/TypeScript.astro';
+import Postgres from '@/components/icons/Postgres.astro';
+import PWA from '@/components/icons/PWA.astro';
 
 
 export const TAGS = {
@@ -96,5 +99,20 @@ export const TAGS = {
       name: 'REST API',
       class: 'bg-zinc-700 text-white',
       icon: RestApi,
+    },
+    TYPESCRIPT: {
+      name: 'TypeScript',
+      class: 'bg-blue-600 text-white',
+      icon: TypeScript,
+    },
+    POSTGRES: {
+      name: 'PostgreSQL',
+      class: 'bg-sky-800 text-white',
+      icon: Postgres,
+    },
+    PWA: {
+      name: 'PWA',
+      class: 'bg-violet-600 text-white',
+      icon: PWA,
     },
   };
