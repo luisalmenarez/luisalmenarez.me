@@ -44,11 +44,11 @@ export const ui = {
     'credentials.languages': 'Idiomas',
     'footer.madeBy': 'Hecho por',
     'about.p1':
-      'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Llevo más de 3 años construyendo aplicaciones web</strong> que resuelven problemas reales y se sienten bien al usarlas.',
+      'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Llevo más de 4 años construyendo aplicaciones web</strong> que resuelven problemas reales y se sienten bien al usarlas.',
     'about.p2':
       'He trabajado en proyectos donde <strong>los equipos reducían semanas de trabajo a días con las herramientas correctas, y donde procesos manuales simplemente dejaban de existir.</strong> Eso es lo que me motiva: ver el impacto directo de lo que se construye.',
     'about.p3':
-      'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Full Stack Developer en PrevalentWare</strong>, principalmente con React, Next.js y TypeScript. Fuera del código, me encontrarás entrenando en el gym, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
+      'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Full Stack Developer en PrevalentWare</strong>, principalmente con React, Next.js y TypeScript. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
   },
   en: {
     'meta.title': 'Luis Almenarez - Home',
