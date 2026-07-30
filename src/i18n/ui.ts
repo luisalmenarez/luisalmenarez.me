@@ -15,7 +15,7 @@ export const ui = {
     'section.credentials': 'Credenciales',
     'aside.badge': 'Software Engineer',
     'aside.description':
-      '+3 años desarrollando aplicaciones web modernas con React, Next.js y TypeScript, y orquestando flujos de automatización con n8n. Enfocado en crear soluciones escalables y eliminar procesos manuales en proyectos de alto impacto. Rionegro, Antioquia, Colombia 🇨🇴',
+      '+4 años desarrollando aplicaciones web modernas con React, Next.js y TypeScript, y orquestando flujos de automatización con n8n. Enfocado en crear soluciones escalables y eliminar procesos manuales en proyectos de alto impacto. Rionegro, Antioquia, Colombia 🇨🇴',
     'aside.downloadCV': 'Descargar CV',
     'experience.summary': 'Resumen:',
     'experience.responsibilities': 'Responsabilidades:',
@@ -53,7 +53,7 @@ export const ui = {
   en: {
     'meta.title': 'Luis Almenarez - Home',
     'meta.description':
-      "Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 3+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.",
+      'Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 3+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.',
     'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
     'nav.experience': 'Experience',
     'nav.projects': 'Projects',
