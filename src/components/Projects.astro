@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import FolderIcon from '@/components/icons/FolderIcon.astro';
 import ArrowOutward from '@/components/icons/ArrowOutward.astro';
-import ArrowDown from '@/components/icons/ArrowDown.astro';
 import GitHub from '@/components/icons/GitHub.astro';
 import ExternalLink from '@/components/icons/ExternalLink.astro';
 import {
@@ -11,7 +10,7 @@ import {
   type ProjectRole,
   type ProjectStatus,
 } from '@/data/projects';
-import { useTranslations } from '@/i18n';
+import { getLocalizedPath, useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
 interface Props {
@@ -164,25 +163,16 @@ const showFilters = filters.length > 1;
             />
           )}
           <div class="flex flex-wrap items-start justify-between gap-2 mb-3">
-            {project.link ? (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group/more text-indigo-600 dark:text-indigo-400 flex items-center gap-2 p-1 rounded"
-              >
-                <FolderIcon class="size-5 text-zinc-500 dark:text-zinc-400" />
-                <h3 class="text-base font-semibold leading-tight">{title}</h3>
-                <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
-                  <ArrowOutward class="size-5" />
-                </span>
-              </a>
-            ) : (
-              <div class="flex items-center gap-2 p-1">
-                <FolderIcon class="size-5 text-zinc-500 dark:text-zinc-400" />
-                <h3 class="text-base font-semibold leading-tight">{title}</h3>
-              </div>
-            )}
+            <a
+              href={getLocalizedPath(`/proyectos/${project.slug}/`, lang)}
+              class="group/more text-indigo-600 dark:text-indigo-400 flex items-center gap-2 p-1 rounded"
+            >
+              <FolderIcon class="size-5 text-zinc-500 dark:text-zinc-400" />
+              <h3 class="text-base font-semibold leading-tight">{title}</h3>
+              <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
+                <ArrowOutward class="size-5" />
+              </span>
+            </a>
             <div class="flex flex-wrap items-center gap-2">
               <span class="text-zinc-500 dark:text-zinc-400 text-xs">
                 {project.period[lang]}
@@ -225,29 +215,24 @@ const showFilters = filters.length > 1;
             {description}
           </p>
 
-          <details
-            class="proj-details group/details mb-4"
-            data-show-more={t('projects.showMore')}
-            data-show-less={t('projects.showLess')}
-          >
-            <summary class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-zinc-500 dark:text-zinc-400 transition-colors duration-300 hover:text-black dark:hover:text-white flex list-none [&::-webkit-details-marker]:hidden">
-              <span class="proj-toggle-text text-zinc-500 dark:text-zinc-400 text-sm italic underline">
-                {t('projects.showMore')}
-              </span>
-              <ArrowDown class="text-zinc-500 dark:text-zinc-400 size-4 transition-transform duration-300 group-open/details:rotate-180" />
-            </summary>
-            <div class="flex flex-col gap-4 mt-4 animate-fade-in">
-              <h4 class="text-lg font-semibold">{t('projects.features')}</h4>
-              <ul class="text-zinc-700 dark:text-zinc-300 space-y-2 text-sm">
-                {highlights.map((highlight) => (
-                  <li class="flex items-start gap-2">
-                    <div class="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500 flex-shrink-0 mt-2" />
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </details>
+          {/*
+            On screen the highlights live on the project's own page, reached
+            through the title. They stay in the document for print only: the
+            printed CV used to surface them by expanding this card's <details>,
+            and detail pages are not part of that print. Same data as the
+            detail page, rendered once from PROJECTS.
+          */}
+          <div class="hidden print:flex flex-col gap-4 mb-4">
+            <h4 class="text-lg font-semibold">{t('projects.features')}</h4>
+            <ul class="text-zinc-700 dark:text-zinc-300 space-y-2 text-sm">
+              {highlights.map((highlight) => (
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500 flex-shrink-0 mt-2" />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <div class="flex flex-wrap gap-2 mb-4">
             {project.tags.map((tag) => (
@@ -290,19 +275,6 @@ const showFilters = filters.length > 1;
 </div>
 
 <script>
-  document
-    .querySelectorAll<HTMLDetailsElement>('.proj-details')
-    .forEach((details) => {
-      const toggleText = details.querySelector('.proj-toggle-text');
-      if (!toggleText) return;
-
-      const { showMore = '', showLess = '' } = details.dataset;
-
-      details.addEventListener('toggle', () => {
-        toggleText.textContent = details.open ? showLess : showMore;
-      });
-    });
-
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
   const cards = document.querySelectorAll<HTMLElement>('[data-project]');
 
