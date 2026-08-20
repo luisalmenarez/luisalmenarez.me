@@ -35,6 +35,7 @@ const experiences = EXPERIENCE[lang];
                   href={experience.companyUrl}
                   title={`${t('experience.view')} ${experience.company}`}
                   target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {experience.company}
                   <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
@@ -57,7 +58,11 @@ const experiences = EXPERIENCE[lang];
               </ul>
             </div>
 
-            <details class="exp-details group/details">
+            <details
+              class="exp-details group/details"
+              data-show-more={t('experience.showMore')}
+              data-show-less={t('experience.showLess')}
+            >
               <summary
                 class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 underline text-gray-600 dark:text-gray-400 transition-colors duration-300 hover:text-black dark:hover:text-white flex list-none [&::-webkit-details-marker]:hidden"
               >
@@ -110,15 +115,16 @@ const experiences = EXPERIENCE[lang];
 </div>
 
 <script>
-  document.querySelectorAll('.exp-details').forEach((details) => {
-    const toggleText = details.querySelector('.exp-toggle-text');
-    if (!toggleText) return;
-    const showMore = toggleText.textContent?.trim() || '';
-    const showLess = details.closest('[data-show-less]')?.getAttribute('data-show-less') ||
-      (showMore === 'Mostrar más' ? 'Mostrar menos' : 'Show less');
+  document
+    .querySelectorAll<HTMLDetailsElement>('.exp-details')
+    .forEach((details) => {
+      const toggleText = details.querySelector('.exp-toggle-text');
+      if (!toggleText) return;
 
-    details.addEventListener('toggle', () => {
-      toggleText.textContent = (details as HTMLDetailsElement).open ? showLess : showMore;
+      const { showMore = '', showLess = '' } = details.dataset;
+
+      details.addEventListener('toggle', () => {
+        toggleText.textContent = details.open ? showLess : showMore;
+      });
     });
-  });
 </script>

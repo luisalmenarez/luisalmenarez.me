@@ -10,9 +10,26 @@ const label = lang === 'es' ? 'En' : 'Es';
 
 <a
   href={targetPath}
+  data-lang-switch
   class="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 py-1.5 md:py-2 transition hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-inherit"
   aria-label={`Switch to ${targetLang === 'es' ? 'Español' : 'English'}`}
 >
   <span>{flag}</span>
   <span>{label}</span>
 </a>
+
+<script>
+  // El hash no viaja al servidor, asi que se reinyecta en cliente para no
+  // perder la seccion al cambiar de idioma. Los id de seccion son comunes a es/en.
+  const link = document.querySelector<HTMLAnchorElement>('[data-lang-switch]');
+
+  if (link) {
+    const base = link.getAttribute('href') ?? '/';
+    const syncHash = () => {
+      link.href = `${base}${location.hash}`;
+    };
+
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+  }
+</script>
