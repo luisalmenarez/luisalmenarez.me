@@ -15,3 +15,20 @@ export function useTranslations(lang: Locale) {
     return ui[lang][key] ?? ui[defaultLocale][key];
   };
 }
+
+/**
+ * Same page, other locale. The default locale carries no prefix
+ * (`prefixDefaultLocale: false` in astro.config.mjs); every other one does.
+ *
+ *   '/'                    + 'en' -> '/en/'
+ *   '/en/'                 + 'es' -> '/'
+ *   '/proyectos/manfit/'   + 'en' -> '/en/proyectos/manfit/'
+ */
+export function getLocalizedPath(pathname: string, target: Locale): string {
+  const [, maybeLang, ...rest] = pathname.split('/');
+  const segments = (maybeLang in ui ? rest : [maybeLang, ...rest]).filter(
+    Boolean
+  );
+  const prefix = target === defaultLocale ? '' : `/${target}`;
+  return segments.length ? `${prefix}/${segments.join('/')}/` : `${prefix}/`;
+}

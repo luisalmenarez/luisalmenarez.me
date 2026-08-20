@@ -17,9 +17,12 @@ export default defineConfig({
     sitemap({
       i18n: {
         defaultLocale: 'es',
+        // Bare language codes, matching the hreflang tags in Layout.astro.
+        // 'es-CO' would target Spanish speakers in Colombia only, which is
+        // narrower than intended for a remote-work portfolio.
         locales: {
-          es: 'es-CO',
-          en: 'en-US',
+          es: 'es',
+          en: 'en',
         },
       },
     }),

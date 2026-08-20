@@ -4,7 +4,8 @@ import '@/styles/global.css';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import Aside from '@/components/Aside.astro';
-import { useTranslations } from '@/i18n';
+import { useTranslations, getLocalizedPath, locales, defaultLocale } from '@/i18n';
+import { PROFILE, buildPersonSchema } from '@/data/profile';
 import type { Locale } from '@/i18n';
 
 interface Props {
@@ -18,11 +19,14 @@ const { title, lang, description, ogImage } = Astro.props;
 const t = useTranslations(lang);
 
 const metaDescription = description ?? t('meta.description');
-const ogImageUrl =
-  ogImage ?? 'https://avatars.githubusercontent.com/u/125621759?v=4&s=512';
+const ogImageUrl = ogImage ?? PROFILE.avatar;
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const ogLocale = lang === 'es' ? 'es_CO' : 'en_US';
 const ogAlt = t('meta.ogAlt');
+
+const localizedUrl = (locale: Locale) =>
+  new URL(getLocalizedPath(Astro.url.pathname, locale), Astro.site).toString();
+const personSchema = buildPersonSchema({ lang, description: metaDescription });
 ---
 
 <!doctype html>
@@ -33,6 +37,12 @@ const ogAlt = t('meta.ogAlt');
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={metaDescription} />
     <link rel="canonical" href={canonicalUrl} />
+    {
+      locales.map((locale) => (
+        <link rel="alternate" hreflang={locale} href={localizedUrl(locale)} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={localizedUrl(defaultLocale)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <meta property="og:type" content="website" />
@@ -43,6 +53,10 @@ const ogAlt = t('meta.ogAlt');
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={ogAlt} />
     <meta property="og:locale" content={ogLocale} />
+    <meta
+      property="og:locale:alternate"
+      content={lang === defaultLocale ? 'en_US' : 'es_CO'}
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -51,6 +65,12 @@ const ogAlt = t('meta.ogAlt');
     <meta name="twitter:image:alt" content={ogAlt} />
 
     <title>{title}</title>
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(personSchema)}
+    />
     <script is:inline>
       (function () {
         const stored = localStorage.getItem('theme');
