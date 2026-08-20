@@ -90,7 +90,7 @@ const personSchema = buildPersonSchema({ lang, description: metaDescription });
     </script>
   </head>
   <body
-    class="print:block print:p-8 print:max-w-none print:bg-white print:text-black relative flex flex-col xl:flex-row justify-center items-start max-w-7xl mx-auto gap-x-14 sm:px-12 px-4 sm:py-20 py-14 bg-white dark:bg-[#0a0a0f] text-gray-900 dark:text-gray-100"
+    class="print:block print:p-8 print:max-w-none print:bg-white print:text-black relative flex flex-col items-center max-w-7xl mx-auto sm:px-12 px-4 sm:py-20 py-14 bg-white dark:bg-[#0a0a0f] text-gray-900 dark:text-gray-100"
   >
     <div
       class="print:hidden bg-[#ede8ff]/60 dark:bg-[#1d1f31] absolute top-[-6rem] -z-10 right-[11rem] h-[20rem] w-[20rem] rounded-full blur-[5rem] sm:w-[40rem] will-change-transform"
@@ -101,9 +101,13 @@ const personSchema = buildPersonSchema({ lang, description: metaDescription });
     >
     </div>
     <Header lang={lang} />
-    <Aside lang={lang} />
-    <slot />
-    <!-- <Footer lang={lang} /> -->
+    <div
+      class="print:block flex flex-col xl:flex-row justify-center items-start w-full gap-x-14"
+    >
+      <Aside lang={lang} />
+      <slot />
+    </div>
+    <Footer lang={lang} />
   </body>
 </html>
 
