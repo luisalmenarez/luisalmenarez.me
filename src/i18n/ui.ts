@@ -2,7 +2,7 @@ export const ui = {
   es: {
     'meta.title': 'Luis Almenarez - Inicio',
     'meta.description':
-      'Luis Almenarez (Lucho) — Full Stack Developer en Colombia. +3 años construyendo aplicaciones web modernas con Next.js, TypeScript y Node.js, y orquestando flujos de automatización con n8n.',
+      'Luis Almenarez (Lucho) — Full Stack Developer en Colombia. +4 años construyendo aplicaciones web modernas con Next.js, TypeScript y Node.js, y orquestando flujos de automatización con n8n.',
     'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
     'nav.experience': 'Experiencia',
     'nav.projects': 'Proyectos',
@@ -62,7 +62,7 @@ export const ui = {
   en: {
     'meta.title': 'Luis Almenarez - Home',
     'meta.description':
-      'Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 3+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.',
+      'Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 4+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.',
     'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
     'nav.experience': 'Experience',
     'nav.projects': 'Projects',
@@ -84,7 +84,7 @@ export const ui = {
     'section.credentials': 'Credentials',
     'aside.badge': 'Software Engineer',
     'aside.description':
-      '+3 years building modern web applications with React, Next.js, and TypeScript, and orchestrating automation workflows with n8n. Focused on shipping scalable solutions and eliminating manual processes in high-impact projects. Rionegro, Antioquia, Colombia 🇨🇴',
+      '+4 years building modern web applications with React, Next.js, and TypeScript, and orchestrating automation workflows with n8n. Focused on shipping scalable solutions and eliminating manual processes in high-impact projects. Rionegro, Antioquia, Colombia 🇨🇴',
     'aside.downloadCV': 'Download CV',
     'experience.summary': 'Summary:',
     'experience.responsibilities': 'Responsibilities:',
@@ -113,10 +113,10 @@ export const ui = {
     'credentials.languages': 'Languages',
     'footer.madeBy': 'Made by',
     'about.p1':
-      "My name is Luis Carlos, though everyone calls me Lucho. <strong>I've been building web applications for over 3 years</strong> that solve real problems and feel great to use.",
+      "My name is Luis Carlos, though everyone calls me Lucho. <strong>I've been building web applications for over 4 years</strong> that solve real problems and feel great to use.",
     'about.p2':
       "I've worked on projects where <strong>teams cut weeks of work down to days with the right tools, and where manual processes simply ceased to exist.</strong> That's what drives me: seeing the direct impact of what we build.",
     'about.p3':
-      'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Full Stack Developer at PrevalentWare</strong>, mainly with React, Next.js, and TypeScript. Outside of code, you\'ll find me at the gym, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
+      'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Full Stack Developer at PrevalentWare</strong>, mainly with React, Next.js, and TypeScript. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
   },
 } as const;
