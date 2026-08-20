@@ -49,10 +49,50 @@
 </div>
 
 <script>
-  // La visibilidad de los iconos la resuelve CSS a partir de .dark en <html>,
-  // que el script inline del <head> aplica antes del primer paint.
+  // Icon visibility is resolved by CSS from .dark on <html>, which the inline
+  // script in <head> applies before first paint.
+
+  /**
+   * Layout ships two <meta name="theme-color"> tags scoped by
+   * prefers-color-scheme. That follows the OS without any JavaScript, but it
+   * cannot follow a stored theme that contradicts it: force dark on a light OS
+   * and the browser chrome stays white against a dark page.
+   *
+   * The palette is read back off those tags instead of being restated here —
+   * the values belong to the layout, and copying them is how the two drift
+   * apart.
+   */
+  const themeColorMetas = document.querySelectorAll<HTMLMetaElement>(
+    'meta[name="theme-color"]'
+  );
+
+  const palette = new Map<string, string>();
+
+  themeColorMetas.forEach((meta) => {
+    const scheme = (meta.getAttribute('media') ?? '').includes('dark')
+      ? 'dark'
+      : 'light';
+    const content = meta.getAttribute('content');
+    if (content && !palette.has(scheme)) palette.set(scheme, content);
+  });
+
+  /**
+   * Writes the resolved colour to BOTH tags, so whichever media query the
+   * browser matches already holds the right value. Nothing is added or removed,
+   * so the markup still stands on its own if this script never runs.
+   */
+  function syncThemeColor(isDark: boolean) {
+    const colour = palette.get(isDark ? 'dark' : 'light');
+    if (!colour) return;
+
+    themeColorMetas.forEach((meta) => meta.setAttribute('content', colour));
+  }
+
+  syncThemeColor(document.documentElement.classList.contains('dark'));
+
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    syncThemeColor(isDark);
   });
 </script>
