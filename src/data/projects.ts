@@ -25,7 +25,7 @@ export interface ProjectEntry {
   role: ProjectRole;
   status: ProjectStatus;
   kind?: ProjectKind;
-  period: string;
+  period: Localized<string>;
   featured?: boolean;
   image?: ImageMetadata;
   link?: string;
@@ -43,7 +43,7 @@ export const PROJECTS: ProjectEntry[] = [
     role: 'developed',
     status: 'live',
     kind: 'professional',
-    period: '2026 - Actualidad',
+    period: { es: '2026 - Actualidad', en: '2026 - Present' },
     featured: true,
     image: manfit,
     link: 'https://manfit.com.co',
@@ -88,7 +88,7 @@ export const PROJECTS: ProjectEntry[] = [
     role: 'developed',
     status: 'live',
     kind: 'professional',
-    period: '2025 - Actualidad',
+    period: { es: '2025 - Actualidad', en: '2025 - Present' },
     image: b2pago,
     company: {
       name: 'PrevalentWare',
@@ -132,7 +132,7 @@ export const PROJECTS: ProjectEntry[] = [
     role: 'developed',
     status: 'live',
     kind: 'professional',
-    period: '2024 - 2025',
+    period: { es: '2024 - 2025', en: '2024 - 2025' },
     image: uniandesEcosistema,
     link: 'https://ecosistema.uniandes.edu.co/',
     company: {
@@ -176,7 +176,7 @@ export const PROJECTS: ProjectEntry[] = [
     role: 'developed',
     status: 'live',
     kind: 'personal',
-    period: '2024',
+    period: { es: '2024', en: '2024' },
     image: adminDashboard,
     link: 'https://crud-dataviewer.vercel.app/',
     github: 'https://github.com/luisalmenarez/Dashboard',
@@ -219,7 +219,7 @@ export const PROJECTS: ProjectEntry[] = [
     role: 'developed',
     status: 'live',
     kind: 'professional',
-    period: '2023 - 2026',
+    period: { es: '2023 - 2026', en: '2023 - 2026' },
     image: cloudfleetExtract,
     company: {
       name: 'Coordinadora de Tanques S.A.S',
