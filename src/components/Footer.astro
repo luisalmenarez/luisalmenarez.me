@@ -1,4 +1,11 @@
 ---
+import SocialPill from '@/components/SocialPill.astro';
+import LinkedInIcon from '@/components/icons/LinkedIn.astro';
+import GitHubIcon from '@/components/icons/GitHub.astro';
+import MailIcon from '@/components/icons/Mail.astro';
+import WhatsAppIcon from '@/components/icons/WhatsAppIcon.astro';
+import DownloadIcon from '@/components/icons/Download.astro';
+import { PROFILE } from '@/data/profile';
 import { useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
@@ -8,17 +15,58 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Resolved at build time. The site is static, so this tracks the last deploy
+// rather than the visitor's clock — still better than a hardcoded year.
+const year = new Date().getFullYear();
+
+// TODO: swap for PROFILE.social.whatsapp once it lands in profile.ts.
+const whatsapp = 'https://api.whatsapp.com/send?phone=573013897707';
 ---
 
 <footer
-  class="flex items-center justify-center bg-white/80 dark:bg-black/80 backdrop-blur-lg m-4 p-4 rounded-md shadow-sm w-full lg:w-[1120px] mx-auto mb-10"
+  class="border-zinc-200 dark:border-zinc-800 flex flex-col items-center w-full gap-5 pt-10 mt-10 border-t"
 >
-  <span class="sm:text-center dark:text-gray-400 text-sm text-gray-500"
-    >{t('footer.madeBy')} <a
-      href="https://github.com/luisalmenarez"
-      class="hover:underline"
-      target="_blank">Luis Almenarez</a
-    >
-    2025 &copy;
-  </span>
+  {
+    /*
+      Neither the header nor the aside is sticky, so by the time a reader
+      reaches the end of the page every contact affordance has scrolled away.
+      This is the only one left. No <nav> here on purpose: <footer> is already
+      a contentinfo landmark, and nesting a nav named like the aside's would
+      collide with it. Each pill carries its own aria-label, so the group
+      needs no name of its own.
+    */
+  }
+  <div class="print:hidden flex flex-wrap items-center justify-center gap-1">
+    <SocialPill href={PROFILE.social.linkedin} label={t('social.linkedin')}>
+      <LinkedInIcon class="size-5" />
+    </SocialPill>
+
+    <SocialPill href={PROFILE.social.github} label={t('social.github')}>
+      <GitHubIcon class="size-5" />
+    </SocialPill>
+
+    <SocialPill href={`mailto:${PROFILE.email}`} label={t('social.email')}>
+      <MailIcon class="size-5" />
+    </SocialPill>
+
+    <SocialPill href={whatsapp} label={t('social.whatsapp')}>
+      <WhatsAppIcon class="size-5" />
+    </SocialPill>
+  </div>
+
+  {/* Click handled by the global [data-download-cv] listener in Aside.astro. */}
+  <button
+    type="button"
+    data-download-cv
+    class="text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white print:hidden inline-flex items-center gap-2 text-sm transition-colors cursor-pointer"
+  >
+    <DownloadIcon class="size-4" />
+    {t('aside.downloadCV')}
+  </button>
+
+  {/* Kept on one line: a newline inside the <a> leaks into the underline. */}
+  <p class="text-zinc-500 dark:text-zinc-400 text-sm text-center">
+    {t('footer.madeBy')}{' '}<a href={PROFILE.social.github} target="_blank" rel="noopener noreferrer" class="hover:text-black dark:hover:text-white underline underline-offset-2 transition-colors">{PROFILE.name}</a>{' · © '}{year}
+  </p>
 </footer>
