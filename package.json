@@ -9,15 +9,19 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "astro check",
     "astro": "astro"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
     "@fontsource-variable/onest": "^5.2.7",
-    "@tailwindcss/postcss": "^4.1.5",
-    "@tailwindcss/vite": "^4.1.5",
+    "@tailwindcss/vite": "^4.3.3",
     "@vercel/analytics": "^1.6.1",
     "astro": "^6.1.9",
-    "tailwindcss": "^4.1.5"
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
   }
 }
