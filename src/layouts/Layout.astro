@@ -47,6 +47,22 @@ const structuredData =
     }
     <link rel="alternate" hreflang="x-default" href={localizedUrl(defaultLocale)} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    {/* Matches the page background rather than the brand accent, so the browser
+    chrome blends into the page instead of framing it. Driven by the media query
+    so it stays right without JavaScript; a stored theme that contradicts the OS
+    preference is the one case this cannot follow. */}
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0a0a0f"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
