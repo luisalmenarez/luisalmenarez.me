@@ -15,27 +15,22 @@ const prefix = lang === defaultLocale ? '' : `/${lang}`;
 const navItems = [
   {
     title: t('nav.experience'),
-    label: 'experiencia',
     url: `${prefix}/#experiencia`,
   },
   {
     title: t('nav.projects'),
-    label: 'proyectos',
     url: `${prefix}/#proyectos`,
   },
   {
     title: t('nav.about'),
-    label: 'sobre-mi',
     url: `${prefix}/#sobre-mi`,
   },
   {
     title: t('nav.credentials'),
-    label: 'credenciales',
     url: `${prefix}/#credenciales`,
   },
   {
     title: t('nav.contact'),
-    label: 'contacto',
     url: 'mailto:luisalmenarez0428@gmail.com',
     mobileHidden: true,
   },
@@ -50,6 +45,7 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
 >
   <nav
     class="flex md:grid md:grid-cols-[1fr_auto_1fr] items-center gap-2 max-w-7xl mx-auto px-3 md:px-4 py-2 md:py-3"
+    aria-label={t('a11y.mainNav')}
   >
     <div class="hidden md:block" aria-hidden="true"></div>
 
@@ -57,17 +53,14 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
       class="nav-blur min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-colors duration-300 bg-transparent border-transparent"
     >
       {
-        navItemsMobile.map(
-          (link: { title: string; label: string; url: string }) => (
-            <a
-              class="relative block px-1.5 py-1 transition-colors rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
-              aria-label={link.label}
-              href={link.url}
-            >
-              {link.title}
-            </a>
-          ),
-        )
+        navItemsMobile.map((link: { title: string; url: string }) => (
+          <a
+            class="relative block px-1.5 py-1 transition-colors rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
+            href={link.url}
+          >
+            {link.title}
+          </a>
+        ))
       }
     </div>
 
@@ -75,10 +68,9 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
       class="nav-blur min-w-0 hidden md:flex md:flex-initial items-center justify-center gap-x-1 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-full px-2 py-1.5 border transition-colors duration-300 bg-transparent border-transparent"
     >
       {
-        navItems.map((link: { title: string; label: string; url: string }) => (
+        navItems.map((link: { title: string; url: string }) => (
           <a
             class="relative block px-3 py-1 transition-colors rounded-full hover:text-indigo-500 dark:hover:text-indigo-400 whitespace-nowrap"
-            aria-label={link.label}
             href={link.url}
           >
             {link.title}

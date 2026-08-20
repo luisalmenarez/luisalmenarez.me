@@ -18,7 +18,11 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<SectionContainer class="pb-20 xl:pb-4">
+<SectionContainer
+  as="aside"
+  aria-label={t('a11y.profile')}
+  class="pb-20 xl:pb-4"
+>
   <img
     src="https://avatars.githubusercontent.com/u/125621759?v=4&s=256"
     alt="photo luis almenarez"
@@ -47,20 +51,35 @@ const t = useTranslations(lang);
   <h2 class="opacity-80 text-wrap text-base">
     {t('aside.description')}
   </h2>
-  <nav class="print:hidden flex flex-wrap gap-1 mt-4">
-    <SocialPill href="https://linkedin.com/in/luisalmenarez">
+  <nav
+    class="print:hidden flex flex-wrap gap-1 mt-4"
+    aria-label={t('a11y.socialNav')}
+  >
+    <SocialPill
+      href="https://linkedin.com/in/luisalmenarez"
+      label={t('social.linkedin')}
+    >
       <LinkedInIcon class="size-4 md:size-6" />
     </SocialPill>
 
-    <SocialPill href="https://github.com/luisalmenarez">
+    <SocialPill
+      href="https://github.com/luisalmenarez"
+      label={t('social.github')}
+    >
       <GitHubIcon class="size-4 md:size-6" />
     </SocialPill>
 
-    <SocialPill href="mailto:luisalmenarez0428@gmail.com">
+    <SocialPill
+      href="mailto:luisalmenarez0428@gmail.com"
+      label={t('social.email')}
+    >
       <MailIcon class="size-4 md:size-6" />
     </SocialPill>
 
-    <SocialPill href="https://api.whatsapp.com/send?phone=573013897707">
+    <SocialPill
+      href="https://api.whatsapp.com/send?phone=573013897707"
+      label={t('social.whatsapp')}
+    >
       <WhatsAppIcon class="size-4 md:size-6" />
     </SocialPill>
   </nav>
