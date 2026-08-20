@@ -29,12 +29,12 @@ export const TAGS = {
     },
     REACT: {
       name: 'React',
-      class: 'bg-cyan-600 text-white',
+      class: 'bg-cyan-700 text-white',
       icon: React,
     },
     TAILWINDCSS: {
       name: 'TailwindCSS',
-      class: 'bg-sky-500 text-white',
+      class: 'bg-sky-700 text-white',
       icon: Tailwind,
     },
     CLERK: {
@@ -49,7 +49,7 @@ export const TAGS = {
     },
     RECHARTS: {
       name: 'Recharts',
-      class: 'bg-blue-500 text-white',
+      class: 'bg-blue-700 text-white',
       icon: Chart,
     },
     TWIG: {
@@ -74,12 +74,12 @@ export const TAGS = {
     },
     SCSS: {
       name: 'SCSS',
-      class: 'bg-rose-400 text-white',
+      class: 'bg-rose-700 text-white',
       icon: SCSS,
     },
     DRUPAL: {
       name: 'Drupal',
-      class: 'bg-blue-500 text-white',
+      class: 'bg-blue-700 text-white',
       icon: Drupal,
     },
     NODEJS: {
@@ -124,7 +124,7 @@ export const TAGS = {
     },
     AWS: {
       name: 'AWS',
-      class: 'bg-orange-500 text-white',
+      class: 'bg-orange-700 text-white',
       icon: AWS,
     },
   };

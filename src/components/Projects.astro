@@ -115,7 +115,7 @@ const showFilters = filters.length > 1;
     <div
       class="print:hidden flex flex-wrap items-center gap-2 mb-6"
       role="toolbar"
-      aria-label="Project filters"
+      aria-label={t('a11y.projectFilters')}
     >
       {filters.map((filter, index) => (
         <button
@@ -127,7 +127,7 @@ const showFilters = filters.length > 1;
           class="text-zinc-600 dark:text-zinc-400 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 data-[active=true]:bg-zinc-900 data-[active=true]:text-white dark:data-[active=true]:bg-zinc-100 dark:data-[active=true]:text-zinc-900 cursor-pointer transition-colors duration-200 rounded-full px-3 py-1 text-xs font-medium"
         >
           {filter.label}
-          <span class="ml-1 opacity-60">({filter.count})</span>
+          <span class="ml-1">({filter.count})</span>
         </button>
       ))}
     </div>
@@ -202,14 +202,14 @@ const showFilters = filters.length > 1;
             </div>
           </div>
           {project.company && (
-            <p class="text-zinc-500 dark:text-zinc-400 mb-3 -mt-1 text-xs">
-              <span class="opacity-70">@ </span>
+            <p class="text-zinc-600 dark:text-zinc-400 mb-3 -mt-1 text-xs">
+              <span>@ </span>
               {project.company.url ? (
                 <a
                   href={project.company.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="hover:text-black dark:hover:text-white underline-offset-2 hover:underline transition-colors"
+                  class="hover:text-black dark:hover:text-white underline underline-offset-2 transition-colors"
                 >
                   {project.company.name}
                 </a>
@@ -217,7 +217,7 @@ const showFilters = filters.length > 1;
                 <span>{project.company.name}</span>
               )}
               {companyDescription && (
-                <span class="opacity-70"> · {companyDescription}</span>
+                <span> · {companyDescription}</span>
               )}
             </p>
           )}

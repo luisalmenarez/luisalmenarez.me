@@ -1,7 +1,14 @@
 ---
-const { class: className, id } = Astro.props;
+interface Props {
+  class?: string;
+  id?: string;
+  as?: keyof HTMLElementTagNameMap;
+  [key: string]: unknown;
+}
+
+const { class: className, id, as: Tag = 'section', ...rest } = Astro.props;
 ---
 
-<section id={id} class={`w-full lg:w-[740px] mx-auto ${className}`}>
+<Tag id={id} class={`w-full lg:w-[740px] mx-auto ${className ?? ''}`} {...rest}>
   <slot />
-</section>
+</Tag>

@@ -44,7 +44,7 @@ const experiences = EXPERIENCE[lang];
               </span>
             </div>
           </h3>
-          <div class="text-md text-gray-500 font-bold italic">
+          <div class="text-md text-gray-600 dark:text-gray-400 font-bold italic">
             {experience.location}
           </div>
           <div class="mt-4 flex flex-col gap-4 text-sm">
@@ -94,7 +94,7 @@ const experiences = EXPERIENCE[lang];
 
             <ul
               class="flex flex-wrap gap-2 italic"
-              aria-label="Technologies used"
+              aria-label={t('a11y.technologies')}
             >
               {experience.technologies.map((tech) => (
                 <li class="text-indigo-600 dark:text-indigo-400 flex gap-1 items-center border border-indigo-200 dark:border-indigo-500/30 rounded-md px-2 py-1 text-xs">
