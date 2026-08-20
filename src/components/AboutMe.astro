@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import avatar from '@/assets/avatar.jpg';
+import { PROFILE } from '@/data/profile';
 import { useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
@@ -18,12 +21,13 @@ const t = useTranslations(lang);
     <p set:html={t('about.p2')} />
     <p set:html={t('about.p3')} />
   </div>
-  <img
-    src="https://avatars.githubusercontent.com/u/125621759?v=4&s=256"
-    alt="photo luis almenarez"
+  <Image
+    src={avatar}
+    alt={PROFILE.name}
     class="size-36 rounded-full mb-8 md:mb-0"
-    width="144"
-    height="144"
+    width={144}
+    height={144}
+    densities={[1, 2]}
     loading="lazy"
   />
 </section>

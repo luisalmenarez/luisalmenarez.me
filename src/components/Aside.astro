@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import SectionContainer from '@/components/SectionContainer.astro';
 import Badge from '@/components/Badge.astro';
 import LinkedInIcon from '@/components/icons/LinkedIn.astro';
@@ -7,6 +8,8 @@ import MailIcon from '@/components/icons/Mail.astro';
 import DownloadIcon from '@/components/icons/Download.astro';
 import SocialPill from '@/components/SocialPill.astro';
 import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+import avatar from '@/assets/avatar.jpg';
+import { PROFILE } from '@/data/profile';
 import { useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
@@ -23,21 +26,23 @@ const t = useTranslations(lang);
   aria-label={t('a11y.profile')}
   class="pb-20 xl:pb-4"
 >
-  <img
-    src="https://avatars.githubusercontent.com/u/125621759?v=4&s=256"
-    alt="photo luis almenarez"
+  <Image
+    src={avatar}
+    alt={PROFILE.name}
     class="size-32 mb-4 rounded-xl"
-    width="128"
-    height="128"
+    width={128}
+    height={128}
+    densities={[1, 2]}
     loading="eager"
+    fetchpriority="high"
   />
 
   <h1
     class="gap-2 text-pretty sm:text-4xl flex flex-col items-start pb-4 text-xl font-bold text-gray-900 dark:text-gray-100"
   >
-    Luis Almenarez
+    {PROFILE.name}
     <a
-      href="https://linkedin.com/in/luisalmenarez"
+      href={PROFILE.social.linkedin}
       target="_blank"
       rel="noreferrer"
       class="flex items-center justify-center"
@@ -56,28 +61,28 @@ const t = useTranslations(lang);
     aria-label={t('a11y.socialNav')}
   >
     <SocialPill
-      href="https://linkedin.com/in/luisalmenarez"
+      href={PROFILE.social.linkedin}
       label={t('social.linkedin')}
     >
       <LinkedInIcon class="size-4 md:size-6" />
     </SocialPill>
 
     <SocialPill
-      href="https://github.com/luisalmenarez"
+      href={PROFILE.social.github}
       label={t('social.github')}
     >
       <GitHubIcon class="size-4 md:size-6" />
     </SocialPill>
 
     <SocialPill
-      href="mailto:luisalmenarez0428@gmail.com"
+      href={`mailto:${PROFILE.email}`}
       label={t('social.email')}
     >
       <MailIcon class="size-4 md:size-6" />
     </SocialPill>
 
     <SocialPill
-      href="https://api.whatsapp.com/send?phone=573013897707"
+      href={PROFILE.social.whatsapp}
       label={t('social.whatsapp')}
     >
       <WhatsAppIcon class="size-4 md:size-6" />
