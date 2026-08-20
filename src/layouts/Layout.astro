@@ -13,9 +13,11 @@ interface Props {
   lang: Locale;
   description?: string;
   ogImage?: string;
+  /** Structured data for this page. Defaults to the site-wide Person. */
+  schema?: object;
 }
 
-const { title, lang, description, ogImage } = Astro.props;
+const { title, lang, description, ogImage, schema } = Astro.props;
 const t = useTranslations(lang);
 
 const metaDescription = description ?? t('meta.description');
@@ -26,7 +28,8 @@ const ogAlt = t('meta.ogAlt');
 
 const localizedUrl = (locale: Locale) =>
   new URL(getLocalizedPath(Astro.url.pathname, locale), Astro.site).toString();
-const personSchema = buildPersonSchema({ lang, description: metaDescription });
+const structuredData =
+  schema ?? buildPersonSchema({ lang, description: metaDescription });
 ---
 
 <!doctype html>
@@ -69,7 +72,7 @@ const personSchema = buildPersonSchema({ lang, description: metaDescription });
     <script
       type="application/ld+json"
       is:inline
-      set:html={JSON.stringify(personSchema)}
+      set:html={JSON.stringify(structuredData)}
     />
     <script is:inline>
       (function () {

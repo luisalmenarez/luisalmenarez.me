@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import { PROFILE } from './profile';
 import type { Locale } from '@/i18n';
 import { TAGS } from './tags';
 import adminDashboard from '@/assets/projects/admin-dashboard.webp';
@@ -36,6 +37,39 @@ export interface ProjectEntry {
   description: Localized<string>;
   highlights: Localized<string[]>;
 }
+
+/**
+ * Badge presentation for role and status.
+ *
+ * Lives with the data, next to TAGS, so the project list and the project pages
+ * cannot drift apart. Projects.astro still carries its own copy; it can import
+ * from here whenever its owner migrates the card.
+ */
+export const ROLE_LABEL = {
+  developed: 'projects.role.developed',
+  contributed: 'projects.role.contributed',
+  team: 'projects.role.team',
+} as const satisfies Record<ProjectRole, string>;
+
+export const ROLE_CLASS: Record<ProjectRole, string> = {
+  developed:
+    'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/30',
+  contributed:
+    'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/30',
+  team: 'bg-zinc-500/10 text-zinc-700 dark:text-zinc-300 border-zinc-500/30',
+};
+
+/** `live` has no badge: it is the default state and adds noise. */
+export const STATUS_LABEL = {
+  archived: 'projects.status.archived',
+  wip: 'projects.status.wip',
+} as const satisfies Partial<Record<ProjectStatus, string>>;
+
+export const STATUS_CLASS: Record<keyof typeof STATUS_LABEL, string> = {
+  archived:
+    'bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border-zinc-500/30',
+  wip: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/30',
+};
 
 export const PROJECTS: ProjectEntry[] = [
   {
@@ -258,3 +292,38 @@ export const PROJECTS: ProjectEntry[] = [
     },
   },
 ];
+
+interface ProjectSchemaInput {
+  project: ProjectEntry;
+  lang: Locale;
+  url: string;
+}
+
+/**
+ * schema.org CreativeWork for a single project page.
+ *
+ * Deliberately not SoftwareApplication: the list mixes web apps with an ETL
+ * pipeline and an institutional site, and only some of them are installable
+ * software. CreativeWork covers all of them without lying about any.
+ */
+export function buildProjectSchema({
+  project,
+  lang,
+  url,
+}: ProjectSchemaInput) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title[lang],
+    description: project.description[lang],
+    url,
+    inLanguage: lang,
+    keywords: project.tags.map((tag) => tag.name).join(', '),
+    author: {
+      '@type': 'Person',
+      name: PROFILE.name,
+      url: PROFILE.url,
+    },
+    ...(project.link ? { sameAs: [project.link] } : {}),
+  };
+}
