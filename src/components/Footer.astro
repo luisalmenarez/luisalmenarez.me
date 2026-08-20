@@ -19,9 +19,6 @@ const t = useTranslations(lang);
 // Resolved at build time. The site is static, so this tracks the last deploy
 // rather than the visitor's clock — still better than a hardcoded year.
 const year = new Date().getFullYear();
-
-// TODO: swap for PROFILE.social.whatsapp once it lands in profile.ts.
-const whatsapp = 'https://api.whatsapp.com/send?phone=573013897707';
 ---
 
 <footer
@@ -50,7 +47,7 @@ const whatsapp = 'https://api.whatsapp.com/send?phone=573013897707';
       <MailIcon class="size-5" />
     </SocialPill>
 
-    <SocialPill href={whatsapp} label={t('social.whatsapp')}>
+    <SocialPill href={PROFILE.social.whatsapp} label={t('social.whatsapp')}>
       <WhatsAppIcon class="size-5" />
     </SocialPill>
   </div>
