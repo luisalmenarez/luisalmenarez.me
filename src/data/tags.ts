@@ -44,7 +44,7 @@ export const TAGS = {
     },
     PRISMA: {
       name: 'Prisma',
-      class: 'bg-white text-black',
+      class: 'bg-slate-700 text-white',
       icon: Prisma,
     },
     RECHARTS: {
