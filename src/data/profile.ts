@@ -1,11 +1,14 @@
 import { CREDENTIALS } from './credentials';
 import type { Locale } from '@/i18n';
 
+/** Kept apart so the number stays the datum and the URL stays a detail. */
+const PHONE = '573013897707';
+
 /**
  * Identity data for the person behind the site.
  *
- * Currently consumed only by the structured-data block in Layout.astro. The
- * same values are still hardcoded in Aside.astro and AboutMe.astro (social
+ * Consumed by the structured-data block in Layout.astro and by Footer.astro.
+ * The same values are still hardcoded in Aside.astro and AboutMe.astro (social
  * URLs, avatar); those components can import from here whenever their owner
  * decides to, which would leave a single source of truth.
  */
@@ -16,9 +19,11 @@ export const PROFILE = {
   url: 'https://luisalmenarez.me',
   avatar: 'https://avatars.githubusercontent.com/u/125621759?v=4&s=512',
   email: 'luisalmenarez0428@gmail.com',
+  phone: PHONE,
   social: {
     linkedin: 'https://linkedin.com/in/luisalmenarez',
     github: 'https://github.com/luisalmenarez',
+    whatsapp: `https://api.whatsapp.com/send?phone=${PHONE}`,
   },
   address: {
     locality: 'Rionegro',
