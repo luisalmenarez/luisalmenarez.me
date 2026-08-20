@@ -7,10 +7,14 @@ const PHONE = '573013897707';
 /**
  * Identity data for the person behind the site.
  *
- * Consumed by the structured-data block in Layout.astro and by Footer.astro.
- * The same values are still hardcoded in Aside.astro and AboutMe.astro (social
- * URLs, avatar); those components can import from here whenever their owner
- * decides to, which would leave a single source of truth.
+ * Consumed by Layout.astro, Aside.astro, AboutMe.astro, Footer.astro and the
+ * project pages. Header.astro still hardcodes the email in its contact nav
+ * item, so that one address lives in two places until it migrates too.
+ *
+ * `avatar` deliberately keeps pointing at the GitHub URL rather than the local
+ * asset: og:image needs an absolute, stable URL, and the astro:assets output
+ * carries a content hash that changes with the file, which would leave social
+ * caches serving a stale image.
  */
 export const PROFILE = {
   name: 'Luis Almenarez',

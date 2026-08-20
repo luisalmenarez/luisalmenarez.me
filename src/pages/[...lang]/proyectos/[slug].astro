@@ -1,0 +1,208 @@
+---
+import { Image } from 'astro:assets';
+import type { GetStaticPaths } from 'astro';
+import Layout from '@/layouts/Layout.astro';
+import SectionContainer from '@/components/SectionContainer.astro';
+import ArrowDown from '@/components/icons/ArrowDown.astro';
+import ExternalLink from '@/components/icons/ExternalLink.astro';
+import GitHub from '@/components/icons/GitHub.astro';
+import {
+  PROJECTS,
+  ROLE_CLASS,
+  ROLE_LABEL,
+  STATUS_CLASS,
+  STATUS_LABEL,
+  buildProjectSchema,
+} from '@/data/projects';
+import { PROFILE } from '@/data/profile';
+import { defaultLocale, getLocalizedPath, locales, useTranslations } from '@/i18n';
+
+/**
+ * The route segment stays `proyectos` in both locales on purpose.
+ * `getLocalizedPath()` derives the sibling URL by stripping and re-adding the
+ * locale prefix; a segment that changed per locale would break it and point
+ * hreflang at URLs that do not exist. Translating the segment needs a per-locale
+ * route map, which is its own change.
+ */
+export const getStaticPaths = (() => {
+  return locales.flatMap((locale) =>
+    PROJECTS.map((project) => ({
+      params: {
+        lang: locale === defaultLocale ? undefined : locale,
+        slug: project.slug,
+      },
+      props: { project, locale },
+    }))
+  );
+}) satisfies GetStaticPaths;
+
+// `Astro.props` is inferred from what getStaticPaths returns above.
+const { project, locale: lang } = Astro.props;
+const t = useTranslations(lang);
+
+const title = project.title[lang];
+const description = project.description[lang];
+const highlights = project.highlights[lang];
+const statusKey =
+  project.status in STATUS_LABEL
+    ? (project.status as keyof typeof STATUS_LABEL)
+    : null;
+const companyDescription = project.company?.description?.[lang];
+
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const schema = buildProjectSchema({ project, lang, url: canonical });
+
+// The project shot beats the avatar as a share card. It carries a content hash,
+// so the URL changes whenever the file does and social caches will hold the old
+// one for a while — acceptable for images that rarely change, and superseded
+// once a dedicated, stable OG image exists.
+const ogImage = project.image
+  ? new URL(project.image.src, Astro.site).toString()
+  : undefined;
+---
+
+<Layout
+  title={`${title} · ${PROFILE.name}`}
+  lang={lang}
+  description={description}
+  ogImage={ogImage}
+  schema={schema}
+>
+  <main class="px-6 mx-auto">
+    <SectionContainer class="w-full lg:w-[740px] mx-auto pb-20">
+      <a
+        href={`${getLocalizedPath('/', lang)}#proyectos`}
+        class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white print:hidden inline-flex items-center gap-1.5 mb-8 text-sm transition-colors"
+      >
+        <ArrowDown class="size-4 rotate-90" />
+        {t('projects.backToList')}
+      </a>
+
+      <header class="mb-8">
+        <div class="flex flex-wrap items-center gap-2 mb-3">
+          <span class="text-zinc-500 dark:text-zinc-400 text-sm">
+            {project.period[lang]}
+          </span>
+          <span
+            class={`inline-flex items-center rounded-full border text-[11px] py-0.5 px-2 ${ROLE_CLASS[project.role]}`}
+          >
+            {t(ROLE_LABEL[project.role])}
+          </span>
+          {
+            statusKey && (
+              <span
+                class={`inline-flex items-center rounded-full border text-[11px] py-0.5 px-2 ${STATUS_CLASS[statusKey]}`}
+              >
+                {t(STATUS_LABEL[statusKey])}
+              </span>
+            )
+          }
+        </div>
+
+        <h1
+          class="text-pretty mb-3 text-3xl font-bold text-gray-900 dark:text-gray-100"
+        >
+          {title}
+        </h1>
+
+        {
+          project.company && (
+            <p class="text-zinc-600 dark:text-zinc-400 text-sm">
+              <span>@ </span>
+              {project.company.url ? (
+                <a
+                  href={project.company.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-black dark:hover:text-white underline underline-offset-2 transition-colors"
+                >
+                  {project.company.name}
+                </a>
+              ) : (
+                <span>{project.company.name}</span>
+              )}
+              {companyDescription && <span> · {companyDescription}</span>}
+            </p>
+          )
+        }
+      </header>
+
+      {
+        project.image && (
+          <Image
+            src={project.image}
+            alt={title}
+            class="aspect-video object-cover border-zinc-200 dark:border-zinc-800 w-full mb-8 border rounded-lg print:hidden"
+            loading="eager"
+            fetchpriority="high"
+            widths={[480, 740, 1480]}
+            sizes="(min-width: 1024px) 740px, 100vw"
+          />
+        )
+      }
+
+      <p class="text-zinc-700 dark:text-zinc-300 text-pretty mb-10 text-base">
+        {description}
+      </p>
+
+      <section class="mb-10">
+        <h2 class="mb-4 text-xl font-semibold">{t('projects.features')}</h2>
+        <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
+          {
+            highlights.map((highlight) => (
+              <li class="flex items-start gap-3">
+                <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
+                <span class="text-pretty">{highlight}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="mb-4 text-xl font-semibold">{t('projects.technologies')}</h2>
+        <ul class="flex flex-wrap gap-2">
+          {
+            project.tags.map((tag) => (
+              <li
+                class={`inline-flex items-center gap-1.5 rounded-full text-xs py-1 px-2.5 ${tag.class}`}
+              >
+                <tag.icon class="size-3" />
+                {tag.name}
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      {
+        (project.link || project.github) && (
+          <div class="border-zinc-200 dark:border-zinc-800 print:hidden flex flex-wrap gap-6 pt-6 border-t">
+            {project.link && (
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
+              >
+                <ExternalLink class="size-5" />
+                {t('projects.visitSite')}
+              </a>
+            )}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
+              >
+                <GitHub class="size-5" />
+                {t('projects.viewGithub')}
+              </a>
+            )}
+          </div>
+        )
+      }
+    </SectionContainer>
+  </main>
+</Layout>
