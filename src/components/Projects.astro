@@ -114,7 +114,7 @@ const showFilters = filters.length > 1;
   showFilters && (
     <div
       class="print:hidden flex flex-wrap items-center gap-2 mb-6"
-      role="toolbar"
+      role="group"
       aria-label={t('a11y.projectFilters')}
     >
       {filters.map((filter, index) => (
@@ -123,8 +123,8 @@ const showFilters = filters.length > 1;
           data-filter
           data-filter-scope={filter.scope}
           data-filter-value={filter.value ?? ''}
-          data-active={index === 0 ? 'true' : 'false'}
-          class="text-zinc-600 dark:text-zinc-400 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 data-[active=true]:bg-zinc-900 data-[active=true]:text-white dark:data-[active=true]:bg-zinc-100 dark:data-[active=true]:text-zinc-900 cursor-pointer transition-colors duration-200 rounded-full px-3 py-1 text-xs font-medium"
+          aria-pressed={index === 0 ? 'true' : 'false'}
+          class="text-zinc-600 dark:text-zinc-400 bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 aria-pressed:bg-zinc-900 aria-pressed:text-white dark:aria-pressed:bg-zinc-100 dark:aria-pressed:text-zinc-900 cursor-pointer transition-colors duration-200 rounded-full px-3 py-1 text-xs font-medium"
         >
           {filter.label}
           <span class="ml-1">({filter.count})</span>
@@ -225,7 +225,11 @@ const showFilters = filters.length > 1;
             {description}
           </p>
 
-          <details class="proj-details group/details mb-4">
+          <details
+            class="proj-details group/details mb-4"
+            data-show-more={t('projects.showMore')}
+            data-show-less={t('projects.showLess')}
+          >
             <summary class="group/more w-fit cursor-pointer items-center justify-center gap-1.5 text-xs underline text-zinc-500 dark:text-zinc-400 transition-colors duration-300 hover:text-black dark:hover:text-white flex list-none [&::-webkit-details-marker]:hidden">
               <span class="proj-toggle-text text-zinc-500 dark:text-zinc-400 text-sm italic underline">
                 {t('projects.showMore')}
@@ -286,18 +290,18 @@ const showFilters = filters.length > 1;
 </div>
 
 <script>
-  document.querySelectorAll('.proj-details').forEach((details) => {
-    const toggleText = details.querySelector('.proj-toggle-text');
-    if (!toggleText) return;
-    const showMore = toggleText.textContent?.trim() || '';
-    const showLess = showMore === 'Mostrar más' ? 'Mostrar menos' : 'Show less';
+  document
+    .querySelectorAll<HTMLDetailsElement>('.proj-details')
+    .forEach((details) => {
+      const toggleText = details.querySelector('.proj-toggle-text');
+      if (!toggleText) return;
 
-    details.addEventListener('toggle', () => {
-      toggleText.textContent = (details as HTMLDetailsElement).open
-        ? showLess
-        : showMore;
+      const { showMore = '', showLess = '' } = details.dataset;
+
+      details.addEventListener('toggle', () => {
+        toggleText.textContent = details.open ? showLess : showMore;
+      });
     });
-  });
 
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
   const cards = document.querySelectorAll<HTMLElement>('[data-project]');
@@ -307,15 +311,16 @@ const showFilters = filters.length > 1;
       const scope = btn.dataset.filterScope;
       const value = btn.dataset.filterValue ?? '';
 
-      buttons.forEach((b) => (b.dataset.active = 'false'));
-      btn.dataset.active = 'true';
+      buttons.forEach((b) => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
 
       cards.forEach((card) => {
         const matches =
           scope === 'all' ||
           (scope === 'kind' && card.dataset.kind === value) ||
           (scope === 'role' && card.dataset.role === value);
-        card.style.display = matches ? '' : 'none';
+        // `hidden` los saca del arbol de accesibilidad ademas de ocultarlos.
+        card.hidden = !matches;
       });
     });
   });
