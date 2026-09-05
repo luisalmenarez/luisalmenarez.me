@@ -29,7 +29,15 @@ const projectsHref = `${homeHref}#proyectos`;
 ---
 
 <Layout title={t('notFound.title')} lang={lang}>
-  <main class="px-6 mx-auto">
+  {/*
+    The layout row is items-start, which is right everywhere else: main runs
+    thousands of pixels tall and the aside has to sit at the top of it. Here
+    main is shorter than the aside, so starting both at the top leaves it
+    stranded against a column that outruns it. self-center only from xl, where
+    the row actually becomes a row — below that the axis flips and centering
+    would move it sideways.
+  */}
+  <main class="xl:self-center px-6 mx-auto">
     <SectionContainer class="flex flex-col items-start pb-20">
       {/* The aside already carries the page's <h1>, so this opens at h2 like
           every section on the home page. */}
