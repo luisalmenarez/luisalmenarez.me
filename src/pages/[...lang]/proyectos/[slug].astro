@@ -52,12 +52,16 @@ const companyDescription = project.company?.description?.[lang];
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const schema = buildProjectSchema({ project, lang, url: canonical });
 
-// The project shot beats the avatar as a share card. It carries a content hash,
-// so the URL changes whenever the file does and social caches will hold the old
-// one for a while — acceptable for images that rarely change, and superseded
-// once a dedicated, stable OG image exists.
+// The project shot stays the share card here: it says more about this page than
+// the generic branded card does. Its URL carries a content hash, so editing a
+// screenshot mints a new URL — which is the harmless direction, since fresh
+// shares pick up the new image and already-shared links keep the shot that was
+// accurate when they were posted.
 const ogImage = project.image
   ? new URL(project.image.src, Astro.site).toString()
+  : undefined;
+const ogImageSize = project.image
+  ? { width: project.image.width, height: project.image.height }
   : undefined;
 ---
 
@@ -66,6 +70,8 @@ const ogImage = project.image
   lang={lang}
   description={description}
   ogImage={ogImage}
+  ogImageSize={ogImageSize}
+  ogImageAlt={project.image ? title : undefined}
   schema={schema}
 >
   <main class="px-6 mx-auto">
