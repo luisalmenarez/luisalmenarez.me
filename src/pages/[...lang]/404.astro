@@ -28,7 +28,7 @@ const homeHref = getLocalizedPath('/', lang);
 const projectsHref = `${homeHref}#proyectos`;
 ---
 
-<Layout title={t('notFound.title')} lang={lang}>
+<Layout title={t('notFound.title')} lang={lang} noindex>
   {/*
     The layout row is items-start, which is right everywhere else: main runs
     thousands of pixels tall and the aside has to sit at the top of it. Here
