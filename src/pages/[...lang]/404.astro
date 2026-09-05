@@ -1,0 +1,81 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import SectionContainer from '@/components/SectionContainer.astro';
+import FolderIcon from '@/components/icons/FolderIcon.astro';
+import ArrowOutward from '@/components/icons/ArrowOutward.astro';
+import { getLangFromUrl, getLocalizedPath, useTranslations } from '@/i18n';
+import type { GetStaticPaths } from 'astro';
+
+/**
+ * Built for both locales, mirroring the index route, so /404.html and
+ * /en/404.html both exist.
+ *
+ * Vercel serves a single root 404.html for static output — it does not pick the
+ * nearest one per directory — so today every miss lands on the Spanish page.
+ * Generating both anyway keeps the English copy ready for a routing rule that
+ * maps /en/* to /en/404.html, and costs one extra HTML file until then. The
+ * alternative, swapping the copy client-side, would have left the header, aside
+ * and footer in Spanish around English body text.
+ */
+export const getStaticPaths = (() => {
+  return [{ params: { lang: undefined } }, { params: { lang: 'en' } }];
+}) satisfies GetStaticPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const homeHref = getLocalizedPath('/', lang);
+const projectsHref = `${homeHref}#proyectos`;
+---
+
+<Layout title={t('notFound.title')} lang={lang}>
+  {/*
+    The layout row is items-start, which is right everywhere else: main runs
+    thousands of pixels tall and the aside has to sit at the top of it. Here
+    main is shorter than the aside, so starting both at the top leaves it
+    stranded against a column that outruns it. self-center only from xl, where
+    the row actually becomes a row — below that the axis flips and centering
+    would move it sideways.
+  */}
+  <main class="xl:self-center px-6 mx-auto">
+    <SectionContainer class="flex flex-col items-start pb-20">
+      {/* The aside already carries the page's <h1>, so this opens at h2 like
+          every section on the home page. */}
+      <p
+        class="text-indigo-600 dark:text-indigo-400 text-6xl sm:text-7xl font-bold tracking-tight leading-none"
+      >
+        404
+      </p>
+
+      <h2 class="mt-4 text-2xl font-semibold text-pretty">
+        {t('notFound.heading')}
+      </h2>
+
+      <p class="text-zinc-600 dark:text-zinc-400 mt-3 max-w-prose text-pretty">
+        {t('notFound.body')}
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 mt-8">
+        <a
+          href={homeHref}
+          class="bg-indigo-700 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-500 text-white inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-full"
+        >
+          {t('notFound.home')}
+        </a>
+
+        <a
+          href={projectsHref}
+          class="group/more text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white inline-flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors border rounded-full border-zinc-300 dark:border-zinc-700"
+        >
+          <FolderIcon class="size-4" />
+          {t('notFound.projects')}
+          <span
+            class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out"
+          >
+            <ArrowOutward class="size-4" />
+          </span>
+        </a>
+      </div>
+    </SectionContainer>
+  </main>
+</Layout>

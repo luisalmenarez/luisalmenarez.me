@@ -62,6 +62,12 @@ const es = {
   'credentials.certifications': 'Certificaciones',
   'credentials.languages': 'Idiomas',
   'footer.madeBy': 'Hecho por',
+  'notFound.title': 'Página no encontrada',
+  'notFound.heading': 'Esta página no existe',
+  'notFound.body':
+    'Puede que el enlace esté roto o que la página se haya movido.',
+  'notFound.home': 'Volver al inicio',
+  'notFound.projects': 'Ver proyectos',
   'about.p1':
     'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Llevo más de 4 años construyendo aplicaciones web</strong> que resuelven problemas reales y se sienten bien al usarlas.',
   'about.p2':
@@ -126,6 +132,11 @@ const en: Record<keyof typeof es, string> = {
   'credentials.certifications': 'Certifications',
   'credentials.languages': 'Languages',
   'footer.madeBy': 'Made by',
+  'notFound.title': 'Page not found',
+  'notFound.heading': "This page doesn't exist",
+  'notFound.body': 'The link may be broken, or the page may have moved.',
+  'notFound.home': 'Back to home',
+  'notFound.projects': 'View projects',
   'about.p1':
     "My name is Luis Carlos, though everyone calls me Lucho. <strong>I've been building web applications for over 4 years</strong> that solve real problems and feel great to use.",
   'about.p2':
