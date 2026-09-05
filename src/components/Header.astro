@@ -50,7 +50,7 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
     <div class="hidden md:block" aria-hidden="true"></div>
 
     <div
-      class="nav-blur min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-colors duration-300 bg-transparent border-transparent"
+      class="nav-blur no-scrollbar min-w-0 flex flex-initial md:hidden items-center justify-start gap-x-0.5 overflow-x-auto text-xs font-medium text-gray-600 dark:text-gray-300 rounded-full px-1.5 py-1 border transition-colors duration-300 bg-transparent border-transparent"
     >
       {
         navItemsMobile.map((link: { title: string; url: string }) => (
@@ -109,5 +109,19 @@ const navItemsMobile = navItems.filter((item) => !item.mobileHidden);
 
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
+
+    // The mobile row scrolls when it runs out of width, and a link can be
+    // focused while sitting outside the visible part of it. Browsers are
+    // supposed to scroll a focused element into its container; measured here,
+    // that does not happen, so tabbing would land on an invisible link. Doing
+    // it explicitly keeps the focused item on screen.
+    navBlurs.forEach((row) => {
+      row.addEventListener('focusin', (event) => {
+        (event.target as HTMLElement).scrollIntoView({
+          inline: 'nearest',
+          block: 'nearest',
+        });
+      });
+    });
   });
 </script>
