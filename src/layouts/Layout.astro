@@ -5,7 +5,7 @@ import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 import Aside from '@/components/Aside.astro';
 import { useTranslations, getLocalizedPath, locales, defaultLocale } from '@/i18n';
-import { PROFILE, buildPersonSchema } from '@/data/profile';
+import { buildPersonSchema } from '@/data/profile';
 import type { Locale } from '@/i18n';
 
 interface Props {
@@ -13,6 +13,10 @@ interface Props {
   lang: Locale;
   description?: string;
   ogImage?: string;
+  /** Intrinsic size of `ogImage`. Omit it and the size tags are left out. */
+  ogImageSize?: { width: number; height: number };
+  /** Describes `ogImage`. Defaults to the site-wide alt text. */
+  ogImageAlt?: string;
   /** Structured data for this page. Defaults to the site-wide Person. */
   schema?: object;
   /**
@@ -26,14 +30,29 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, lang, description, ogImage, schema, noindex } = Astro.props;
+const {
+  title,
+  lang,
+  description,
+  ogImage,
+  ogImageSize,
+  ogImageAlt,
+  schema,
+  noindex,
+} = Astro.props;
 const t = useTranslations(lang);
 
 const metaDescription = description ?? t('meta.description');
-const ogImageUrl = ogImage ?? PROFILE.avatar;
+// The branded share card for this locale, served from public/ at a URL that
+// never changes. An astro:assets path carries a content hash, so editing the
+// image would mint a new URL while the platforms keep serving the cached old
+// one under the address already shared.
+const ogImageUrl =
+  ogImage ?? new URL(`/og-${lang}.png`, Astro.site).toString();
+const ogSize = ogImage ? ogImageSize : { width: 1200, height: 630 };
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 const ogLocale = lang === 'es' ? 'es_CO' : 'en_US';
-const ogAlt = t('meta.ogAlt');
+const ogAlt = ogImageAlt ?? t('meta.ogAlt');
 
 const localizedUrl = (locale: Locale) =>
   new URL(getLocalizedPath(Astro.url.pathname, locale), Astro.site).toString();
@@ -80,6 +99,14 @@ const structuredData =
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={ogImageUrl} />
+    {
+      ogSize && (
+        <>
+          <meta property="og:image:width" content={String(ogSize.width)} />
+          <meta property="og:image:height" content={String(ogSize.height)} />
+        </>
+      )
+    }
     <meta property="og:image:alt" content={ogAlt} />
     <meta property="og:locale" content={ogLocale} />
     <meta
