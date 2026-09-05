@@ -1,8 +1,27 @@
+---
+import { getLangFromUrl, useTranslations } from '@/i18n';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+{/*
+  Named for what it controls, with aria-pressed carrying the state, so a screen
+  reader announces "Dark mode, button, not pressed" — what this is and where it
+  currently stands. Labelling the action instead ("switch to dark mode") would
+  name the outcome but leave the state to be inferred, and aria-pressed is the
+  pattern the project filters already use.
+
+  The pressed state reflects the resolved appearance, not a stored choice: a
+  reader who never picked a theme and inherits dark from the OS sees it pressed,
+  which is true of what is on screen.
+*/}
 <div>
   <button
     id="theme-toggle"
     class="flex items-center justify-center p-1.5 md:p-2 rounded-full transition-colors hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer"
-    aria-label="Toggle theme"
+    aria-label={t('a11y.darkMode')}
+    aria-pressed="false"
   >
     <!-- Sun icon (visible in dark mode) -->
     <svg
@@ -88,11 +107,26 @@
     themeColorMetas.forEach((meta) => meta.setAttribute('content', colour));
   }
 
-  syncThemeColor(document.documentElement.classList.contains('dark'));
+  const button = document.getElementById('theme-toggle');
 
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  /**
+   * The markup ships aria-pressed="false" because the server cannot know the
+   * theme: it comes from localStorage or the OS. The inline script in <head>
+   * has already resolved it onto <html> by the time this runs, so the button
+   * is corrected before anyone can reach it.
+   */
+  function syncPressed(isDark: boolean) {
+    button?.setAttribute('aria-pressed', String(isDark));
+  }
+
+  const startsDark = document.documentElement.classList.contains('dark');
+  syncThemeColor(startsDark);
+  syncPressed(startsDark);
+
+  button?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     syncThemeColor(isDark);
+    syncPressed(isDark);
   });
 </script>

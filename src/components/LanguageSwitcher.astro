@@ -1,21 +1,42 @@
 ---
-import { getLangFromUrl, defaultLocale } from '@/i18n';
+import { getLangFromUrl, defaultLocale, useTranslations } from '@/i18n';
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const targetLang = lang === 'es' ? 'en' : 'es';
 const targetPath = targetLang === defaultLocale ? '/' : `/${targetLang}/`;
-const flag = lang === 'es' ? '🇺🇸' : '🇨🇴';
-const label = lang === 'es' ? 'En' : 'Es';
+
+/**
+ * The target language, named in its own language.
+ *
+ * This replaced a flag plus a two-letter code. Flags stand for countries, not
+ * languages: 🇺🇸 tells a British or Nigerian reader that English belongs
+ * somewhere else, and 🇨🇴 does the same to a Spanish or Mexican one. A screen
+ * reader also announces the emoji as "flag: United States", which is noise. A
+ * bare code is quieter but no clearer.
+ *
+ * Left untranslated on purpose: it names the language to the person who does
+ * not yet read the language this page is written in, and "English" is the one
+ * label they can recognize on a page they otherwise cannot read.
+ */
+const targetName = targetLang === 'en' ? 'English' : 'Español';
 ---
 
+{/*
+  The accessible name repeats the visible name instead of paraphrasing it.
+  WCAG 2.5.3 Label in Name requires the accessible name to contain the visible
+  text, so that someone driving the page by voice can say "click English" and
+  actually reach this control.
+*/}
 <a
   href={targetPath}
   data-lang-switch
-  class="flex items-center gap-1 md:gap-1.5 px-1.5 md:px-2 py-1.5 md:py-2 transition hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-inherit"
-  aria-label={`Switch to ${targetLang === 'es' ? 'Español' : 'English'}`}
+  hreflang={targetLang}
+  aria-label={t('a11y.switchLanguage')}
+  class="flex items-center px-1.5 md:px-2 py-1.5 md:py-2 transition hover:text-indigo-500 dark:hover:text-indigo-400 font-semibold text-inherit whitespace-nowrap"
 >
-  <span>{flag}</span>
-  <span>{label}</span>
+  <span lang={targetLang}>{targetName}</span>
 </a>
 
 <script>

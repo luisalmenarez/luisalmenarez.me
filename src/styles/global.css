@@ -17,6 +17,19 @@
   animation: fade-in 0.3s ease-out;
 }
 
+/* Lets a cramped row scroll instead of spilling over its neighbours, without
+   a scrollbar sitting inside a 30px-tall pill. The links inside stay tabbable
+   and the browser scrolls them into view on focus, so nothing becomes
+   unreachable by keyboard. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media print {
   /* Force light colours regardless of theme. */
   html,
