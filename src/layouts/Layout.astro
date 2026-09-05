@@ -15,9 +15,18 @@ interface Props {
   ogImage?: string;
   /** Structured data for this page. Defaults to the site-wide Person. */
   schema?: object;
+  /**
+   * Keep this page out of the index. The not-found page needs it: it is served
+   * with a 404 for missing routes, where the status already tells crawlers to
+   * drop the URL — but it is also reachable at its own address (/404.html,
+   * /en/404/), where it answers 200 with "this page does not exist". That is a
+   * soft 404, and the canonical and hreflang tags below actively advertise it
+   * as a real, translated page.
+   */
+  noindex?: boolean;
 }
 
-const { title, lang, description, ogImage, schema } = Astro.props;
+const { title, lang, description, ogImage, schema, noindex } = Astro.props;
 const t = useTranslations(lang);
 
 const metaDescription = description ?? t('meta.description');
@@ -39,6 +48,7 @@ const structuredData =
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={metaDescription} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonicalUrl} />
     {
       locales.map((locale) => (
