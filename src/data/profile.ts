@@ -27,6 +27,7 @@ export const PROFILE = {
   social: {
     linkedin: 'https://linkedin.com/in/luisalmenarez',
     github: 'https://github.com/luisalmenarez',
+    instagram: 'https://instagram.com/_luisalmenarez',
     whatsapp: `https://api.whatsapp.com/send?phone=${PHONE}`,
   },
   address: {
@@ -95,6 +96,6 @@ export function buildPersonSchema({ lang, description }: PersonSchemaInput) {
     alumniOf,
     knowsLanguage: [...PROFILE.knowsLanguage],
     knowsAbout: [...PROFILE.knowsAbout],
-    sameAs: [PROFILE.social.linkedin, PROFILE.social.github],
+    sameAs: [PROFILE.social.linkedin, PROFILE.social.github, PROFILE.social.instagram],
   };
 }
