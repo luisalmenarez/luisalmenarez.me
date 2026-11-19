@@ -57,18 +57,24 @@ const monthYear = (isoMonth: string): string => {
             <div class="inline-flex items-center text-xl text-balance leading-tight">
               <span>
                 {experience.title}
-                <a
-                  class="group/more text-indigo-600 dark:text-indigo-400 font-bold inline-flex items-center gap-1"
-                  href={experience.companyUrl}
-                  title={`${t('experience.view')} ${experience.company}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {experience.company}
-                  <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
-                    <ArrowOutward class="size-6" />
+                {experience.companyUrl ? (
+                  <a
+                    class="group/more text-indigo-600 dark:text-indigo-400 font-bold inline-flex items-center gap-1"
+                    href={experience.companyUrl}
+                    title={`${t('experience.view')} ${experience.company}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {experience.company}
+                    <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
+                      <ArrowOutward class="size-6" />
+                    </span>
+                  </a>
+                ) : (
+                  <span class="text-indigo-600 dark:text-indigo-400 font-bold">
+                    {experience.company}
                   </span>
-                </a>
+                )}
               </span>
             </div>
           </h3>

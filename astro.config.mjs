@@ -6,6 +6,11 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://luisalmenarez.me',
+  // MANFIT was rebranded to GymPlate; keep links already shared working.
+  redirects: {
+    '/proyectos/manfit': '/proyectos/gymplate',
+    '/en/proyectos/manfit': '/en/proyectos/gymplate',
+  },
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'en'],

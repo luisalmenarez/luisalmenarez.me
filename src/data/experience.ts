@@ -4,7 +4,8 @@ type Localized<T> = Record<Locale, T>;
 
 interface ExperienceEntry {
   company: string;
-  companyUrl: string;
+  /** Optional: without it the company renders as plain text instead of a link. */
+  companyUrl?: string;
   /** Identical across locales for every entry so far; localize if that changes. */
   title: string;
   /** `end: null` means the role is current. Formatting belongs to the view. */
@@ -27,24 +28,78 @@ interface ExperienceEntry {
  */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
-    company: 'PrevalentWare S.A.S',
-    companyUrl: 'https://prevalentware.com',
+    // Under NDA: no client names, internal systems or identifiable architecture.
+    company: 'NGDS',
     title: 'Full Stack Developer',
-    dateISO: { start: '2025-10', end: null },
+    dateISO: { start: '2026-09', end: null },
     technologies: [
       'Next.js',
       'React.js',
       'TypeScript',
       'Node.js',
-      'AWS',
-      'n8n',
+      'HubSpot',
       'SQL Server',
-      'MongoDB',
-      'GraphQL',
       'REST APIs',
       'TailwindCSS',
-      'SharePoint',
+      'GitHub Actions',
       'Agile/Scrum',
+    ],
+    location: {
+      es: 'Bogotá, Colombia · Remoto',
+      en: 'Bogotá, Colombia · Remote',
+    },
+    summary: {
+      es:
+        'Desarrollo full-stack en una consultora de transformación digital: portales web, integraciones con CRM y migración de sistemas legacy para clientes empresariales.',
+      en:
+        'Full-stack development at a digital transformation consultancy: web portals, CRM integrations and legacy-system migrations for enterprise clients.',
+    },
+    responsibilities: {
+      es: [
+        'Liderazgo técnico de un portal web para la red comercial de un cliente, sobre un monorepo en Next.js y TypeScript pensado para alojar varios portales.',
+        'Migración de datos de un sistema legacy en SQL Server hacia HubSpot: homologación, normalización e integración de registros.',
+        'Migración de frontends legacy a Next.js manteniendo las reglas de negocio existentes.',
+        'Definición del estándar de desarrollo del equipo y del flujo de pull requests: revisión asistida por IA, validación de un compañero y merge.',
+        'Administración de la organización de GitHub del proyecto con acceso por equipos.',
+      ],
+      en: [
+        'Technical lead of a web portal for a client\'s sales network, built on a Next.js and TypeScript monorepo designed to host several portals.',
+        'Data migration from a legacy SQL Server system into HubSpot: mapping, normalization and record integration.',
+        'Migration of legacy frontends to Next.js while preserving the existing business rules.',
+        'Definition of the team\'s development standard and pull-request flow: AI-assisted review, peer approval and merge.',
+        'Administration of the project\'s GitHub organization with team-based access.',
+      ],
+    },
+    achievements: {
+      es: [
+        'Integración de registros hacia HubSpot en producción durante el primer mes en la compañía.',
+        'Base de monorepo reutilizable que permite arrancar nuevos portales del cliente sin rehacer la infraestructura.',
+      ],
+      en: [
+        'Shipped a record integration into HubSpot to production within the first month at the company.',
+        'Reusable monorepo foundation that lets new client portals start without rebuilding the infrastructure.',
+      ],
+    },
+  },
+  {
+    company: 'PrevalentWare S.A.S',
+    companyUrl: 'https://prevalentware.com',
+    title: 'Full Stack Developer',
+    dateISO: { start: '2025-10', end: '2026-09' },
+    technologies: [
+      'n8n',
+      'Next.js',
+      'React.js',
+      'TypeScript',
+      'Node.js',
+      'Bun',
+      'AWS',
+      'AWS CDK',
+      'Prisma',
+      'GraphQL',
+      'SQL Server',
+      'Python',
+      'SharePoint',
     ],
     location: {
       es: 'Envigado, Colombia · Remoto',
@@ -52,34 +107,34 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     summary: {
       es:
-        'Desarrollo e implementación de soluciones web y de automatización para clientes en LATAM, utilizando Next.js, TypeScript y AWS como stack principal.',
+        'Desarrollo de automatizaciones y soluciones web para clientes en LATAM, como recurso dedicado en un proyecto fintech, sobre n8n, Next.js, TypeScript y AWS.',
       en:
-        'Development and delivery of web and automation solutions for LATAM clients, using Next.js, TypeScript and AWS as the primary stack.',
+        'Automation and web solutions for LATAM clients, as a dedicated engineer on a fintech engagement, built on n8n, Next.js, TypeScript and AWS.',
     },
     responsibilities: {
       es: [
-        'Desarrollo full-stack con React, Next.js y TypeScript en frontend, complementado con Node.js y REST APIs en backend, desplegado sobre infraestructura AWS.',
-        'Diseño e implementación de arquitecturas escalables para aplicaciones web, con integración de bases de datos relacionales (SQL Server) y no relacionales (MongoDB).',
-        'Desarrollo e implementación de flujos de automatización complejos en n8n para procesos financieros y de liquidación, integrando SharePoint, SQL Server y reglas de negocio específicas del cliente.',
-        'Creación de documentación técnica exhaustiva: PDD, reglas de negocio, matrices de prueba y diagramas BPMN.',
-        'Participación activa en metodologías ágiles/Scrum, cumpliendo con sprints y entregables definidos.',
+        'Construcción, junto al Tech Lead, de un sistema en n8n que liquida las comisiones de más de 200 comisionistas con lógica tributaria y de seguridad social colombiana (retención en la fuente, ReteICA, ReteIVA, aportes a seguridad social).',
+        'Documentación de las reglas de negocio en un documento maestro versionado, con matrices de prueba, historias de usuario y diagramas BPMN.',
+        'Soporte y ajustes sobre una automatización RPA existente en Python y sobre bases SQL Server de otros clientes.',
+        'Desarrollo full-stack con Next.js, TypeScript, Prisma y GraphQL, desplegado en AWS con infraestructura como código (CDK y CloudFormation).',
       ],
       en: [
-        'Full-stack development with React, Next.js and TypeScript on the frontend, complemented by Node.js and REST APIs on the backend, deployed on AWS infrastructure.',
-        'Design and implementation of scalable architectures for web applications, integrating relational (SQL Server) and non-relational (MongoDB) databases.',
-        'Development and implementation of complex automation workflows in n8n for financial and settlement processes, integrating SharePoint, SQL Server and client-specific business rules.',
-        'Authoring of thorough technical documentation: PDD, business rules, test matrices and BPMN diagrams.',
-        'Active participation in agile/Scrum methodologies, meeting sprint deliverables and commitments.',
+        'Built, together with the Tech Lead, an n8n system that settles commissions for 200+ agents under Colombian tax and social-security rules (income-tax withholding, ICA and VAT withholding, social-security contributions).',
+        'Documented the business rules in a versioned master document, with test matrices, user stories and BPMN diagrams.',
+        'Supported and adjusted an existing Python RPA automation and SQL Server databases for other clients.',
+        'Full-stack development with Next.js, TypeScript, Prisma and GraphQL, deployed on AWS with infrastructure as code (CDK and CloudFormation).',
       ],
     },
     achievements: {
       es: [
-        'Automatización end-to-end de cálculos financieros y tributarios complejos mediante n8n, eliminando procesos manuales propensos a errores y reduciendo significativamente los tiempos de procesamiento.',
-        'Validación exitosa de un sistema de automatización financiera con múltiples escenarios de prueba, identificando y resolviendo bugs críticos antes de la puesta en producción.',
+        'Módulos de créditos y seguros llevados a producción y validados a lo largo de 7 cortes quincenales reales, con más de 60 reglas de negocio versionadas.',
+        'Solución a los límites de estado de n8n con una estrategia SQL previa al loop y estado compartido entre ejecuciones del mismo mes.',
+        'Evaluación técnica interna aprobada: infraestructura AWS aislada, 2 PRs mergeados con la suite de pruebas en verde y tres defectos del boilerplate corregidos (migraciones, cookies cross-domain y caché de permisos).',
       ],
       en: [
-        'End-to-end automation of complex financial and tax calculations via n8n, eliminating error-prone manual processes and significantly cutting processing times.',
-        'Successful validation of a financial automation system across multiple test scenarios, identifying and resolving critical bugs before production rollout.',
+        'Took the loans and insurance modules to production, validated across 7 real biweekly settlement cycles with 60+ versioned business rules.',
+        'Worked around n8n\'s state limits with a pre-loop SQL strategy and state shared across executions within the same month.',
+        'Passed an internal technical evaluation: isolated AWS infrastructure, 2 merged PRs with a green test suite and three boilerplate defects fixed (migrations, cross-domain cookies and permission caching).',
       ],
     },
   },

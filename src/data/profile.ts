@@ -35,8 +35,7 @@ export const PROFILE = {
     country: 'CO',
   },
   worksFor: {
-    name: 'PrevalentWare S.A.S',
-    url: 'https://prevalentware.com',
+    name: 'NGDS',
   },
   knowsLanguage: ['es', 'en'],
   knowsAbout: [
@@ -46,6 +45,7 @@ export const PROFILE = {
     'Node.js',
     'Astro',
     'n8n',
+    'HubSpot',
     'AWS',
     'PostgreSQL',
     'SQL Server',
@@ -90,7 +90,6 @@ export function buildPersonSchema({ lang, description }: PersonSchemaInput) {
     worksFor: {
       '@type': 'Organization',
       name: PROFILE.worksFor.name,
-      url: PROFILE.worksFor.url,
     },
     alumniOf,
     knowsLanguage: [...PROFILE.knowsLanguage],

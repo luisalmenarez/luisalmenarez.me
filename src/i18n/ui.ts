@@ -75,7 +75,7 @@ const es = {
   'about.p2':
     'He trabajado en proyectos donde <strong>los equipos reducían semanas de trabajo a días con las herramientas correctas, y donde procesos manuales simplemente dejaban de existir.</strong> Eso es lo que me motiva: ver el impacto directo de lo que se construye.',
   'about.p3':
-    'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Full Stack Developer en PrevalentWare</strong>, principalmente con React, Next.js y TypeScript. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
+    'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Full Stack Developer en NGDS</strong>, principalmente con React, Next.js y TypeScript. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
 } as const;
 
 const en: Record<keyof typeof es, string> = {
@@ -146,7 +146,7 @@ const en: Record<keyof typeof es, string> = {
   'about.p2':
     "I've worked on projects where <strong>teams cut weeks of work down to days with the right tools, and where manual processes simply ceased to exist.</strong> That's what drives me: seeing the direct impact of what we build.",
   'about.p3':
-    'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Full Stack Developer at PrevalentWare</strong>, mainly with React, Next.js, and TypeScript. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
+    'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Full Stack Developer at NGDS</strong>, mainly with React, Next.js, and TypeScript. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
 };
 
 export const ui = { es, en } as const;
