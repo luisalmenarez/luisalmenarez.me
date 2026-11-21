@@ -3,7 +3,7 @@ import { PROFILE } from './profile';
 import type { Locale } from '@/i18n';
 import { TAGS } from './tags';
 import adminDashboard from '@/assets/projects/admin-dashboard.webp';
-import b2pago from '@/assets/projects/b2pago.webp';
+import commissionSettlement from '@/assets/projects/commission-settlement.webp';
 import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
 import manfit from '@/assets/projects/manfit.webp';
 import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
@@ -21,6 +21,13 @@ export interface ProjectCompany {
   url?: string;
 }
 
+/** One block of a long-form case study: a heading, then prose and/or a list. */
+export interface CaseStudySection {
+  heading: string;
+  body?: string;
+  items?: string[];
+}
+
 export interface ProjectEntry {
   slug: string;
   role: ProjectRole;
@@ -36,6 +43,10 @@ export interface ProjectEntry {
   title: Localized<string>;
   description: Localized<string>;
   highlights: Localized<string[]>;
+  /** Ordered steps drawn as a simple flow diagram on the project page. */
+  flow?: Localized<string[]>;
+  /** When present, the project page renders these sections instead of the plain highlight list. */
+  caseStudy?: Localized<CaseStudySection[]>;
 }
 
 /**
@@ -73,14 +84,198 @@ export const STATUS_CLASS: Record<keyof typeof STATUS_LABEL, string> = {
 
 export const PROJECTS: ProjectEntry[] = [
   {
-    slug: 'manfit',
+    // Under NDA: the client is only ever "a lease-insurance company in Colombia".
+    // No client or brand names, domains, repos, PR numbers, IDs, rates, people
+    // or screenshots. Every figure comes from the project write-up; do not add more.
+    slug: 'migracion-arrendamiento-hubspot',
+    role: 'team',
+    status: 'live',
+    kind: 'professional',
+    period: { es: '2026 - Actualidad', en: '2026 - Present' },
+    featured: true,
+    company: {
+      name: 'NGDS',
+      description: {
+        es: 'Aseguradora de arrendamientos en Colombia',
+        en: 'Lease-insurance company in Colombia',
+      },
+    },
+    tags: [
+      TAGS.HUBSPOT,
+      TAGS.NEXTJS,
+      TAGS.TYPESCRIPT,
+      TAGS.NODEJS,
+      TAGS.SQLSERVER,
+    ],
+    title: {
+      es: 'Migración del flujo de arrendamiento a HubSpot',
+      en: 'Migrating a lease flow to HubSpot',
+    },
+    description: {
+      es: 'Migré de un sistema legado a HubSpot el flujo completo de arrendamiento de una aseguradora de arrendamientos en Colombia: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión. Lo llevé a producción el 17 de noviembre de 2026 y lo estabilicé, liderando el desarrollo con agentes de IA.',
+      en: 'I migrated the full lease flow of a lease-insurance company in Colombia from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance. I took it to production on November 17, 2026 and stabilized it, leading development with AI agents.',
+    },
+    highlights: {
+      es: [
+        'Flujo nuevo en producción desde el 17-nov-2026',
+        'Catálogo de asesores en HubSpot de 7 a 4.029 registros',
+        'Fuga de ingresos cerrada: la clave que había regalado 32 estudios en dos días ahora cobra el estudio',
+        'Emisión automática al firmar: 5 contratos detenidos salieron sin intervención manual',
+        '43 contactos corregidos y 8 contratos relanzados a firma con la dirección correcta',
+        '«Relanzar firma» pasó 3 de 3 pruebas de punta a punta en el sandbox, sobre una suite de 1.681 pruebas en verde',
+      ],
+      en: [
+        'New flow in production since Nov 17, 2026',
+        'Advisor catalog in HubSpot grew from 7 to 4,029 records',
+        'Revenue leak closed: the code that had given away 32 screenings in two days now charges for them',
+        'Automatic issuance on signature: 5 stalled contracts went out with no manual step',
+        '43 contacts corrected and 8 contracts re-sent for signature with the right address',
+        '"Relaunch signature" passed 3 of 3 end-to-end tests in the sandbox, on top of a 1,681-test suite in green',
+      ],
+    },
+    flow: {
+      es: [
+        'Radicación',
+        'Pago en línea',
+        'Motor de decisión',
+        'Contrato',
+        'Firma electrónica',
+        'Emisión',
+      ],
+      en: [
+        'Application',
+        'Online payment',
+        'Decision engine',
+        'Contract',
+        'E-signature',
+        'Issuance',
+      ],
+    },
+    caseStudy: {
+      es: [
+        {
+          heading: 'Contexto',
+          body: 'Una aseguradora de arrendamientos en Colombia operaba su flujo de arrendamiento sobre un sistema legado: una base SQL Server en un servidor local y un formulario web aparte. El flujo va de la radicación y el pago del estudio a la decisión del motor, la orden de contrato, la firma y la emisión de la póliza.',
+        },
+        {
+          heading: 'Problema',
+          body: 'El plan de migración iba retrasado, y el negocio necesitaba operar el flujo de punta a punta sobre HubSpot como CRM central, sin apagar de golpe lo legado. Después de salir a producción aparecieron fallas que costaban dinero y operación: asesores que no llegaban, estudios que salían gratis y contratos que había que corregir y volver a firmar.',
+        },
+        {
+          heading: 'Mi rol',
+          body: 'Soy el líder técnico del frente de integraciones entre HubSpot y el sistema legado. Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA. Diseñé y dirigí el desarrollo, la mayor parte con varias sesiones de agentes de IA en paralelo; revisé y fusioné los cambios, corrí yo los scripts y despliegues de producción paso a paso, y coordiné con el cliente y con los otros desarrolladores.',
+        },
+        {
+          heading: 'Arquitectura',
+          items: [
+            'Cola de salida a HubSpot: las apps escriben eventos en una tabla de salida con estados (pendiente, enviado, reintentar, agotado) y un único publicador los lleva a HubSpot cada 2 minutos. El flujo no depende de las caídas ni de los límites de la API de HubSpot, y un solo punto conoce el modelo del CRM.',
+            'Pagos confirmados por tres caminos idempotentes: webhook, página de retorno y barrido del servidor. El precio y la firma de integridad se calculan en el servidor y la persona paga en el checkout de Wompi, así que ningún dato de tarjeta pasa por nuestros servidores.',
+            'Interruptores por funcionalidad en los valores de Helm: cada cambio se despliega apagado y se prende aparte, con un OK explícito. Con el cliente operando en vivo, cualquier cambio se revierte sin otro despliegue.',
+          ],
+        },
+        {
+          heading: 'Qué hice',
+          items: [
+            'Llevé a producción el flujo nuevo: radicación con pago en línea, motor de decisión, solicitud y análisis en HubSpot, orden de contrato, firma electrónica y envío a emisión.',
+            'Cargué en HubSpot los 4.029 asesores activos del sistema legado y asocié el asesor a la solicitud, al análisis y al contrato.',
+            'Detecté que una clave de asesor daba el estudio gratis y la apagué con un interruptor de configuración.',
+            'Automaticé el envío a emisión: cuando firma el último firmante, el contrato pasa solo a emisión, sin visto bueno manual.',
+            'Construí «Relanzar firma» para el área de Contratos: anula el flujo de firma viejo, relanza con la fecha o la vigencia corregidas y le crea una tarea al dueño del contrato.',
+            'Escribí un script de revisión diaria de producción, de solo lectura: validación, firmas, emisión, asesores, la cola de salida a HubSpot y pagos aprobados sin solicitud.',
+            'Escribí para el cliente la especificación técnica de los pagos en línea.',
+            'Monté el CI en runners propios en Docker cuando se agotaron los minutos de GitHub Actions.',
+          ],
+        },
+        {
+          heading: 'Resultados',
+          items: [
+            'El flujo nuevo está en producción desde el 17-nov-2026.',
+            'El catálogo de asesores en HubSpot pasó de 7 registros a 4.029.',
+            'Se cerró una fuga de ingresos: la clave que había dado 32 estudios gratis en dos días ahora cobra el estudio.',
+            'La emisión quedó automática: 5 contratos detenidos salieron sin intervención manual.',
+            '43 contactos corregidos y 8 contratos relanzados a firma con la dirección correcta.',
+            '«Relanzar firma» pasó 3 de 3 pruebas de punta a punta en el sandbox, sobre una suite de 1.681 pruebas en verde.',
+            'Menos soporte manual: Contratos relanza firmas por su cuenta y hay revisión diaria de producción sin escribir en ella.',
+          ],
+        },
+        {
+          heading: 'Retos',
+          items: [
+            'Convivir con el legado: el formulario anterior seguía vivo con la misma cuenta de pagos y la misma URL de eventos, y los pagos nuevos no llegaban por webhook. Lo resolví con un barrido que consulta la pasarela y registra de forma idempotente, y con el reenvío al sistema viejo de los avisos que son suyos.',
+            'Operar producción con accesos restringidos: base de datos solo por VPN, bóveda de secretos con firewall por IP y la regla de que los agentes no tocan producción. Escribí scripts con modo «ver» y modo «aplicar», con respaldo y reversión, y los corrí yo paso a paso.',
+            'Varios agentes sobre un solo ambiente de dev: un merge mal planteado borró la rama compartida. La restauré y cambié la regla a pases desde ramas copia.',
+            'Relanzar firmas sin dejar enlaces viejos vivos: diseñé el relanzamiento con anulación del flujo anterior y con reglas de cuándo no relanzar.',
+          ],
+        },
+      ],
+      en: [
+        {
+          heading: 'Context',
+          body: 'A lease-insurance company in Colombia ran its lease flow on a legacy system: an on-premise SQL Server database and a separate web form. The flow goes from the application and the screening payment to the engine\'s decision, the contract order, the signature and the policy issuance.',
+        },
+        {
+          heading: 'Problem',
+          body: 'The migration plan was behind schedule, and the business needed to run the flow end to end on HubSpot as its central CRM without switching off the legacy system overnight. After go-live, failures showed up that cost money and operations: advisors that never arrived, screenings that went out free, and contracts that had to be corrected and signed again.',
+        },
+        {
+          heading: 'My role',
+          body: 'I am the tech lead for the integrations between HubSpot and the legacy system. I coordinate a team of 5 people and set the testing and review guidelines for QA. I designed and drove development, mostly with several AI agent sessions in parallel; I reviewed and merged the changes, ran the production scripts and deployments myself step by step, and coordinated with the client and the other developers.',
+        },
+        {
+          heading: 'Architecture',
+          items: [
+            'Outbox to HubSpot: the apps write events to an outbox table with states (pending, sent, retry, exhausted) and a single publisher pushes them to HubSpot every 2 minutes. The flow does not depend on HubSpot API outages or rate limits, and only one place knows the CRM model.',
+            'Payments confirmed through three idempotent paths: webhook, return page and a server-side sweep. The price and the integrity signature are computed on the server and the customer pays on Wompi\'s checkout, so no card data ever touches our servers.',
+            'Per-feature flags in the Helm values: every change ships off and is turned on separately, with an explicit OK. With the client operating live, any change can be rolled back without another deployment.',
+          ],
+        },
+        {
+          heading: 'What I did',
+          items: [
+            'Took the new flow to production: application with online payment, decision engine, request and analysis in HubSpot, contract order, e-signature and hand-off to issuance.',
+            'Loaded the 4,029 active advisors from the legacy system into HubSpot and linked the advisor to the request, the analysis and the contract.',
+            'Found that one advisor code made the screening free and switched it off with a configuration flag.',
+            'Automated the hand-off to issuance: when the last signer signs, the contract moves to issuance on its own, with no manual approval.',
+            'Built "Relaunch signature" for the Contracts team: it voids the old signing flow, relaunches it with the corrected date or term and creates a task for the contract owner.',
+            'Wrote a read-only daily production check: validation, signatures, issuance, advisors, the HubSpot outbox and approved payments without a request.',
+            'Wrote the technical specification of the online payments for the client.',
+            'Set up CI on self-hosted Docker runners when the GitHub Actions minutes ran out.',
+          ],
+        },
+        {
+          heading: 'Results',
+          items: [
+            'The new flow has been in production since Nov 17, 2026.',
+            'The advisor catalog in HubSpot grew from 7 records to 4,029.',
+            'A revenue leak was closed: the code that had given away 32 free screenings in two days now charges for them.',
+            'Issuance is now automatic: 5 stalled contracts went out with no manual step.',
+            '43 contacts corrected and 8 contracts re-sent for signature with the right address.',
+            '"Relaunch signature" passed 3 of 3 end-to-end tests in the sandbox, on top of a 1,681-test suite in green.',
+            'Less manual support: Contracts relaunches signatures on its own, and production gets a daily check that never writes to it.',
+          ],
+        },
+        {
+          heading: 'Challenges',
+          items: [
+            'Living with the legacy system: the old form was still live on the same payment account and the same events URL, and new payments never arrived by webhook. I solved it with a sweep that queries the gateway and records payments idempotently, and by forwarding to the old system the notifications that belong to it.',
+            'Running production with restricted access: database only over VPN, a secrets vault behind an IP firewall and the rule that agents do not touch production. I wrote scripts with a "preview" and an "apply" mode, with backup and rollback, and ran them myself step by step.',
+            'Several agents on a single dev environment: a badly set-up merge deleted the shared branch. I restored it and changed the rule to promote from copy branches.',
+            'Relaunching signatures without leaving old links alive: I designed the relaunch to void the previous flow, with rules for when not to relaunch.',
+          ],
+        },
+      ],
+    },
+  },
+  {
+    slug: 'gymplate',
     role: 'developed',
     status: 'live',
     kind: 'professional',
     period: { es: '2026 - Actualidad', en: '2026 - Present' },
     featured: true,
+    // Screenshot predates the GymPlate rebrand; replace it with a current capture.
     image: manfit,
-    link: 'https://manfit.com.co',
+    link: 'https://www.gymplate.app',
     tags: [
       TAGS.NEXTJS,
       TAGS.TYPESCRIPT,
@@ -89,75 +284,169 @@ export const PROJECTS: ProjectEntry[] = [
       TAGS.TAILWINDCSS,
       TAGS.PWA,
     ],
-    title: { es: 'MANFIT', en: 'MANFIT' },
+    title: { es: 'GymPlate', en: 'GymPlate' },
     description: {
-      es: 'Plataforma SaaS en producción para entrenadores personales: gestión de clientes con roles, rutinas con progresión automática de cargas, biblioteca de ejercicios con video, tracking de adherencia con gráficas, módulo de nutrición con generador automático de planes y 89 recetas, y notificaciones push. PWA instalable construida con Next.js 16.',
-      en: 'Production-ready SaaS platform for personal trainers: role-based client management, routines with automatic load progression, video-backed exercise library, adherence tracking with charts, nutrition module with auto-generated meal plans and 89 recipes, and push notifications. Installable PWA built with Next.js 16.',
+      es: 'Plataforma de entrenamiento y nutrición en producción para entrenadores personales, sus clientes y atletas que entrenan por su cuenta. Nació como MANFIT y evolucionó a GymPlate: una plataforma multi-tenant con rutinas con progresión, módulo de nutrición con generador de planes y registro de comidas con IA. PWA instalable construida con Next.js 16.',
+      en: 'Production training and nutrition platform for personal trainers, their clients and athletes who train on their own. It started as MANFIT and grew into GymPlate: a multi-tenant platform with progressive routines, a nutrition module with a meal-plan generator and AI-assisted meal logging. Installable PWA built with Next.js 16.',
     },
     highlights: {
       es: [
-        'Plataforma desplegada en producción en manfit.com.co con ciclo de release continuo (100+ PRs mergeados)',
-        'Sistema de roles (super-admin, entrenador, cliente) con NextAuth, Google OAuth, reset de contraseña por email e invitaciones por link',
-        'Biblioteca de 138 ejercicios con video YouTube unlisted y detección automática de Shorts vertical 9:16',
-        'Planes con duración flexible (1/4/8 semanas), tracking por serie individual y progresión automática de cargas (+2.5 kg upper / +5 kg lower)',
-        'Módulo de nutrición completo: anamnesis (12 campos), motor BMR/TDEE, generador automático con rotación semanal y combos culturales, 89 recetas (61 colombianas + 28 internacionales)',
-        'PWA instalable con notificaciones push (VAPID) por evento + cron diario',
-        'Gráficas de progresión con Recharts, generación de PDFs con react-pdf, emails transaccionales con Resend e importación masiva CSV con validación',
-        'Tests unitarios con Vitest sobre la lógica de nutrición y parsing de ingredientes',
+        'En producción en gymplate.app desde octubre de 2026, con más de 1.600 commits y 700+ PRs desde abril',
+        'Rebranding de MANFIT a GymPlate con arquitectura multi-tenant y modo atleta para entrenar sin entrenador',
+        'Registro de comidas con IA: una foto o descripción del plato se convierte en alimentos y gramos del catálogo usando Claude',
+        'Motor de nutrición con 55 reglas, cálculo BMR/TDEE y 89 recetas con combinaciones culturales colombianas',
+        'Rutinas con tracking por serie, récords de fuerza, volumen semanal y sugerencias de progresión de cargas',
+        'Consentimiento por categoría de datos bajo la Ley 1581 (datos de salud y fotos) con prueba firmada con HMAC',
+        'Roles de super-admin, entrenador, cliente y atleta con NextAuth; notificaciones push (VAPID) y emails con Resend',
+        '272 archivos de pruebas unitarias con Vitest y 87 specs end-to-end con Playwright',
       ],
       en: [
-        'Production deployment at manfit.com.co with continuous release cadence (100+ merged PRs)',
-        'Role-based access (super-admin, trainer, client) with NextAuth, Google OAuth, email-based password reset and invite-link onboarding',
-        'Exercise library of 138 entries backed by unlisted YouTube videos with automatic vertical-Shorts 9:16 detection',
-        'Plans with flexible duration (1/4/8 weeks), per-set tracking and automatic load progression (+2.5 kg upper / +5 kg lower)',
-        'Full nutrition module: 12-field anamnesis, BMR/TDEE engine, auto-generator with weekly rotation and cultural combos, 89 recipes (61 Colombian + 28 international)',
-        'Installable PWA with push notifications (VAPID) on event triggers and daily cron',
-        'Progression charts with Recharts, PDF generation with react-pdf, transactional emails with Resend, and bulk CSV import with validation',
-        'Unit tests with Vitest covering nutrition logic and recipe-ingredient parsing',
+        'In production at gymplate.app since October 2026, with 1,600+ commits and 700+ PRs since April',
+        'Rebrand from MANFIT to GymPlate with a multi-tenant architecture and an athlete mode for training without a coach',
+        'AI meal logging: a photo or description of the plate becomes catalog foods and grams using Claude',
+        'Nutrition engine with 55 rules, BMR/TDEE calculation and 89 recipes with Colombian cultural pairings',
+        'Routines with per-set tracking, strength PRs, weekly volume and load-progression suggestions',
+        'Per-category consent under Colombia\'s Law 1581 (health data and photos) with HMAC-signed proof',
+        'Super-admin, trainer, client and athlete roles with NextAuth; push notifications (VAPID) and email via Resend',
+        '272 Vitest unit-test files and 87 Playwright end-to-end specs',
       ],
     },
   },
   {
-    slug: 'b2pago',
-    role: 'developed',
+    // The client is not named on purpose: only the generic technical story is public.
+    slug: 'commission-settlement',
+    role: 'team',
     status: 'live',
     kind: 'professional',
-    period: { es: '2025 - Actualidad', en: '2025 - Present' },
-    image: b2pago,
+    period: { es: '2025 - 2026', en: '2025 - 2026' },
+    image: commissionSettlement,
     company: {
       name: 'PrevalentWare',
       url: 'https://prevalentware.com',
       description: {
-        es: 'Cliente sector financiero',
-        en: 'Financial sector client',
+        es: 'Cliente del sector fintech',
+        en: 'Fintech client',
       },
     },
     tags: [TAGS.N8N, TAGS.TYPESCRIPT, TAGS.AWS, TAGS.SQLSERVER, TAGS.PRISMA],
-    title: { es: 'B2Pago', en: 'B2Pago' },
+    title: {
+      es: 'Liquidación de comisiones',
+      en: 'Commission Settlement',
+    },
     description: {
-      es: 'Sistema de automatización para la liquidación quincenal de comisiones comerciales construido sobre n8n. Implementa más de 60 reglas de negocio incluyendo lógica tributaria colombiana completa (Art. 383, RETEICA, IVA, ReteIVA, seguridad social) y un esquema de retención y liberación de pagos cuando la comisión no cubre la cotización a SS. Acompañado por un backend de soporte en Bun + Hono + TypeScript desplegado en AWS Lambda con infraestructura como código (CDK).',
-      en: 'n8n-based automation for biweekly commission settlement. Implements 60+ business rules including the full Colombian tax stack (Art. 383 progressive table, ICA withholding, VAT, VAT withholding, social security) and a hold/release scheme for payments that don\'t cover the social-security threshold. Backed by a Bun + Hono + TypeScript service running on AWS Lambda with infrastructure as code (CDK).',
+      es: 'Sistema en n8n que automatiza la liquidación quincenal de comisiones de más de 200 comisionistas para un cliente fintech, con lógica tributaria y de seguridad social colombiana. Lo construí junto al Tech Lead como recurso dedicado, con un backend de soporte en Bun, Hono y TypeScript sobre AWS Lambda e infraestructura como código en CDK.',
+      en: 'n8n system that automates biweekly commission settlement for 200+ agents at a fintech client, applying Colombian tax and social-security rules. Built together with the Tech Lead as a dedicated engineer, with a supporting Bun, Hono and TypeScript backend on AWS Lambda and infrastructure as code in CDK.',
     },
     highlights: {
       es: [
-        'Más de 60 reglas de negocio orquestadas en n8n, con lógica tributaria colombiana completa: tabla progresiva del Art. 383 (7 rangos UVT), RETEICA, IVA, ReteIVA y seguridad social con cálculo de IBC (40% del acumulado, piso SMMLV, tope 25 SMMLV)',
-        'Esquema de retención/liberación: si la comisión no cubre la cotización a SS se retiene "bruta limpia" (sin retenciones) y se libera intra-mes —agrupándose con la siguiente comisión— o fin de mes —como registro sintético en el mes siguiente—',
-        'Recálculo progresivo de RTI Art. 383 y SS sobre el acumulado mensual con retención del diferencial vs pagos previos; distribución proporcional por bruta y por contribución al pool en la liberación intra-mes',
-        'Workarounds técnicos sobre limitaciones de n8n: estrategia pre-loop para acumulados (los nodos SQL no comparten visibilidad de INSERTs en el loop) y uso de $getWorkflowStaticData(\'global\') como bus de estado mutable entre iteraciones',
-        'Validaciones robustas con normalización canónica (insensible a mayúsculas, tildes y espacios), rechazo de valores espurios de Excel (NaN, #N/A, #REF!, #VALUE!) y validaciones cruzadas régimen × IVA × facturación',
-        'Backend de soporte en Bun + Hono + TypeScript desplegado en AWS Lambda; infraestructura como código en CDK multi-stack (network, dev, test, prod, CI/CD)',
-        'Persistencia en SQL Server (RDS) con Prisma + adapter MSSQL, autorización con Casbin (RBAC), autenticación con Better-Auth + Cognito, archivos en S3 y secretos en Secrets Manager',
-        'UPSERT idempotente del maestro de comisionistas, generación de reportes XLSX consolidados y de excepciones, e integración con SharePoint para ingesta y entrega de archivos',
+        'Más de 60 reglas de negocio versionadas en un documento maestro, que fue la única fuente de verdad para el desarrollo y las pruebas',
+        'Módulos de créditos y seguros en producción, validados a lo largo de 7 cortes quincenales reales',
+        'Cálculo de retenciones y aportes a seguridad social sobre el acumulado mensual, reteniendo solo el diferencial frente a pagos previos',
+        'Estrategia SQL previa al loop y estado compartido entre ejecuciones para superar los límites de estado de n8n',
+        'Validación de entradas con normalización canónica y rechazo de valores corruptos de Excel antes de calcular',
+        'Backend de soporte en Bun + Hono + TypeScript sobre AWS Lambda, con CDK multi-stack (red, dev, test, prod y CI/CD)',
+        'SQL Server con Prisma, autorización RBAC con Casbin y SharePoint para la ingesta y entrega de archivos',
       ],
       en: [
-        '60+ business rules orchestrated in n8n covering the full Colombian tax stack: Art. 383 progressive table (7 UVT brackets), ICA withholding, VAT, VAT withholding and social security with IBC computation (40% of monthly accrual, SMMLV floor, 25-SMMLV cap)',
-        'Hold/release scheme: when a commission doesn\'t cover the social-security contribution, the gross amount is held untouched (no withholdings applied) and later released either intra-month —pooled with the next commission— or end-of-month —as a synthetic record at the start of the next month—',
-        'Progressive recalculation of Art. 383 income tax withholding and social security over the monthly accrual, retaining only the differential vs prior payments; proportional distribution by gross and by net contribution to the pool during intra-month release',
-        'Technical workarounds for n8n limitations: pre-loop strategy for monthly accruals (SQL nodes do not share INSERT visibility within the loop) and use of $getWorkflowStaticData(\'global\') as a mutable state bus across iterations',
-        'Robust input validation with canonical normalization (case/accent/whitespace insensitive), rejection of spurious Excel values (NaN, #N/A, #REF!, #VALUE!) and cross-field validation across tax regime × VAT × billing responsibility',
-        'Supporting backend in Bun + Hono + TypeScript deployed to AWS Lambda; infrastructure as code in CDK multi-stack setup (network, dev, test, prod, CI/CD)',
-        'Persistence on SQL Server (RDS) with Prisma + MSSQL adapter, authorization via Casbin (RBAC), authentication with Better-Auth + Cognito, file storage on S3 and secrets in Secrets Manager',
-        'Idempotent UPSERT of the commissioners master, generation of consolidated and exception XLSX reports, and SharePoint integration for source-file ingestion and output delivery',
+        '60+ business rules versioned in a master document that served as the single source of truth for development and testing',
+        'Loans and insurance modules in production, validated across 7 real biweekly settlement cycles',
+        'Withholding and social-security calculations over the monthly accrual, retaining only the differential against prior payments',
+        'Pre-loop SQL strategy and state shared across executions to work around n8n\'s state limits',
+        'Input validation with canonical normalization and rejection of corrupt Excel values before any calculation runs',
+        'Supporting Bun + Hono + TypeScript backend on AWS Lambda, with a multi-stack CDK setup (network, dev, test, prod and CI/CD)',
+        'SQL Server with Prisma, RBAC authorization with Casbin and SharePoint for file ingestion and delivery',
+      ],
+    },
+  },
+  {
+    slug: 'trk',
+    role: 'developed',
+    status: 'live',
+    kind: 'personal',
+    period: { es: '2026 - Actualidad', en: '2026 - Present' },
+    tags: [TAGS.NEXTJS, TAGS.TYPESCRIPT, TAGS.POSTGRES, TAGS.RESTAPI],
+    title: { es: 'trk', en: 'trk' },
+    description: {
+      es: 'Tracker personal de proyectos para registrar ítems, avances y decisiones de todos mis repos desde la terminal. Lo componen una CLI compilada para Mac, Linux y Windows, una API en Next.js sobre Supabase y una skill para Claude Code, todo en un monorepo con Bun.',
+      en: 'Personal project tracker to log items, progress and decisions across all my repos from the terminal. It combines a CLI compiled for Mac, Linux and Windows, a Next.js API on Supabase and a Claude Code skill, all in a Bun monorepo.',
+    },
+    highlights: {
+      es: [
+        'Monorepo con Bun en tres paquetes: núcleo de dominio con Zod, API en Next.js con Drizzle y CLI con commander',
+        'CLI de 13 comandos, todos con salida --json para que la consuman scripts y agentes de IA',
+        'Binarios nativos con bun build --compile para Mac, Linux (WSL) y Windows',
+        'Un token por máquina guardado como hash SHA-256 y comparado en tiempo constante',
+        'RLS en Supabase que cierra la API REST pública; CI con pruebas contra un Postgres real',
+        'Sin procesos en segundo plano: todo registro es explícito, decisión documentada como ADR',
+      ],
+      en: [
+        'Bun monorepo with three packages: a Zod domain core, a Next.js API with Drizzle and a commander-based CLI',
+        '13-command CLI, every command with --json output so scripts and AI agents can consume it',
+        'Native binaries via bun build --compile for Mac, Linux (WSL) and Windows',
+        'One token per machine, stored as a SHA-256 hash and checked in constant time',
+        'Supabase RLS locks down the public REST API; CI runs tests against a real Postgres',
+        'No background processes: every entry is explicit, a decision recorded as an ADR',
+      ],
+    },
+  },
+  {
+    slug: 'fleet-optimizer',
+    role: 'developed',
+    status: 'wip',
+    kind: 'professional',
+    period: { es: '2026', en: '2026' },
+    tags: [TAGS.NEXTJS, TAGS.REACT, TAGS.TYPESCRIPT, TAGS.RECHARTS],
+    title: { es: 'Optimizador de flota', en: 'Fleet Optimizer' },
+    description: {
+      es: 'Demo de programación de flota para una empresa de transporte de carga líquida, que hoy planea sus asignaciones en Excel. Un motor determinista en TypeScript asigna cada solicitud al vehículo óptimo por compatibilidad, capacidad, disponibilidad y un puntaje ponderado. La IA queda fuera del núcleo: solo sugiere después de optimizar.',
+      en: 'Fleet-scheduling demo for a liquid-cargo transport company that plans its assignments in Excel today. A deterministic TypeScript engine assigns each request to the best vehicle by compatibility, capacity, availability and a weighted score. AI stays out of the core: it only suggests after optimization.',
+    },
+    highlights: {
+      es: [
+        'Motor de optimización determinista y auditable: las reglas de negocio viven en código, no en un modelo',
+        'Compatibilidad producto × producto (qué cargó antes el tanque) con una matriz de 2.862 pares sobre 132 productos',
+        'El hallazgo en los datos reales obligó a reescribir el PDD a la v2 antes de seguir construyendo',
+        'IA detrás de una interfaz intercambiable, usada solo para recomendaciones posteriores a la optimización',
+        'Importación y exportación de Excel para convivir con el flujo actual del equipo de operaciones',
+      ],
+      en: [
+        'Deterministic, auditable optimization engine: business rules live in code, not in a model',
+        'Product × product compatibility (what the tank carried before) with a 2,862-pair matrix over 132 products',
+        'A finding in the real data forced a rewrite of the PDD to v2 before building further',
+        'AI behind a swappable interface, used only for post-optimization recommendations',
+        'Excel import and export to fit the operations team\'s current workflow',
+      ],
+    },
+  },
+  {
+    slug: 'engineering-studio-site',
+    role: 'developed',
+    status: 'wip',
+    kind: 'personal',
+    period: { es: '2026', en: '2026' },
+    tags: [TAGS.NEXTJS, TAGS.REACT, TAGS.TYPESCRIPT, TAGS.TAILWINDCSS],
+    title: {
+      es: 'Sitio de estudio de ingeniería',
+      en: 'Engineering Studio Website',
+    },
+    description: {
+      es: 'Reconstrucción del sitio de un estudio de ingeniería estructural y BIM. El sitio anterior era una SPA que servía HTML vacío y no aparecía en buscadores; el nuevo renderiza todo en el servidor, suma un cotizador por pasos que califica el brief técnico y un visor 3D de modelos con three.js.',
+      en: 'Rebuild of a structural engineering and BIM studio\'s website. The old site was an SPA that served empty HTML and never showed up in search; the new one renders everything on the server, adds a step-by-step quote wizard that qualifies the technical brief and a 3D model viewer with three.js.',
+    },
+    highlights: {
+      es: [
+        'Home con LCP de 0,87 s, CLS de 0 y TBT de 40 ms en Lighthouse móvil (Slow 4G y CPU 4× más lenta)',
+        'HTML de la home de 35 kB comprimido y renderizado por completo en el servidor',
+        'Visor 3D con three.js cargado bajo demanda: la página pesa 328 kB antes de cargarlo',
+        'Interruptores de lanzamiento en código (indexación, assets, revisión legal y precios) en lugar de TODOs',
+        'Pruebas end-to-end con Playwright y auditoría de accesibilidad con axe-core',
+      ],
+      en: [
+        'Home page LCP of 0.87 s, CLS of 0 and TBT of 40 ms on mobile Lighthouse (Slow 4G, 4× CPU slowdown)',
+        'Home HTML at 35 kB compressed, fully server-rendered',
+        'three.js 3D viewer loaded on demand: the page weighs 328 kB before it loads',
+        'Launch switches in code (indexing, assets, legal review and pricing) instead of TODOs',
+        'End-to-end tests with Playwright and accessibility audits with axe-core',
       ],
     },
   },

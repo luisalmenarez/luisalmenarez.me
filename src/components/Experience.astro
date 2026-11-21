@@ -2,7 +2,7 @@
 import ArrowOutward from './icons/ArrowOutward.astro';
 import ArrowDown from './icons/ArrowDown.astro';
 import { EXPERIENCE } from '@/data/experience';
-import { useTranslations } from '@/i18n';
+import { getLocalizedPath, useTranslations } from '@/i18n';
 import type { Locale } from '@/i18n';
 
 interface Props {
@@ -56,19 +56,25 @@ const monthYear = (isoMonth: string): string => {
           <h3>
             <div class="inline-flex items-center text-xl text-balance leading-tight">
               <span>
-                {experience.title}
-                <a
-                  class="group/more text-indigo-600 dark:text-indigo-400 font-bold inline-flex items-center gap-1"
-                  href={experience.companyUrl}
-                  title={`${t('experience.view')} ${experience.company}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {experience.company}
-                  <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
-                    <ArrowOutward class="size-6" />
+                {experience.title[lang]}
+                {experience.companyUrl ? (
+                  <a
+                    class="group/more text-indigo-600 dark:text-indigo-400 font-bold inline-flex items-center gap-1"
+                    href={experience.companyUrl}
+                    title={`${t('experience.view')} ${experience.company}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {experience.company}
+                    <span class="group-hover/more:translate-x-0.5 group-hover/more:-translate-y-0.5 duration-200 ease-out">
+                      <ArrowOutward class="size-6" />
+                    </span>
+                  </a>
+                ) : (
+                  <span class="text-indigo-600 dark:text-indigo-400 font-bold">
+                    {experience.company}
                   </span>
-                </a>
+                )}
               </span>
             </div>
           </h3>
@@ -83,6 +89,15 @@ const monthYear = (isoMonth: string): string => {
                   {experience.summary[lang]}
                 </li>
               </ul>
+              {experience.caseStudy && (
+                <a
+                  href={getLocalizedPath(`/proyectos/${experience.caseStudy}/`, lang)}
+                  class="group/cs w-fit mt-1 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline underline-offset-2 transition-colors"
+                >
+                  {t('experience.caseStudy')}
+                  <ArrowOutward class="size-4 group-hover/cs:translate-x-0.5 group-hover/cs:-translate-y-0.5 duration-200 ease-out" />
+                </a>
+              )}
             </div>
 
             <details

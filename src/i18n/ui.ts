@@ -9,7 +9,7 @@
 const es = {
   'meta.title': 'Luis Almenarez - Inicio',
   'meta.description':
-    'Luis Almenarez (Lucho) — Full Stack Developer en Colombia. +4 años construyendo aplicaciones web modernas con Next.js, TypeScript y Node.js, y orquestando flujos de automatización con n8n.',
+    'Luis Almenarez (Lucho) — Desarrollador Fullstack Senior en Colombia. Integraciones con HubSpot, Next.js y TypeScript; lidero equipos y agentes de IA para llevar sistemas a producción.',
   'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
   'nav.experience': 'Experiencia',
   'nav.projects': 'Proyectos',
@@ -31,9 +31,11 @@ const es = {
   'section.projects': 'Proyectos',
   'section.about': 'Sobre mi',
   'section.credentials': 'Credenciales',
+  'section.ai': 'Cómo trabajo con agentes de IA',
+  'section.skills': 'Habilidades',
   'aside.badge': 'Software Engineer',
   'aside.description':
-    '+4 años desarrollando aplicaciones web modernas con React, Next.js y TypeScript, y orquestando flujos de automatización con n8n. Enfocado en crear soluciones escalables y eliminar procesos manuales en proyectos de alto impacto. Rionegro, Antioquia, Colombia 🇨🇴',
+    'Desarrollador Fullstack Senior · integraciones con HubSpot · lidero equipos y agentes de IA para llevar sistemas a producción. Rionegro, Antioquia, Colombia 🇨🇴',
   'aside.downloadCV': 'Descargar CV',
   'experience.summary': 'Resumen:',
   'experience.responsibilities': 'Responsabilidades:',
@@ -42,11 +44,22 @@ const es = {
   'experience.showLess': 'Mostrar menos',
   'experience.present': 'Actualidad',
   'experience.view': 'Ver',
+  'experience.caseStudy': 'Ver el case study',
+  'ai.intro':
+    'Dirijo el desarrollo con varias sesiones de agentes de IA a la vez. Lo he hecho en una migración en producción y en la puesta al día de un portal, y en los dos casos funciona por las mismas reglas:',
+  'ai.parallel':
+    'Varias sesiones en paralelo, cada una con su frente, su rama o worktree y sus propios archivos.',
+  'ai.reviewer': 'Una sesión revisora que fusiona los cambios de a uno y en orden.',
+  'ai.production':
+    'Los agentes no tocan producción. Los scripts de producción tienen modo «ver» y modo «aplicar» con respaldo, y los corro yo.',
+  'ai.checks':
+    'Cuando hay que acelerar, las verificaciones locales son obligatorias: typecheck, lint, pruebas y build antes de fusionar.',
   'projects.features': 'Características:',
   'projects.showMore': 'Mostrar más',
   'projects.showLess': 'Mostrar menos',
   'projects.backToList': 'Volver a proyectos',
   'projects.technologies': 'Tecnologías',
+  'projects.flow': 'El flujo, de punta a punta',
   'projects.viewGithub': 'Ver en GitHub',
   'projects.visitSite': 'Visitar sitio',
   'projects.role.developed': 'Construido',
@@ -75,13 +88,13 @@ const es = {
   'about.p2':
     'He trabajado en proyectos donde <strong>los equipos reducían semanas de trabajo a días con las herramientas correctas, y donde procesos manuales simplemente dejaban de existir.</strong> Eso es lo que me motiva: ver el impacto directo de lo que se construye.',
   'about.p3':
-    'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Full Stack Developer en PrevalentWare</strong>, principalmente con React, Next.js y TypeScript. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
+    'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Desarrollador Fullstack Senior en NGDS</strong>, principalmente con Next.js, TypeScript y HubSpot. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
 } as const;
 
 const en: Record<keyof typeof es, string> = {
   'meta.title': 'Luis Almenarez - Home',
   'meta.description':
-    'Luis Almenarez (Lucho) — Full Stack Developer based in Colombia. 4+ years shipping modern web apps with Next.js, TypeScript and Node.js, and orchestrating automation workflows with n8n.',
+    'Luis Almenarez (Lucho) — Senior Full Stack Developer based in Colombia. HubSpot integrations, Next.js and TypeScript; I lead teams and AI agents to take systems to production.',
   'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
   'nav.experience': 'Experience',
   'nav.projects': 'Projects',
@@ -103,9 +116,11 @@ const en: Record<keyof typeof es, string> = {
   'section.projects': 'Projects',
   'section.about': 'About me',
   'section.credentials': 'Credentials',
+  'section.ai': 'How I work with AI agents',
+  'section.skills': 'Skills',
   'aside.badge': 'Software Engineer',
   'aside.description':
-    '+4 years building modern web applications with React, Next.js, and TypeScript, and orchestrating automation workflows with n8n. Focused on shipping scalable solutions and eliminating manual processes in high-impact projects. Rionegro, Antioquia, Colombia 🇨🇴',
+    'Senior Full Stack Developer · HubSpot integrations · I lead teams and AI agents to take systems to production. Rionegro, Antioquia, Colombia 🇨🇴',
   'aside.downloadCV': 'Download CV',
   'experience.summary': 'Summary:',
   'experience.responsibilities': 'Responsibilities:',
@@ -114,11 +129,22 @@ const en: Record<keyof typeof es, string> = {
   'experience.showLess': 'Show less',
   'experience.present': 'Present',
   'experience.view': 'View',
+  'experience.caseStudy': 'Read the case study',
+  'ai.intro':
+    'I drive development with several AI agent sessions at once. I have done it on a production migration and on a portal catch-up, and both times it works on the same rules:',
+  'ai.parallel':
+    'Several sessions in parallel, each with its own front, its own branch or worktree and its own files.',
+  'ai.reviewer': 'One reviewer session that merges the changes one at a time, in order.',
+  'ai.production':
+    'Agents do not touch production. Production scripts have a "preview" and an "apply" mode with a backup, and I run them myself.',
+  'ai.checks':
+    'When we need to speed up, local checks are mandatory: typecheck, lint, tests and build before merging.',
   'projects.features': 'Features:',
   'projects.showMore': 'Show more',
   'projects.showLess': 'Show less',
   'projects.backToList': 'Back to projects',
   'projects.technologies': 'Technologies',
+  'projects.flow': 'The flow, end to end',
   'projects.viewGithub': 'View on GitHub',
   'projects.visitSite': 'Visit site',
   'projects.role.developed': 'Built',
@@ -146,7 +172,7 @@ const en: Record<keyof typeof es, string> = {
   'about.p2':
     "I've worked on projects where <strong>teams cut weeks of work down to days with the right tools, and where manual processes simply ceased to exist.</strong> That's what drives me: seeing the direct impact of what we build.",
   'about.p3':
-    'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Full Stack Developer at PrevalentWare</strong>, mainly with React, Next.js, and TypeScript. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
+    'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Senior Full Stack Developer at NGDS</strong>, mainly with Next.js, TypeScript and HubSpot. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
 };
 
 export const ui = { es, en } as const;

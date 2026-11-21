@@ -1,0 +1,20 @@
+---
+import { SKILLS } from '@/data/skills';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+---
+
+<ul class="flex flex-wrap gap-2">
+  {
+    SKILLS[lang].map((skill) => (
+      <li class="text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-500/30 bg-indigo-500/5 px-3 py-1.5 text-sm border rounded-full">
+        {skill}
+      </li>
+    ))
+  }
+</ul>

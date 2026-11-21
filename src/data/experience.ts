@@ -4,9 +4,11 @@ type Localized<T> = Record<Locale, T>;
 
 interface ExperienceEntry {
   company: string;
-  companyUrl: string;
-  /** Identical across locales for every entry so far; localize if that changes. */
-  title: string;
+  /** Optional: without it the company renders as plain text instead of a link. */
+  companyUrl?: string;
+  title: Localized<string>;
+  /** Slug of a project page that tells this role's main work as a case study. */
+  caseStudy?: string;
   /** `end: null` means the role is current. Formatting belongs to the view. */
   dateISO: { start: string; end: string | null };
   technologies: string[];
@@ -27,24 +29,86 @@ interface ExperienceEntry {
  */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
+    // Under NDA: the client is only ever "a lease-insurance company in Colombia".
+    // No client or brand names, domains, repos, internal IDs, rates or people.
+    company: 'NGDS',
+    title: {
+      es: 'Desarrollador Fullstack HubSpot (Senior) · Líder técnico de integraciones',
+      en: 'Senior Full Stack HubSpot Developer · Integrations Tech Lead',
+    },
+    caseStudy: 'migracion-arrendamiento-hubspot',
+    dateISO: { start: '2026-09', end: null },
+    technologies: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Node.js',
+      'Bun',
+      'HubSpot CRM',
+      'SQL Server',
+      'Azure (AKS, Key Vault)',
+      'Helm',
+      'GitHub Actions',
+      'Wompi',
+      'Playwright',
+      'Claude Code',
+    ],
+    location: {
+      es: 'Bogotá, Colombia · Remoto',
+      en: 'Bogotá, Colombia · Remote',
+    },
+    summary: {
+      es:
+        'Lidero las integraciones con HubSpot para una aseguradora de arrendamientos en Colombia. Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
+      en:
+        'I lead the HubSpot integrations for a lease-insurance company in Colombia. I coordinate a team of 5 people and set the testing and review guidelines for QA.',
+    },
+    responsibilities: {
+      es: [
+        'Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
+        'Dirijo el desarrollo con varios agentes de IA en paralelo, reviso y fusiono los cambios, y corro yo los scripts y despliegues de producción.',
+        'Diseñé pagos idempotentes con Wompi (webhook, retorno y barrido) y despliegues con interruptores apagados por defecto.',
+        'Organicé la puesta al día del portal de asesores para una demo con el CEO, coordinando 5 agentes de IA en paralelo.',
+      ],
+      en: [
+        'I coordinate a team of 5 people and set the testing and review guidelines for QA.',
+        'I drive development with several AI agents in parallel, review and merge the changes, and run the production scripts and deployments myself.',
+        'Designed idempotent payments with Wompi (webhook, return page and sweep) and deployments behind feature flags that ship off by default.',
+        'Organized the catch-up of the sales-advisor portal for a demo with the CEO, coordinating 5 AI agents in parallel.',
+      ],
+    },
+    achievements: {
+      es: [
+        'Llevé a producción (17-nov-2026) la migración del flujo de arrendamiento de un sistema legado a HubSpot: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión.',
+        'Cerré una fuga de ingresos: una clave de asesor había regalado 32 estudios en dos días.',
+        'Pasé el catálogo de asesores en HubSpot de 7 a 4.029 registros y automaticé el envío a emisión al firmar.',
+      ],
+      en: [
+        'Took to production (Nov 17, 2026) the migration of the lease flow from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance.',
+        'Closed a revenue leak: one advisor code had given away 32 screenings in two days.',
+        'Grew the advisor catalog in HubSpot from 7 to 4,029 records and automated the hand-off to issuance on signature.',
+      ],
+    },
+  },
+  {
     company: 'PrevalentWare S.A.S',
     companyUrl: 'https://prevalentware.com',
-    title: 'Full Stack Developer',
-    dateISO: { start: '2025-10', end: null },
+    title: { es: 'Full Stack Developer', en: 'Full Stack Developer' },
+    dateISO: { start: '2025-10', end: '2026-09' },
     technologies: [
+      'n8n',
       'Next.js',
       'React.js',
       'TypeScript',
       'Node.js',
+      'Bun',
       'AWS',
-      'n8n',
-      'SQL Server',
-      'MongoDB',
+      'AWS CDK',
+      'Prisma',
       'GraphQL',
-      'REST APIs',
-      'TailwindCSS',
+      'SQL Server',
+      'Python',
       'SharePoint',
-      'Agile/Scrum',
     ],
     location: {
       es: 'Envigado, Colombia · Remoto',
@@ -52,41 +116,41 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     summary: {
       es:
-        'Desarrollo e implementación de soluciones web y de automatización para clientes en LATAM, utilizando Next.js, TypeScript y AWS como stack principal.',
+        'Desarrollo de automatizaciones y soluciones web para clientes en LATAM, como recurso dedicado en un proyecto fintech, sobre n8n, Next.js, TypeScript y AWS.',
       en:
-        'Development and delivery of web and automation solutions for LATAM clients, using Next.js, TypeScript and AWS as the primary stack.',
+        'Automation and web solutions for LATAM clients, as a dedicated engineer on a fintech engagement, built on n8n, Next.js, TypeScript and AWS.',
     },
     responsibilities: {
       es: [
-        'Desarrollo full-stack con React, Next.js y TypeScript en frontend, complementado con Node.js y REST APIs en backend, desplegado sobre infraestructura AWS.',
-        'Diseño e implementación de arquitecturas escalables para aplicaciones web, con integración de bases de datos relacionales (SQL Server) y no relacionales (MongoDB).',
-        'Desarrollo e implementación de flujos de automatización complejos en n8n para procesos financieros y de liquidación, integrando SharePoint, SQL Server y reglas de negocio específicas del cliente.',
-        'Creación de documentación técnica exhaustiva: PDD, reglas de negocio, matrices de prueba y diagramas BPMN.',
-        'Participación activa en metodologías ágiles/Scrum, cumpliendo con sprints y entregables definidos.',
+        'Construcción, junto al Tech Lead, de un sistema en n8n que liquida las comisiones de más de 200 comisionistas con lógica tributaria y de seguridad social colombiana (retención en la fuente, ReteICA, ReteIVA, aportes a seguridad social).',
+        'Documentación de las reglas de negocio en un documento maestro versionado, con matrices de prueba, historias de usuario y diagramas BPMN.',
+        'Soporte y ajustes sobre una automatización RPA existente en Python y sobre bases SQL Server de otros clientes.',
+        'Desarrollo full-stack con Next.js, TypeScript, Prisma y GraphQL, desplegado en AWS con infraestructura como código (CDK y CloudFormation).',
       ],
       en: [
-        'Full-stack development with React, Next.js and TypeScript on the frontend, complemented by Node.js and REST APIs on the backend, deployed on AWS infrastructure.',
-        'Design and implementation of scalable architectures for web applications, integrating relational (SQL Server) and non-relational (MongoDB) databases.',
-        'Development and implementation of complex automation workflows in n8n for financial and settlement processes, integrating SharePoint, SQL Server and client-specific business rules.',
-        'Authoring of thorough technical documentation: PDD, business rules, test matrices and BPMN diagrams.',
-        'Active participation in agile/Scrum methodologies, meeting sprint deliverables and commitments.',
+        'Built, together with the Tech Lead, an n8n system that settles commissions for 200+ agents under Colombian tax and social-security rules (income-tax withholding, ICA and VAT withholding, social-security contributions).',
+        'Documented the business rules in a versioned master document, with test matrices, user stories and BPMN diagrams.',
+        'Supported and adjusted an existing Python RPA automation and SQL Server databases for other clients.',
+        'Full-stack development with Next.js, TypeScript, Prisma and GraphQL, deployed on AWS with infrastructure as code (CDK and CloudFormation).',
       ],
     },
     achievements: {
       es: [
-        'Automatización end-to-end de cálculos financieros y tributarios complejos mediante n8n, eliminando procesos manuales propensos a errores y reduciendo significativamente los tiempos de procesamiento.',
-        'Validación exitosa de un sistema de automatización financiera con múltiples escenarios de prueba, identificando y resolviendo bugs críticos antes de la puesta en producción.',
+        'Módulos de créditos y seguros llevados a producción y validados a lo largo de 7 cortes quincenales reales, con más de 60 reglas de negocio versionadas.',
+        'Solución a los límites de estado de n8n con una estrategia SQL previa al loop y estado compartido entre ejecuciones del mismo mes.',
+        'Evaluación técnica interna aprobada: infraestructura AWS aislada, 2 PRs mergeados con la suite de pruebas en verde y tres defectos del boilerplate corregidos (migraciones, cookies cross-domain y caché de permisos).',
       ],
       en: [
-        'End-to-end automation of complex financial and tax calculations via n8n, eliminating error-prone manual processes and significantly cutting processing times.',
-        'Successful validation of a financial automation system across multiple test scenarios, identifying and resolving critical bugs before production rollout.',
+        'Took the loans and insurance modules to production, validated across 7 real biweekly settlement cycles with 60+ versioned business rules.',
+        'Worked around n8n\'s state limits with a pre-loop SQL strategy and state shared across executions within the same month.',
+        'Passed an internal technical evaluation: isolated AWS infrastructure, 2 merged PRs with a green test suite and three boilerplate defects fixed (migrations, cross-domain cookies and permission caching).',
       ],
     },
   },
   {
     company: 'Esinergia S.A.S',
     companyUrl: 'https://esinergia.co',
-    title: 'Frontend Developer',
+    title: { es: 'Frontend Developer', en: 'Frontend Developer' },
     dateISO: { start: '2024-09', end: '2025-10' },
     technologies: [
       'React.js',
@@ -143,7 +207,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
   {
     company: 'Coordinadora de Tanques S.A.S',
     companyUrl: 'https://coorditanques.com',
-    title: 'Software Developer',
+    title: { es: 'Software Developer', en: 'Software Developer' },
     dateISO: { start: '2022-09', end: '2024-09' },
     technologies: [
       'Node.js',

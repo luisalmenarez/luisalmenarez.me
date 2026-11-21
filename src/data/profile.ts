@@ -19,7 +19,7 @@ const PHONE = '573013897707';
 export const PROFILE = {
   name: 'Luis Almenarez',
   alternateName: 'Lucho',
-  jobTitle: 'Full Stack Developer',
+  jobTitle: 'Senior Full Stack Developer',
   url: 'https://luisalmenarez.me',
   avatar: 'https://avatars.githubusercontent.com/u/125621759?v=4&s=512',
   email: 'luisalmenarez0428@gmail.com',
@@ -35,8 +35,7 @@ export const PROFILE = {
     country: 'CO',
   },
   worksFor: {
-    name: 'PrevalentWare S.A.S',
-    url: 'https://prevalentware.com',
+    name: 'NGDS',
   },
   knowsLanguage: ['es', 'en'],
   knowsAbout: [
@@ -46,6 +45,8 @@ export const PROFILE = {
     'Node.js',
     'Astro',
     'n8n',
+    'HubSpot',
+    'Azure',
     'AWS',
     'PostgreSQL',
     'SQL Server',
@@ -90,7 +91,6 @@ export function buildPersonSchema({ lang, description }: PersonSchemaInput) {
     worksFor: {
       '@type': 'Organization',
       name: PROFILE.worksFor.name,
-      url: PROFILE.worksFor.url,
     },
     alumniOf,
     knowsLanguage: [...PROFILE.knowsLanguage],
