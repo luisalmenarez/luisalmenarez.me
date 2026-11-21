@@ -21,6 +21,13 @@ export interface ProjectCompany {
   url?: string;
 }
 
+/** One block of a long-form case study: a heading, then prose and/or a list. */
+export interface CaseStudySection {
+  heading: string;
+  body?: string;
+  items?: string[];
+}
+
 export interface ProjectEntry {
   slug: string;
   role: ProjectRole;
@@ -36,6 +43,10 @@ export interface ProjectEntry {
   title: Localized<string>;
   description: Localized<string>;
   highlights: Localized<string[]>;
+  /** Ordered steps drawn as a simple flow diagram on the project page. */
+  flow?: Localized<string[]>;
+  /** When present, the project page renders these sections instead of the plain highlight list. */
+  caseStudy?: Localized<CaseStudySection[]>;
 }
 
 /**
@@ -72,6 +83,189 @@ export const STATUS_CLASS: Record<keyof typeof STATUS_LABEL, string> = {
 };
 
 export const PROJECTS: ProjectEntry[] = [
+  {
+    // Under NDA: the client is only ever "a lease-insurance company in Colombia".
+    // No client or brand names, domains, repos, PR numbers, IDs, rates, people
+    // or screenshots. Every figure comes from the project write-up; do not add more.
+    slug: 'migracion-arrendamiento-hubspot',
+    role: 'team',
+    status: 'live',
+    kind: 'professional',
+    period: { es: '2026 - Actualidad', en: '2026 - Present' },
+    featured: true,
+    company: {
+      name: 'NGDS',
+      description: {
+        es: 'Aseguradora de arrendamientos en Colombia',
+        en: 'Lease-insurance company in Colombia',
+      },
+    },
+    tags: [
+      TAGS.HUBSPOT,
+      TAGS.NEXTJS,
+      TAGS.TYPESCRIPT,
+      TAGS.NODEJS,
+      TAGS.SQLSERVER,
+    ],
+    title: {
+      es: 'Migración del flujo de arrendamiento a HubSpot',
+      en: 'Migrating a lease flow to HubSpot',
+    },
+    description: {
+      es: 'Migré de un sistema legado a HubSpot el flujo completo de arrendamiento de una aseguradora de arrendamientos en Colombia: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión. Lo llevé a producción el 17 de noviembre de 2026 y lo estabilicé, liderando el desarrollo con agentes de IA.',
+      en: 'I migrated the full lease flow of a lease-insurance company in Colombia from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance. I took it to production on November 17, 2026 and stabilized it, leading development with AI agents.',
+    },
+    highlights: {
+      es: [
+        'Flujo nuevo en producción desde el 17-nov-2026',
+        'Catálogo de asesores en HubSpot de 7 a 4.029 registros',
+        'Fuga de ingresos cerrada: la clave que había regalado 32 estudios en dos días ahora cobra el estudio',
+        'Emisión automática al firmar: 5 contratos detenidos salieron sin intervención manual',
+        '43 contactos corregidos y 8 contratos relanzados a firma con la dirección correcta',
+        '«Relanzar firma» pasó 3 de 3 pruebas de punta a punta en el sandbox, sobre una suite de 1.681 pruebas en verde',
+      ],
+      en: [
+        'New flow in production since Nov 17, 2026',
+        'Advisor catalog in HubSpot grew from 7 to 4,029 records',
+        'Revenue leak closed: the code that had given away 32 screenings in two days now charges for them',
+        'Automatic issuance on signature: 5 stalled contracts went out with no manual step',
+        '43 contacts corrected and 8 contracts re-sent for signature with the right address',
+        '"Relaunch signature" passed 3 of 3 end-to-end tests in the sandbox, on top of a 1,681-test suite in green',
+      ],
+    },
+    flow: {
+      es: [
+        'Radicación',
+        'Pago en línea',
+        'Motor de decisión',
+        'Contrato',
+        'Firma electrónica',
+        'Emisión',
+      ],
+      en: [
+        'Application',
+        'Online payment',
+        'Decision engine',
+        'Contract',
+        'E-signature',
+        'Issuance',
+      ],
+    },
+    caseStudy: {
+      es: [
+        {
+          heading: 'Contexto',
+          body: 'Una aseguradora de arrendamientos en Colombia operaba su flujo de arrendamiento sobre un sistema legado: una base SQL Server en un servidor local y un formulario web aparte. El flujo va de la radicación y el pago del estudio a la decisión del motor, la orden de contrato, la firma y la emisión de la póliza.',
+        },
+        {
+          heading: 'Problema',
+          body: 'El plan de migración iba retrasado, y el negocio necesitaba operar el flujo de punta a punta sobre HubSpot como CRM central, sin apagar de golpe lo legado. Después de salir a producción aparecieron fallas que costaban dinero y operación: asesores que no llegaban, estudios que salían gratis y contratos que había que corregir y volver a firmar.',
+        },
+        {
+          heading: 'Mi rol',
+          body: 'Soy el líder técnico del frente de integraciones entre HubSpot y el sistema legado. Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA. Diseñé y dirigí el desarrollo, la mayor parte con varias sesiones de agentes de IA en paralelo; revisé y fusioné los cambios, corrí yo los scripts y despliegues de producción paso a paso, y coordiné con el cliente y con los otros desarrolladores.',
+        },
+        {
+          heading: 'Arquitectura',
+          items: [
+            'Cola de salida a HubSpot: las apps escriben eventos en una tabla de salida con estados (pendiente, enviado, reintentar, agotado) y un único publicador los lleva a HubSpot cada 2 minutos. El flujo no depende de las caídas ni de los límites de la API de HubSpot, y un solo punto conoce el modelo del CRM.',
+            'Pagos confirmados por tres caminos idempotentes: webhook, página de retorno y barrido del servidor. El precio y la firma de integridad se calculan en el servidor y la persona paga en el checkout de Wompi, así que ningún dato de tarjeta pasa por nuestros servidores.',
+            'Interruptores por funcionalidad en los valores de Helm: cada cambio se despliega apagado y se prende aparte, con un OK explícito. Con el cliente operando en vivo, cualquier cambio se revierte sin otro despliegue.',
+          ],
+        },
+        {
+          heading: 'Qué hice',
+          items: [
+            'Llevé a producción el flujo nuevo: radicación con pago en línea, motor de decisión, solicitud y análisis en HubSpot, orden de contrato, firma electrónica y envío a emisión.',
+            'Cargué en HubSpot los 4.029 asesores activos del sistema legado y asocié el asesor a la solicitud, al análisis y al contrato.',
+            'Detecté que una clave de asesor daba el estudio gratis y la apagué con un interruptor de configuración.',
+            'Automaticé el envío a emisión: cuando firma el último firmante, el contrato pasa solo a emisión, sin visto bueno manual.',
+            'Construí «Relanzar firma» para el área de Contratos: anula el flujo de firma viejo, relanza con la fecha o la vigencia corregidas y le crea una tarea al dueño del contrato.',
+            'Escribí un script de revisión diaria de producción, de solo lectura: validación, firmas, emisión, asesores, la cola de salida a HubSpot y pagos aprobados sin solicitud.',
+            'Escribí para el cliente la especificación técnica de los pagos en línea.',
+            'Monté el CI en runners propios en Docker cuando se agotaron los minutos de GitHub Actions.',
+          ],
+        },
+        {
+          heading: 'Resultados',
+          items: [
+            'El flujo nuevo está en producción desde el 17-nov-2026.',
+            'El catálogo de asesores en HubSpot pasó de 7 registros a 4.029.',
+            'Se cerró una fuga de ingresos: la clave que había dado 32 estudios gratis en dos días ahora cobra el estudio.',
+            'La emisión quedó automática: 5 contratos detenidos salieron sin intervención manual.',
+            '43 contactos corregidos y 8 contratos relanzados a firma con la dirección correcta.',
+            '«Relanzar firma» pasó 3 de 3 pruebas de punta a punta en el sandbox, sobre una suite de 1.681 pruebas en verde.',
+            'Menos soporte manual: Contratos relanza firmas por su cuenta y hay revisión diaria de producción sin escribir en ella.',
+          ],
+        },
+        {
+          heading: 'Retos',
+          items: [
+            'Convivir con el legado: el formulario anterior seguía vivo con la misma cuenta de pagos y la misma URL de eventos, y los pagos nuevos no llegaban por webhook. Lo resolví con un barrido que consulta la pasarela y registra de forma idempotente, y con el reenvío al sistema viejo de los avisos que son suyos.',
+            'Operar producción con accesos restringidos: base de datos solo por VPN, bóveda de secretos con firewall por IP y la regla de que los agentes no tocan producción. Escribí scripts con modo «ver» y modo «aplicar», con respaldo y reversión, y los corrí yo paso a paso.',
+            'Varios agentes sobre un solo ambiente de dev: un merge mal planteado borró la rama compartida. La restauré y cambié la regla a pases desde ramas copia.',
+            'Relanzar firmas sin dejar enlaces viejos vivos: diseñé el relanzamiento con anulación del flujo anterior y con reglas de cuándo no relanzar.',
+          ],
+        },
+      ],
+      en: [
+        {
+          heading: 'Context',
+          body: 'A lease-insurance company in Colombia ran its lease flow on a legacy system: an on-premise SQL Server database and a separate web form. The flow goes from the application and the screening payment to the engine\'s decision, the contract order, the signature and the policy issuance.',
+        },
+        {
+          heading: 'Problem',
+          body: 'The migration plan was behind schedule, and the business needed to run the flow end to end on HubSpot as its central CRM without switching off the legacy system overnight. After go-live, failures showed up that cost money and operations: advisors that never arrived, screenings that went out free, and contracts that had to be corrected and signed again.',
+        },
+        {
+          heading: 'My role',
+          body: 'I am the tech lead for the integrations between HubSpot and the legacy system. I coordinate a team of 5 people and set the testing and review guidelines for QA. I designed and drove development, mostly with several AI agent sessions in parallel; I reviewed and merged the changes, ran the production scripts and deployments myself step by step, and coordinated with the client and the other developers.',
+        },
+        {
+          heading: 'Architecture',
+          items: [
+            'Outbox to HubSpot: the apps write events to an outbox table with states (pending, sent, retry, exhausted) and a single publisher pushes them to HubSpot every 2 minutes. The flow does not depend on HubSpot API outages or rate limits, and only one place knows the CRM model.',
+            'Payments confirmed through three idempotent paths: webhook, return page and a server-side sweep. The price and the integrity signature are computed on the server and the customer pays on Wompi\'s checkout, so no card data ever touches our servers.',
+            'Per-feature flags in the Helm values: every change ships off and is turned on separately, with an explicit OK. With the client operating live, any change can be rolled back without another deployment.',
+          ],
+        },
+        {
+          heading: 'What I did',
+          items: [
+            'Took the new flow to production: application with online payment, decision engine, request and analysis in HubSpot, contract order, e-signature and hand-off to issuance.',
+            'Loaded the 4,029 active advisors from the legacy system into HubSpot and linked the advisor to the request, the analysis and the contract.',
+            'Found that one advisor code made the screening free and switched it off with a configuration flag.',
+            'Automated the hand-off to issuance: when the last signer signs, the contract moves to issuance on its own, with no manual approval.',
+            'Built "Relaunch signature" for the Contracts team: it voids the old signing flow, relaunches it with the corrected date or term and creates a task for the contract owner.',
+            'Wrote a read-only daily production check: validation, signatures, issuance, advisors, the HubSpot outbox and approved payments without a request.',
+            'Wrote the technical specification of the online payments for the client.',
+            'Set up CI on self-hosted Docker runners when the GitHub Actions minutes ran out.',
+          ],
+        },
+        {
+          heading: 'Results',
+          items: [
+            'The new flow has been in production since Nov 17, 2026.',
+            'The advisor catalog in HubSpot grew from 7 records to 4,029.',
+            'A revenue leak was closed: the code that had given away 32 free screenings in two days now charges for them.',
+            'Issuance is now automatic: 5 stalled contracts went out with no manual step.',
+            '43 contacts corrected and 8 contracts re-sent for signature with the right address.',
+            '"Relaunch signature" passed 3 of 3 end-to-end tests in the sandbox, on top of a 1,681-test suite in green.',
+            'Less manual support: Contracts relaunches signatures on its own, and production gets a daily check that never writes to it.',
+          ],
+        },
+        {
+          heading: 'Challenges',
+          items: [
+            'Living with the legacy system: the old form was still live on the same payment account and the same events URL, and new payments never arrived by webhook. I solved it with a sweep that queries the gateway and records payments idempotently, and by forwarding to the old system the notifications that belong to it.',
+            'Running production with restricted access: database only over VPN, a secrets vault behind an IP firewall and the rule that agents do not touch production. I wrote scripts with a "preview" and an "apply" mode, with backup and rollback, and ran them myself step by step.',
+            'Several agents on a single dev environment: a badly set-up merge deleted the shared branch. I restored it and changed the rule to promote from copy branches.',
+            'Relaunching signatures without leaving old links alive: I designed the relaunch to void the previous flow, with rules for when not to relaunch.',
+          ],
+        },
+      ],
+    },
+  },
   {
     slug: 'gymplate',
     role: 'developed',

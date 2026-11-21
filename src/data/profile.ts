@@ -19,7 +19,7 @@ const PHONE = '573013897707';
 export const PROFILE = {
   name: 'Luis Almenarez',
   alternateName: 'Lucho',
-  jobTitle: 'Full Stack Developer',
+  jobTitle: 'Senior Full Stack Developer',
   url: 'https://luisalmenarez.me',
   avatar: 'https://avatars.githubusercontent.com/u/125621759?v=4&s=512',
   email: 'luisalmenarez0428@gmail.com',
@@ -46,6 +46,7 @@ export const PROFILE = {
     'Astro',
     'n8n',
     'HubSpot',
+    'Azure',
     'AWS',
     'PostgreSQL',
     'SQL Server',

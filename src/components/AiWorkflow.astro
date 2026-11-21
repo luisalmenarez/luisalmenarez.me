@@ -1,0 +1,29 @@
+---
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as const;
+---
+
+<div class="flex flex-col gap-5 text-pretty">
+  <p class="text-zinc-700 dark:text-zinc-300">{t('ai.intro')}</p>
+  <ol class="sm:grid-cols-2 grid grid-cols-1 gap-3">
+    {
+      RULES.map((key, index) => (
+        <li class="border-zinc-200 dark:border-zinc-800 bg-white/40 dark:bg-zinc-900/40 flex gap-3 p-4 border rounded-lg">
+          <span class="text-indigo-600 dark:text-indigo-400 font-mono text-sm font-bold">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <span class="text-zinc-700 dark:text-zinc-300 text-sm">{t(key)}</span>
+        </li>
+      ))
+    }
+  </ol>
+</div>

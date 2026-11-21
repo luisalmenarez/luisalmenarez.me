@@ -43,6 +43,8 @@ const t = useTranslations(lang);
 const title = project.title[lang];
 const description = project.description[lang];
 const highlights = project.highlights[lang];
+const flow = project.flow?.[lang];
+const caseStudy = project.caseStudy?.[lang];
 const statusKey =
   project.status in STATUS_LABEL
     ? (project.status as keyof typeof STATUS_LABEL)
@@ -151,19 +153,67 @@ const ogImageSize = project.image
         {description}
       </p>
 
-      <section class="mb-10">
-        <h2 class="mb-4 text-xl font-semibold">{t('projects.features')}</h2>
-        <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
-          {
-            highlights.map((highlight) => (
-              <li class="flex items-start gap-3">
-                <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
-                <span class="text-pretty">{highlight}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
+      {
+        flow && (
+          <section class="mb-10" aria-labelledby="flow-heading">
+            <h2 id="flow-heading" class="mb-4 text-xl font-semibold">
+              {t('projects.flow')}
+            </h2>
+            <ol class="sm:flex-row sm:flex-wrap sm:items-center flex flex-col gap-2 text-sm">
+              {flow.map((step, index) => (
+                <li class="flex items-center gap-2">
+                  <span class="border-indigo-200 dark:border-indigo-500/30 bg-indigo-500/5 text-indigo-700 dark:text-indigo-300 inline-flex items-center gap-2 px-3 py-1.5 border rounded-lg">
+                    <span class="font-mono text-xs opacity-70">{index + 1}</span>
+                    {step}
+                  </span>
+                  {index < flow.length - 1 && (
+                    <span class="text-zinc-400 sm:inline hidden" aria-hidden="true">
+                      →
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )
+      }
+
+      {
+        caseStudy ? (
+          caseStudy.map((section) => (
+            <section class="mb-10">
+              <h2 class="mb-4 text-xl font-semibold">{section.heading}</h2>
+              {section.body && (
+                <p class="text-zinc-700 dark:text-zinc-300 text-pretty text-base">
+                  {section.body}
+                </p>
+              )}
+              {section.items && (
+                <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
+                  {section.items.map((item) => (
+                    <li class="flex items-start gap-3">
+                      <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
+                      <span class="text-pretty">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))
+        ) : (
+          <section class="mb-10">
+            <h2 class="mb-4 text-xl font-semibold">{t('projects.features')}</h2>
+            <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
+              {highlights.map((highlight) => (
+                <li class="flex items-start gap-3">
+                  <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
+                  <span class="text-pretty">{highlight}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
 
       <section class="mb-10">
         <h2 class="mb-4 text-xl font-semibold">{t('projects.technologies')}</h2>

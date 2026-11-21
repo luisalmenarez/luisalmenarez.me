@@ -19,6 +19,7 @@ import Postgres from '@/components/icons/Postgres.astro';
 import PWA from '@/components/icons/PWA.astro';
 import N8N from '@/components/icons/N8N.astro';
 import AWS from '@/components/icons/AWS.astro';
+import Hub from '@/components/icons/Hub.astro';
 
 
 export const TAGS = {
@@ -126,5 +127,10 @@ export const TAGS = {
       name: 'AWS',
       class: 'bg-orange-700 text-white',
       icon: AWS,
+    },
+    HUBSPOT: {
+      name: 'HubSpot',
+      class: 'bg-orange-600 text-white',
+      icon: Hub,
     },
   };

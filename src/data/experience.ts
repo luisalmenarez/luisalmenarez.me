@@ -6,8 +6,9 @@ interface ExperienceEntry {
   company: string;
   /** Optional: without it the company renders as plain text instead of a link. */
   companyUrl?: string;
-  /** Identical across locales for every entry so far; localize if that changes. */
-  title: string;
+  title: Localized<string>;
+  /** Slug of a project page that tells this role's main work as a case study. */
+  caseStudy?: string;
   /** `end: null` means the role is current. Formatting belongs to the view. */
   dateISO: { start: string; end: string | null };
   technologies: string[];
@@ -28,21 +29,29 @@ interface ExperienceEntry {
  */
 export const EXPERIENCE: ExperienceEntry[] = [
   {
-    // Under NDA: no client names, internal systems or identifiable architecture.
+    // Under NDA: the client is only ever "a lease-insurance company in Colombia".
+    // No client or brand names, domains, repos, internal IDs, rates or people.
     company: 'NGDS',
-    title: 'Full Stack Developer',
+    title: {
+      es: 'Desarrollador Fullstack HubSpot (Senior) · Líder técnico de integraciones',
+      en: 'Senior Full Stack HubSpot Developer · Integrations Tech Lead',
+    },
+    caseStudy: 'migracion-arrendamiento-hubspot',
     dateISO: { start: '2026-09', end: null },
     technologies: [
       'Next.js',
-      'React.js',
+      'React',
       'TypeScript',
       'Node.js',
-      'HubSpot',
+      'Bun',
+      'HubSpot CRM',
       'SQL Server',
-      'REST APIs',
-      'TailwindCSS',
+      'Azure (AKS, Key Vault)',
+      'Helm',
       'GitHub Actions',
-      'Agile/Scrum',
+      'Wompi',
+      'Playwright',
+      'Claude Code',
     ],
     location: {
       es: 'Bogotá, Colombia · Remoto',
@@ -50,41 +59,41 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     summary: {
       es:
-        'Desarrollo full-stack en una consultora de transformación digital: portales web, integraciones con CRM y migración de sistemas legacy para clientes empresariales.',
+        'Lidero las integraciones con HubSpot para una aseguradora de arrendamientos en Colombia. Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
       en:
-        'Full-stack development at a digital transformation consultancy: web portals, CRM integrations and legacy-system migrations for enterprise clients.',
+        'I lead the HubSpot integrations for a lease-insurance company in Colombia. I coordinate a team of 5 people and set the testing and review guidelines for QA.',
     },
     responsibilities: {
       es: [
-        'Liderazgo técnico de un portal web para la red comercial de un cliente, sobre un monorepo en Next.js y TypeScript pensado para alojar varios portales.',
-        'Migración de datos de un sistema legacy en SQL Server hacia HubSpot: homologación, normalización e integración de registros.',
-        'Migración de frontends legacy a Next.js manteniendo las reglas de negocio existentes.',
-        'Definición del estándar de desarrollo del equipo y del flujo de pull requests: revisión asistida por IA, validación de un compañero y merge.',
-        'Administración de la organización de GitHub del proyecto con acceso por equipos.',
+        'Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
+        'Dirijo el desarrollo con varios agentes de IA en paralelo, reviso y fusiono los cambios, y corro yo los scripts y despliegues de producción.',
+        'Diseñé pagos idempotentes con Wompi (webhook, retorno y barrido) y despliegues con interruptores apagados por defecto.',
+        'Organicé la puesta al día del portal de asesores para una demo con el CEO, coordinando 5 agentes de IA en paralelo.',
       ],
       en: [
-        'Technical lead of a web portal for a client\'s sales network, built on a Next.js and TypeScript monorepo designed to host several portals.',
-        'Data migration from a legacy SQL Server system into HubSpot: mapping, normalization and record integration.',
-        'Migration of legacy frontends to Next.js while preserving the existing business rules.',
-        'Definition of the team\'s development standard and pull-request flow: AI-assisted review, peer approval and merge.',
-        'Administration of the project\'s GitHub organization with team-based access.',
+        'I coordinate a team of 5 people and set the testing and review guidelines for QA.',
+        'I drive development with several AI agents in parallel, review and merge the changes, and run the production scripts and deployments myself.',
+        'Designed idempotent payments with Wompi (webhook, return page and sweep) and deployments behind feature flags that ship off by default.',
+        'Organized the catch-up of the sales-advisor portal for a demo with the CEO, coordinating 5 AI agents in parallel.',
       ],
     },
     achievements: {
       es: [
-        'Integración de registros hacia HubSpot en producción durante el primer mes en la compañía.',
-        'Base de monorepo reutilizable que permite arrancar nuevos portales del cliente sin rehacer la infraestructura.',
+        'Llevé a producción (17-nov-2026) la migración del flujo de arrendamiento de un sistema legado a HubSpot: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión.',
+        'Cerré una fuga de ingresos: una clave de asesor había regalado 32 estudios en dos días.',
+        'Pasé el catálogo de asesores en HubSpot de 7 a 4.029 registros y automaticé el envío a emisión al firmar.',
       ],
       en: [
-        'Shipped a record integration into HubSpot to production within the first month at the company.',
-        'Reusable monorepo foundation that lets new client portals start without rebuilding the infrastructure.',
+        'Took to production (Nov 17, 2026) the migration of the lease flow from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance.',
+        'Closed a revenue leak: one advisor code had given away 32 screenings in two days.',
+        'Grew the advisor catalog in HubSpot from 7 to 4,029 records and automated the hand-off to issuance on signature.',
       ],
     },
   },
   {
     company: 'PrevalentWare S.A.S',
     companyUrl: 'https://prevalentware.com',
-    title: 'Full Stack Developer',
+    title: { es: 'Full Stack Developer', en: 'Full Stack Developer' },
     dateISO: { start: '2025-10', end: '2026-09' },
     technologies: [
       'n8n',
@@ -141,7 +150,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
   {
     company: 'Esinergia S.A.S',
     companyUrl: 'https://esinergia.co',
-    title: 'Frontend Developer',
+    title: { es: 'Frontend Developer', en: 'Frontend Developer' },
     dateISO: { start: '2024-09', end: '2025-10' },
     technologies: [
       'React.js',
@@ -198,7 +207,7 @@ export const EXPERIENCE: ExperienceEntry[] = [
   {
     company: 'Coordinadora de Tanques S.A.S',
     companyUrl: 'https://coorditanques.com',
-    title: 'Software Developer',
+    title: { es: 'Software Developer', en: 'Software Developer' },
     dateISO: { start: '2022-09', end: '2024-09' },
     technologies: [
       'Node.js',

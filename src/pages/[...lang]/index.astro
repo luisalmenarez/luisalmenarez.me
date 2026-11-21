@@ -1,6 +1,10 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import AboutMe from '@/components/AboutMe.astro';
+import AiWorkflow from '@/components/AiWorkflow.astro';
+import Skills from '@/components/Skills.astro';
+import Sparkles from '@/components/icons/Sparkles.astro';
+import Tools from '@/components/icons/Tools.astro';
 import AwardIcon from '@/components/icons/Award.astro';
 import Briefcase from '@/components/icons/Briefcase.astro';
 import CodeIcon from '@/components/icons/Code.astro';
@@ -39,6 +43,22 @@ const t = useTranslations(lang);
         {t('section.projects')}
       </h2>
       <Projects lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="agentes-ia" class="w-full lg:w-[740px] mx-auto pb-20">
+      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
+        <Sparkles class="size-7" />
+        {t('section.ai')}
+      </h2>
+      <AiWorkflow lang={lang} />
+    </SectionContainer>
+
+    <SectionContainer id="habilidades" class="w-full lg:w-[740px] mx-auto pb-20">
+      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
+        <Tools class="size-7" />
+        {t('section.skills')}
+      </h2>
+      <Skills lang={lang} />
     </SectionContainer>
 
     <SectionContainer id="sobre-mi" class="w-full lg:w-[740px] mx-auto pb-20">
