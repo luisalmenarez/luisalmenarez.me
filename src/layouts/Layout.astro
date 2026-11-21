@@ -1,9 +1,11 @@
 ---
-import '@fontsource-variable/onest';
+import '@fontsource-variable/noto-serif-display/wght.css';
+import '@fontsource-variable/noto-serif-display/wght-italic.css';
+import '@fontsource-variable/hanken-grotesk';
+import '@fontsource/pixelify-sans/400.css';
 import '@/styles/global.css';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
-import Aside from '@/components/Aside.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
 import { useTranslations, getLocalizedPath, locales, defaultLocale } from '@/i18n';
 import { buildPersonSchema } from '@/data/profile';
 import type { Locale } from '@/i18n';
@@ -28,6 +30,8 @@ interface Props {
    * as a real, translated page.
    */
   noindex?: boolean;
+  /** Close the page with the full contact chapter (the home does). */
+  withContact?: boolean;
 }
 
 const {
@@ -39,6 +43,7 @@ const {
   ogImageAlt,
   schema,
   noindex,
+  withContact,
 } = Astro.props;
 const t = useTranslations(lang);
 
@@ -79,19 +84,9 @@ const structuredData =
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     {/* Matches the page background rather than the brand accent, so the browser
-    chrome blends into the page instead of framing it. Driven by the media query
-    so it stays right without JavaScript; a stored theme that contradicts the OS
-    preference is the one case this cannot follow. */}
-    <meta
-      name="theme-color"
-      content="#ffffff"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#0a0a0f"
-      media="(prefers-color-scheme: dark)"
-    />
+    chrome blends into the page instead of framing it. The site has one dark
+    theme, so one value covers every OS preference. */}
+    <meta name="theme-color" content="#111110" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
@@ -128,62 +123,30 @@ const structuredData =
       set:html={JSON.stringify(structuredData)}
     />
     <script is:inline>
-      (function () {
-        const stored = localStorage.getItem('theme');
-        if (
-          stored === 'dark' ||
-          (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)
-        ) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      })();
+      document.documentElement.classList.add('js');
     </script>
     <script>
       import { inject } from '@vercel/analytics';
       inject();
     </script>
   </head>
-  <body
-    class="print:block print:p-8 print:max-w-none print:bg-white print:text-black relative flex flex-col items-center max-w-7xl mx-auto sm:px-12 px-4 sm:py-20 py-14 bg-white dark:bg-[#0a0a0f] text-gray-900 dark:text-gray-100"
-  >
-    <div
-      class="print:hidden bg-[#ede8ff]/60 dark:bg-[#1d1f31] absolute top-[-6rem] -z-10 right-[11rem] h-[20rem] w-[20rem] rounded-full blur-[5rem] sm:w-[40rem] will-change-transform"
-    >
-    </div>
-    <div
-      class="print:hidden bg-[#e4e8ff]/50 dark:bg-[#181c26] absolute top-[-1rem] -z-10 left-[-20rem] h-[20rem] w-[30rem] rounded-full blur-[5rem] sm:w-[40rem] md:left-[-18rem] lg:left-[-14rem] xl:left-[-8rem] 2xl:left-[-3rem] will-change-transform"
-    >
-    </div>
-    <Header lang={lang} />
-    <div
-      class="print:block flex flex-col xl:flex-row justify-center items-start w-full gap-x-14"
-    >
-      <Aside lang={lang} />
-      <slot />
-    </div>
-    <Footer lang={lang} />
+  <body>
+    <SiteHeader lang={lang} />
+    <slot />
+    <SiteFooter lang={lang} withContact={withContact} />
+    <script>
+      // Reveal marked blocks once, as they enter the viewport.
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          }),
+        { rootMargin: '0px 0px -12% 0px' }
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>
-
-<style is:global>
-  :root {
-    color-scheme: light;
-  }
-
-  .dark {
-    color-scheme: dark;
-  }
-
-  html {
-    font-family: 'Onest variable', system-ui, sans-serif;
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-</style>

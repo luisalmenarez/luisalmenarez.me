@@ -1,0 +1,273 @@
+---
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import { PROFILE } from '@/data/profile';
+import { getLocalizedPath, useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+export interface IndexEntry {
+  href: string;
+  title: string;
+  dek?: string;
+  ghost: string;
+  page: string;
+  minor?: boolean;
+}
+
+interface Props {
+  lang: Locale;
+  entries: IndexEntry[];
+}
+
+const { lang, entries } = Astro.props;
+const t = useTranslations(lang);
+const cv = getLocalizedPath('/cv/', lang);
+---
+
+<section class="cover" aria-labelledby="cover-name">
+  <div class="ghost serif" aria-hidden="true" data-ghost></div>
+
+  <div class="who">
+    <h1 id="cover-name" class="name serif">
+      <span class="row"><span>Luis</span></span>
+      <span class="row"><span>Almenarez</span></span>
+    </h1>
+    <p class="lede serif" set:html={t('cover.lede')} />
+    <div class="cta">
+      <a class="pill" href={`mailto:${PROFILE.email}`}>
+        {t('cover.cta')}
+        <ArrowRight />
+      </a>
+      <span class="alt">
+        <a class="draw" href={cv}>{t('cover.cv')}</a>
+        <a class="draw" href={PROFILE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+        <a class="draw" href={PROFILE.social.github} target="_blank" rel="noopener">GitHub</a>
+      </span>
+    </div>
+  </div>
+
+  <nav class="toc" aria-label={t('a11y.index')}>
+    <div class="toc-head meta" aria-hidden="true">
+      <span>{t('index.label')}</span><span>{t('index.page')}</span>
+    </div>
+    <ol>
+      {
+        entries.map((entry) => (
+          <li>
+            <a href={entry.href} class:list={{ minor: entry.minor }} data-ghost-text={entry.ghost}>
+              <span class="t serif">
+                {entry.title}
+                {entry.dek && <small>{entry.dek}</small>}
+              </span>
+              <span class="dots" aria-hidden="true" />
+              <span class="p serif">{entry.page}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+
+  <span class="corner meta" aria-hidden="true">HubSpot · n8n · Next.js · TypeScript · SQL Server · Azure</span>
+  <span class="corner r meta" aria-hidden="true">{t('cover.scroll')} ↓</span>
+</section>
+
+<script>
+  // Hovering or focusing an index entry floods the cover with its proof, as a ghost.
+  const ghost = document.querySelector<HTMLElement>('[data-ghost]');
+  document.querySelectorAll<HTMLAnchorElement>('[data-ghost-text]').forEach((link) => {
+    const show = () => {
+      if (!ghost) return;
+      ghost.textContent = link.dataset.ghostText ?? '';
+      ghost.classList.add('on');
+    };
+    const hide = () => ghost?.classList.remove('on');
+    link.addEventListener('pointerenter', show);
+    link.addEventListener('focus', show);
+    link.addEventListener('pointerleave', hide);
+    link.addEventListener('blur', hide);
+  });
+</script>
+
+<style>
+  .cover {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 6vw;
+    align-items: center;
+    padding: 112px var(--gutter) 72px;
+  }
+
+  .ghost {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 0 var(--gutter);
+    pointer-events: none;
+    text-align: center;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(88px, 15vw, 240px);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    opacity: 0;
+    transform: scale(0.98);
+    transition:
+      opacity 0.5s var(--ease),
+      transform 0.8s var(--ease);
+  }
+  .ghost:global(.on) {
+    opacity: 0.07;
+    transform: none;
+  }
+
+  .who,
+  .toc {
+    position: relative;
+  }
+
+  .name {
+    font-weight: 400;
+    font-size: clamp(60px, 8vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+  .row {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+  .row > span {
+    display: inline-block;
+    animation: rise 1.2s var(--ease) both;
+  }
+  .row + .row > span {
+    animation-delay: 0.08s;
+  }
+  @keyframes rise {
+    from {
+      transform: translateY(110%);
+    }
+  }
+
+  .lede {
+    margin: 28px 0 0;
+    max-width: 21ch;
+    font-size: clamp(22px, 2vw, 30px);
+    line-height: 1.22;
+    animation: fade 1s 0.35s var(--ease) both;
+  }
+  .lede :global(em) {
+    color: var(--volt);
+  }
+
+  .cta {
+    margin-top: 34px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 22px;
+    align-items: center;
+    animation: fade 1s 0.5s var(--ease) both;
+  }
+  .alt {
+    display: flex;
+    gap: 18px;
+    color: var(--ink-2);
+  }
+  .alt a:hover {
+    color: var(--ink);
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  .toc {
+    animation: fade 1s 0.25s var(--ease) both;
+  }
+  .toc-head {
+    display: flex;
+    justify-content: space-between;
+    color: var(--ink-2);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+  }
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc a {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    align-items: baseline;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .t {
+    font-size: clamp(22px, 2.1vw, 32px);
+    line-height: 1.1;
+    transition:
+      color 0.3s,
+      transform 0.5s var(--ease);
+  }
+  .t small {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-text);
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .minor .t {
+    font-size: 20px;
+  }
+  .dots {
+    border-bottom: 1px dotted var(--rule-strong);
+    transform: translateY(-6px);
+  }
+  .p {
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-2);
+    font-variant-numeric: lining-nums tabular-nums;
+    transition: color 0.3s;
+  }
+  .toc a:hover .t,
+  .toc a:focus-visible .t {
+    color: var(--volt);
+    transform: translateX(8px);
+  }
+  .toc a:hover .p,
+  .toc a:focus-visible .p {
+    color: var(--volt);
+  }
+
+  .corner {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 22px;
+    color: var(--ink-2);
+  }
+  .corner.r {
+    left: auto;
+    right: var(--gutter);
+  }
+
+  @media (max-width: 900px) {
+    .cover {
+      grid-template-columns: 1fr;
+      gap: 56px;
+      padding-top: 104px;
+    }
+    .corner {
+      display: none;
+    }
+  }
+</style>

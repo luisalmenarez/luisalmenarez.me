@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # docs for proyects
 /docs
+# impeccable working files (decision sketches, review captures)
+.impeccable/mocks/
+.impeccable/review/
+.impeccable/build/

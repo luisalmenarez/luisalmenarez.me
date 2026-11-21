@@ -1,0 +1,106 @@
+---
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import ChapterHead from '@/components/ChapterHead.astro';
+import { PROJECTS, SELECTED_WORK } from '@/data/projects';
+import { getLocalizedPath, useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+  page: string;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const selected: readonly string[] = SELECTED_WORK;
+const rest = PROJECTS.filter((project) => !selected.includes(project.slug));
+---
+
+<section class="chapter" id="archivo" aria-labelledby="archive-title">
+  <ChapterHead page={page} label={t('chapter.archive')} pageLabel={t('index.page')} />
+  <h2 id="archive-title" class="sr-only">{t('chapter.archive')}</h2>
+  <ul class="list">
+    {
+      rest.map((project) => (
+        <li>
+          <a href={getLocalizedPath(`/proyectos/${project.slug}/`, lang)}>
+            <span class="name serif">{project.title[lang]}</span>
+            <span class="what">{project.company?.name ?? ''}</span>
+            <span class="when meta">{project.period[lang]}</span>
+            <span class="go" aria-hidden="true">
+              <ArrowRight />
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .chapter {
+    padding: 14vh var(--gutter) 0;
+    scroll-margin-top: 40px;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .list a {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr auto 24px;
+    gap: 24px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    transition: padding 0.5s var(--ease);
+  }
+  .name {
+    font-size: clamp(24px, 2.4vw, 36px);
+    line-height: 1.1;
+    transition: color 0.3s;
+  }
+  .what {
+    color: var(--ink-2);
+  }
+  .when {
+    color: var(--ink-3);
+  }
+  .go {
+    color: var(--ink-3);
+    transform: translateX(-6px);
+    opacity: 0;
+    transition:
+      opacity 0.3s,
+      transform 0.5s var(--ease);
+  }
+  .list a:hover {
+    padding-left: 12px;
+  }
+  .list a:hover .name {
+    color: var(--volt);
+  }
+  .list a:hover .go {
+    opacity: 1;
+    transform: none;
+    color: var(--volt);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  @media (max-width: 760px) {
+    .list a {
+      grid-template-columns: 1fr auto;
+    }
+    .what,
+    .go {
+      display: none;
+    }
+  }
+</style>

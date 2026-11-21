@@ -1,0 +1,119 @@
+---
+import { getLocalizedPath, locales, useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const home = getLocalizedPath('/', lang);
+---
+
+<header class="bar meta">
+  <a class="mark" href={home} aria-label={t('a11y.home')}>L. Almenarez</a>
+  <span class="edition" aria-hidden="true">
+    {t('edition.label')} · {t('edition.place')} <time data-clock>—</time>
+  </span>
+  <nav class="lang" aria-label={t('a11y.language')}>
+    {
+      locales.map((locale) => (
+        <a
+          href={getLocalizedPath(Astro.url.pathname, locale)}
+          lang={locale}
+          hreflang={locale}
+          aria-current={locale === lang ? 'true' : undefined}
+        >
+          {locale.toUpperCase()}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script>
+  // Local time in Rionegro: a small sign that a person, not a template, is on the other side.
+  const format = new Intl.DateTimeFormat('es-CO', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'America/Bogota',
+  });
+  const tick = () =>
+    document.querySelectorAll<HTMLElement>('[data-clock]').forEach((el) => {
+      el.textContent = format.format(new Date());
+    });
+  tick();
+  setInterval(tick, 15_000);
+
+  // A hairline under the bar once the page has moved, so it reads as a bar and not as a gap.
+  const bar = document.querySelector('.bar');
+  const onScroll = () => bar?.classList.toggle('scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<style>
+  .bar {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 18px var(--gutter);
+    background: var(--ground);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+  }
+  .bar:global(.scrolled) {
+    border-bottom-color: var(--rule);
+  }
+  .mark {
+    justify-self: start;
+    transition: color 0.3s;
+  }
+  .mark:hover {
+    color: var(--volt);
+  }
+  .edition {
+    color: var(--ink-2);
+  }
+  .lang {
+    justify-self: end;
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+  }
+  .lang a {
+    padding: 4px 11px 3px;
+    border-radius: 999px;
+    color: var(--ink-2);
+    transition:
+      color 0.3s,
+      background-color 0.3s;
+  }
+  .lang a:hover {
+    color: var(--ink);
+  }
+  .lang a[aria-current] {
+    background: var(--ink);
+    color: var(--ground);
+  }
+  @media (max-width: 640px) {
+    .edition {
+      display: none;
+    }
+    .bar {
+      grid-template-columns: 1fr auto;
+    }
+  }
+  @media print {
+    .bar {
+      display: none;
+    }
+  }
+</style>

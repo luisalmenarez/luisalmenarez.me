@@ -1,18 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import AboutMe from '@/components/AboutMe.astro';
-import AiWorkflow from '@/components/AiWorkflow.astro';
-import Skills from '@/components/Skills.astro';
-import Sparkles from '@/components/icons/Sparkles.astro';
-import Tools from '@/components/icons/Tools.astro';
-import AwardIcon from '@/components/icons/Award.astro';
-import Briefcase from '@/components/icons/Briefcase.astro';
-import CodeIcon from '@/components/icons/Code.astro';
-import Credentials from '@/components/Credentials.astro';
-import Experience from '@/components/Experience.astro';
-import ProfileCheck from '@/components/icons/ProfileCheck.astro';
-import Projects from '@/components/Projects.astro';
-import SectionContainer from '@/components/SectionContainer.astro';
+import ArchiveChapter from '@/components/ArchiveChapter.astro';
+import CaseChapter from '@/components/CaseChapter.astro';
+import Cover from '@/components/Cover.astro';
+import type { IndexEntry } from '@/components/Cover.astro';
+import HowChapter from '@/components/HowChapter.astro';
+import PathChapter from '@/components/PathChapter.astro';
+import { PROJECTS, SELECTED_WORK } from '@/data/projects';
 import { getLangFromUrl, useTranslations } from '@/i18n';
 import type { GetStaticPaths } from 'astro';
 
@@ -22,62 +16,42 @@ export const getStaticPaths = (() => {
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const cases = SELECTED_WORK.map((slug) => {
+  const project = PROJECTS.find((p) => p.slug === slug);
+  if (!project) throw new Error(`SELECTED_WORK lists an unknown project: ${slug}`);
+  return project;
+});
+
+// The cover is page 01; every chapter after it gets the next folio, so the
+// numbers in the index and the numbers on the chapters are the same sequence.
+const folio = (n: number) => String(n + 2).padStart(2, '0');
+const pages = {
+  path: folio(cases.length),
+  how: folio(cases.length + 1),
+  archive: folio(cases.length + 2),
+};
+
+const entries: IndexEntry[] = [
+  ...cases.map((project, i) => ({
+    href: `#${project.slug}`,
+    title: project.shortTitle?.[lang] ?? project.title[lang],
+    dek: project.dek?.[lang],
+    ghost: project.proof?.[lang] ?? project.title[lang],
+    page: folio(i),
+  })),
+  { href: '#trayectoria', title: t('chapter.path'), ghost: t('chapter.path.ghost'), page: pages.path, minor: true },
+  { href: '#como-trabajo', title: t('chapter.how'), ghost: t('chapter.how.ghost'), page: pages.how, minor: true },
+  { href: '#archivo', title: t('chapter.archive'), ghost: t('chapter.archive.ghost'), page: pages.archive, minor: true },
+];
 ---
 
-<Layout title={t('meta.title')} lang={lang}>
-  <main class="px-6 mx-auto">
-    <SectionContainer
-      id="experiencia"
-      class="w-full lg:w-[740px] mx-auto pb-20"
-    >
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <Briefcase class="size-7" />
-        {t('section.experience')}
-      </h2>
-      <Experience lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="proyectos" class="w-full lg:w-[740px] mx-auto pb-20">
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <CodeIcon class="size-7" />
-        {t('section.projects')}
-      </h2>
-      <Projects lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="agentes-ia" class="w-full lg:w-[740px] mx-auto pb-20">
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <Sparkles class="size-7" />
-        {t('section.ai')}
-      </h2>
-      <AiWorkflow lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="habilidades" class="w-full lg:w-[740px] mx-auto pb-20">
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <Tools class="size-7" />
-        {t('section.skills')}
-      </h2>
-      <Skills lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer id="sobre-mi" class="w-full lg:w-[740px] mx-auto pb-20">
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <ProfileCheck class="size-7" />
-        {t('section.about')}
-      </h2>
-      <AboutMe lang={lang} />
-    </SectionContainer>
-
-    <SectionContainer
-      id="credenciales"
-      class="w-full lg:w-[740px] mx-auto pb-20"
-    >
-      <h2 class="font-semi-bold gap-x-2 flex items-center mb-6 text-2xl">
-        <AwardIcon class="size-7" />
-        {t('section.credentials')}
-      </h2>
-      <Credentials lang={lang} />
-    </SectionContainer>
+<Layout title={t('meta.title')} lang={lang} withContact>
+  <main>
+    <Cover lang={lang} entries={entries} />
+    {cases.map((project, i) => <CaseChapter lang={lang} project={project} page={folio(i)} />)}
+    <PathChapter lang={lang} page={pages.path} />
+    <HowChapter lang={lang} page={pages.how} />
+    <ArchiveChapter lang={lang} page={pages.archive} />
   </main>
 </Layout>
