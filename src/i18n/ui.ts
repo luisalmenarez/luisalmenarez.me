@@ -9,7 +9,7 @@
 const es = {
   'meta.title': 'Luis Almenarez - Inicio',
   'meta.description':
-    'Luis Almenarez (Lucho) — Desarrollador Fullstack Senior en Colombia. Integraciones con HubSpot, Next.js y TypeScript; lidero equipos y agentes de IA para llevar sistemas a producción.',
+    'Luis Almenarez (Lucho) — Desarrollador Fullstack Senior en Colombia. Integraciones con HubSpot, Next.js y TypeScript; liderazgo de equipos y agentes de IA para llevar sistemas a producción.',
   'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
   'nav.experience': 'Experiencia',
   'nav.projects': 'Proyectos',
@@ -31,11 +31,11 @@ const es = {
   'section.projects': 'Proyectos',
   'section.about': 'Sobre mi',
   'section.credentials': 'Credenciales',
-  'section.ai': 'Cómo trabajo con agentes de IA',
+  'section.ai': 'Desarrollo con agentes de IA',
   'section.skills': 'Habilidades',
   'aside.badge': 'Software Engineer',
   'aside.description':
-    'Desarrollador Fullstack Senior · integraciones con HubSpot · lidero equipos y agentes de IA para llevar sistemas a producción. Rionegro, Antioquia, Colombia 🇨🇴',
+    'Desarrollador Fullstack Senior · integraciones con HubSpot · liderazgo de equipos y agentes de IA para llevar sistemas a producción. Rionegro, Antioquia, Colombia 🇨🇴',
   'aside.downloadCV': 'Descargar CV',
   'experience.summary': 'Resumen:',
   'experience.responsibilities': 'Responsabilidades:',
@@ -46,14 +46,15 @@ const es = {
   'experience.view': 'Ver',
   'experience.caseStudy': 'Ver el case study',
   'ai.intro':
-    'Dirijo el desarrollo con varias sesiones de agentes de IA a la vez. Lo he hecho en una migración en producción y en la puesta al día de un portal, y en los dos casos funciona por las mismas reglas:',
+    'Varias sesiones de agentes de IA en paralelo, aplicadas en una migración en producción y en la puesta al día de un portal, sobre cuatro reglas fijas:',
   'ai.parallel':
-    'Varias sesiones en paralelo, cada una con su frente, su rama o worktree y sus propios archivos.',
-  'ai.reviewer': 'Una sesión revisora que fusiona los cambios de a uno y en orden.',
+    'Sesiones en paralelo, cada una con su frente, su rama o worktree y sus propios archivos.',
+  'ai.reviewer':
+    'Una sesión revisora que fusiona los cambios de a uno y en orden.',
   'ai.production':
-    'Los agentes no tocan producción. Los scripts de producción tienen modo «ver» y modo «aplicar» con respaldo, y los corro yo.',
+    'Producción fuera del alcance de los agentes: los scripts de producción tienen modo «ver» y modo «aplicar» con respaldo, y se ejecutan a mano.',
   'ai.checks':
-    'Cuando hay que acelerar, las verificaciones locales son obligatorias: typecheck, lint, pruebas y build antes de fusionar.',
+    'Verificaciones locales obligatorias al acelerar: typecheck, lint, pruebas y build antes de fusionar.',
   'projects.features': 'Características:',
   'projects.showMore': 'Mostrar más',
   'projects.showLess': 'Mostrar menos',
@@ -94,7 +95,7 @@ const es = {
 const en: Record<keyof typeof es, string> = {
   'meta.title': 'Luis Almenarez - Home',
   'meta.description':
-    'Luis Almenarez (Lucho) — Senior Full Stack Developer based in Colombia. HubSpot integrations, Next.js and TypeScript; I lead teams and AI agents to take systems to production.',
+    'Luis Almenarez (Lucho) — Senior Full Stack Developer based in Colombia. HubSpot integrations, Next.js and TypeScript; leading teams and AI agents to take systems to production.',
   'meta.ogAlt': 'Luis Almenarez - Full Stack Developer',
   'nav.experience': 'Experience',
   'nav.projects': 'Projects',
@@ -116,11 +117,11 @@ const en: Record<keyof typeof es, string> = {
   'section.projects': 'Projects',
   'section.about': 'About me',
   'section.credentials': 'Credentials',
-  'section.ai': 'How I work with AI agents',
+  'section.ai': 'Development with AI agents',
   'section.skills': 'Skills',
   'aside.badge': 'Software Engineer',
   'aside.description':
-    'Senior Full Stack Developer · HubSpot integrations · I lead teams and AI agents to take systems to production. Rionegro, Antioquia, Colombia 🇨🇴',
+    'Senior Full Stack Developer · HubSpot integrations · leading teams and AI agents to take systems to production. Rionegro, Antioquia, Colombia 🇨🇴',
   'aside.downloadCV': 'Download CV',
   'experience.summary': 'Summary:',
   'experience.responsibilities': 'Responsibilities:',
@@ -131,14 +132,15 @@ const en: Record<keyof typeof es, string> = {
   'experience.view': 'View',
   'experience.caseStudy': 'Read the case study',
   'ai.intro':
-    'I drive development with several AI agent sessions at once. I have done it on a production migration and on a portal catch-up, and both times it works on the same rules:',
+    'Several AI agent sessions in parallel, applied to a production migration and to a portal catch-up, on four fixed rules:',
   'ai.parallel':
-    'Several sessions in parallel, each with its own front, its own branch or worktree and its own files.',
-  'ai.reviewer': 'One reviewer session that merges the changes one at a time, in order.',
+    'Parallel sessions, each with its own front, its own branch or worktree and its own files.',
+  'ai.reviewer':
+    'One reviewer session that merges the changes one at a time, in order.',
   'ai.production':
-    'Agents do not touch production. Production scripts have a "preview" and an "apply" mode with a backup, and I run them myself.',
+    'Production stays out of reach of the agents: production scripts have a "preview" and an "apply" mode with a backup, and run by hand.',
   'ai.checks':
-    'When we need to speed up, local checks are mandatory: typecheck, lint, tests and build before merging.',
+    'Mandatory local checks when speeding up: typecheck, lint, tests and build before merging.',
   'projects.features': 'Features:',
   'projects.showMore': 'Show more',
   'projects.showLess': 'Show less',
