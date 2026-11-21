@@ -59,34 +59,34 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     summary: {
       es:
-        'Lidero las integraciones con HubSpot para una aseguradora de arrendamientos en Colombia. Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
+        'Integraciones con HubSpot para una aseguradora de arrendamientos en Colombia, como líder técnico de un equipo de 5 personas, sobre Next.js, TypeScript, SQL Server y Azure.',
       en:
-        'I lead the HubSpot integrations for a lease-insurance company in Colombia. I coordinate a team of 5 people and set the testing and review guidelines for QA.',
+        'HubSpot integrations for a lease-insurance company in Colombia, as tech lead of a team of 5, built on Next.js, TypeScript, SQL Server and Azure.',
     },
     responsibilities: {
       es: [
-        'Coordino un equipo de 5 personas y le doy pautas de prueba y revisión a QA.',
-        'Dirijo el desarrollo con varios agentes de IA en paralelo, reviso y fusiono los cambios, y corro yo los scripts y despliegues de producción.',
-        'Diseñé pagos idempotentes con Wompi (webhook, retorno y barrido) y despliegues con interruptores apagados por defecto.',
-        'Organicé la puesta al día del portal de asesores para una demo con el CEO, coordinando 5 agentes de IA en paralelo.',
+        'Liderazgo técnico de un equipo de 5 personas y definición de las pautas de prueba y revisión para QA.',
+        'Desarrollo con varios agentes de IA en paralelo, con revisión y fusión centralizadas y ejecución controlada de los scripts y despliegues de producción.',
+        'Diseño de pagos idempotentes con Wompi (webhook, retorno y barrido) y de despliegues con interruptores apagados por defecto.',
+        'Puesta al día del portal de asesores para una demo con el CEO, con 5 agentes de IA trabajando en paralelo.',
       ],
       en: [
-        'I coordinate a team of 5 people and set the testing and review guidelines for QA.',
-        'I drive development with several AI agents in parallel, review and merge the changes, and run the production scripts and deployments myself.',
-        'Designed idempotent payments with Wompi (webhook, return page and sweep) and deployments behind feature flags that ship off by default.',
-        'Organized the catch-up of the sales-advisor portal for a demo with the CEO, coordinating 5 AI agents in parallel.',
+        'Technical leadership of a team of 5 and definition of the testing and review guidelines for QA.',
+        'Development with several AI agents in parallel, with centralized review and merging and controlled execution of production scripts and deployments.',
+        'Design of idempotent payments with Wompi (webhook, return page and sweep) and of deployments behind feature flags that ship off by default.',
+        'Catch-up of the sales-advisor portal for a demo with the CEO, with 5 AI agents working in parallel.',
       ],
     },
     achievements: {
       es: [
-        'Llevé a producción (17-nov-2026) la migración del flujo de arrendamiento de un sistema legado a HubSpot: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión.',
-        'Cerré una fuga de ingresos: una clave de asesor había regalado 32 estudios en dos días.',
-        'Pasé el catálogo de asesores en HubSpot de 7 a 4.029 registros y automaticé el envío a emisión al firmar.',
+        'Salida a producción (17-nov-2026) del flujo de arrendamiento migrado de un sistema legado a HubSpot: radicación, pago en línea, motor de decisión, contrato, firma electrónica y emisión.',
+        'Fuga de ingresos cerrada: una clave de asesor que había regalado 32 estudios en dos días volvió a cobrar el estudio.',
+        'Catálogo de asesores en HubSpot ampliado de 7 a 4.029 registros y envío a emisión automático al firmar.',
       ],
       en: [
-        'Took to production (Nov 17, 2026) the migration of the lease flow from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance.',
-        'Closed a revenue leak: one advisor code had given away 32 screenings in two days.',
-        'Grew the advisor catalog in HubSpot from 7 to 4,029 records and automated the hand-off to issuance on signature.',
+        'Production launch (Nov 17, 2026) of the lease flow migrated from a legacy system to HubSpot: application, online payment, decision engine, contract, e-signature and policy issuance.',
+        'Revenue leak closed: an advisor code that had given away 32 screenings in two days now charges for them again.',
+        'Advisor catalog in HubSpot grown from 7 to 4,029 records, with automatic hand-off to issuance on signature.',
       ],
     },
   },
