@@ -1,15 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!--
-    L monogram on a solid indigo tile.
+    "L." in Noto Serif Display on the site ground, with the volt full stop of
+    the wordmark ("L. Almenarez"). The L is the real glyph outline (weight 600,
+    extracted with fontTools), because an SVG favicon cannot load web fonts.
 
-    The tile is deliberate: a bare glyph relying on prefers-color-scheme (as the
-    default Astro mark did) washes out at 16px against the browser's own tab
-    colour, which is neither pure white nor pure black. A solid tile carries its
-    own contrast, so one file covers both themes.
-
-    Letterform sized for 16px first: A larger stroke than this crowds the tile's
-    corner radius, a smaller one turns to mush in the tab strip.
+    The solid dark tile carries its own contrast, so one file reads in light
+    and dark browser chrome alike.
   -->
-  <rect width="64" height="64" rx="14" fill="#4f46e5" />
-  <path d="M16 15h12v22h20v12H16z" fill="#fff" />
-</svg>
+  <rect width="64" height="64" rx="12" fill="#111110"/><path transform="translate(11.14 52) scale(0.05602 -0.05602)" d="M31.793538882458172 0V10H62.79227612332947Q82.34452278227928 10 96.5 15.82773860886036Q110.65547721772072 21.65547721772072 118.10386193833526 36.414184994212356Q125.5522466589498 51.17289277070399 125.5522466589498 77.65547721772072V637.8619383352625Q125.5522466589498 664.5858150057876 118.10386193833526 678.6548458381563Q110.65547721772072 692.7238766705251 96.5 698.3619383352625Q82.34452278227928 704 62.79227612332947 704H31.793538882458172V714H356.3084289171841V704H325.30969167631275Q306.37809112911714 704 292.2226139113964 698.4825844470167Q278.0671366936757 692.9651688940335 270.3084289171841 678.827107229296Q262.54972114069244 664.6890455645586 262.54972114069244 638.827107229296V10H423.96516889403347Q481.93033778806694 10 517.4645375144692 25.81032305587709Q552.9987372408713 41.62064611175418 570.7916447437651 77.75870777649163Q588.584552246659 113.89676944122908 592.584552246659 174.5522466589498L595.8258444701673 219.96516889403347H605.8258444701673L598.2051983584131 0Z" fill="#efebe2"/><rect x="47.58" y="45" width="7" height="7" fill="#e8ff5a"/></svg>
