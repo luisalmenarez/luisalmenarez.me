@@ -1,0 +1,122 @@
+---
+import ChapterHead from '@/components/ChapterHead.astro';
+import { CREDENTIALS } from '@/data/credentials';
+import { EXPERIENCE } from '@/data/experience';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+  page: string;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const year = (iso: string) => iso.slice(0, 4);
+const now = lang === 'es' ? 'hoy' : 'now';
+const education = CREDENTIALS[lang].education;
+---
+
+<section class="chapter" id="trayectoria" aria-labelledby="path-title">
+  <ChapterHead page={page} label={t('chapter.path')} pageLabel={t('index.page')} />
+  <h2 id="path-title" class="sr-only">{t('chapter.path')}</h2>
+  <ol class="roles">
+    {
+      EXPERIENCE.map((role) => (
+        <li data-reveal>
+          <span class="years serif">
+            {year(role.dateISO.start)}–{role.dateISO.end ? year(role.dateISO.end) : now}
+          </span>
+          <span class="company serif">
+            {role.companyUrl ? (
+              <a class="draw" href={role.companyUrl} target="_blank" rel="noopener">
+                {role.company}
+              </a>
+            ) : (
+              role.company
+            )}
+          </span>
+          <span class="role">{role.title[lang]}</span>
+          <span class="where meta">{role.location[lang]}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="edu">
+    <span class="meta">{t('path.education')}</span>
+    {
+      education.map((entry) => (
+        <span>
+          {entry.title} · {entry.institution}
+        </span>
+      ))
+    }
+  </p>
+</section>
+
+<style>
+  .chapter {
+    padding: 14vh var(--gutter) 0;
+    scroll-margin-top: 40px;
+  }
+  .roles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .roles li {
+    display: grid;
+    grid-template-columns: 170px 1fr 1.3fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding: 26px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .years {
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-2);
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .company {
+    font-size: clamp(26px, 2.6vw, 40px);
+    line-height: 1.05;
+  }
+  .role {
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+  .where {
+    color: var(--ink-3);
+    text-align: right;
+  }
+  .edu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin: 0;
+    padding: 22px 0 0;
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  .edu .meta {
+    color: var(--ink-3);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  @media (max-width: 900px) {
+    .roles li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    .where {
+      text-align: left;
+    }
+  }
+</style>

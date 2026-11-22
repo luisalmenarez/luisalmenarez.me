@@ -47,7 +47,20 @@ export interface ProjectEntry {
   flow?: Localized<string[]>;
   /** When present, the project page renders these sections instead of the plain highlight list. */
   caseStudy?: Localized<CaseStudySection[]>;
+  /** Short title for the home index, where the full title does not fit one line. */
+  shortTitle?: Localized<string>;
+  /** One line under the index entry: who, role, state. */
+  dek?: Localized<string>;
+  /** The single fact that proves the case, shown on hover and as a chip. Only figures from the write-up. */
+  proof?: Localized<string>;
 }
+
+/** The cases the home leads with, in reading order. Everything else goes to the archive. */
+export const SELECTED_WORK = [
+  'migracion-arrendamiento-hubspot',
+  'commission-settlement',
+  'trk',
+] as const;
 
 /**
  * Badge presentation for role and status.
@@ -88,6 +101,12 @@ export const PROJECTS: ProjectEntry[] = [
     // No client or brand names, domains, repos, PR numbers, IDs, rates, people
     // or screenshots. Every figure comes from the project write-up; do not add more.
     slug: 'migracion-arrendamiento-hubspot',
+    shortTitle: { es: 'Arrendamiento a HubSpot', en: 'Lease workflow to HubSpot' },
+    dek: {
+      es: 'NGDS · líder técnico · en producción desde el 17 nov 2026',
+      en: 'NGDS · tech lead · live since 17 Nov 2026',
+    },
+    proof: { es: '6 etapas en vivo', en: '6 stages live' },
     role: 'team',
     status: 'live',
     kind: 'professional',
@@ -163,7 +182,7 @@ export const PROJECTS: ProjectEntry[] = [
         },
         {
           heading: 'Rol',
-          body: 'Liderazgo técnico del frente de integraciones entre HubSpot y el sistema legado, con un equipo de 5 personas y pautas de prueba y revisión para QA. Diseño y dirección del desarrollo, en su mayor parte con varias sesiones de agentes de IA en paralelo; revisión y fusión de los cambios, ejecución paso a paso de los scripts y despliegues de producción y coordinación con el cliente y con los demás desarrolladores.',
+          body: 'Liderazgo técnico del frente de integraciones entre HubSpot y el sistema legado, liderando a los equipos que participan según cada frente y con pautas de prueba y revisión para QA. Diseño y dirección del desarrollo, en su mayor parte con varias sesiones de agentes de IA en paralelo; revisión y fusión de los cambios, ejecución paso a paso de los scripts y despliegues de producción y coordinación con el cliente y con los demás desarrolladores.',
         },
         {
           heading: 'Arquitectura',
@@ -219,7 +238,7 @@ export const PROJECTS: ProjectEntry[] = [
         },
         {
           heading: 'Role',
-          body: 'Technical leadership of the integrations between HubSpot and the legacy system, with a team of 5 and testing and review guidelines for QA. Design and direction of the development, mostly through several AI agent sessions in parallel; review and merging of the changes, step-by-step execution of production scripts and deployments, and coordination with the client and the other developers.',
+          body: 'Technical leadership of the integrations between HubSpot and the legacy system, leading the teams involved on each front, with testing and review guidelines for QA. Design and direction of the development, mostly through several AI agent sessions in parallel; review and merging of the changes, step-by-step execution of production scripts and deployments, and coordination with the client and the other developers.',
         },
         {
           heading: 'Architecture',
@@ -315,6 +334,11 @@ export const PROJECTS: ProjectEntry[] = [
   {
     // The client is not named on purpose: only the generic technical story is public.
     slug: 'commission-settlement',
+    dek: {
+      es: 'PrevalentWare · 7 ciclos quincenales reales',
+      en: 'PrevalentWare · 7 real biweekly cycles',
+    },
+    proof: { es: '60+ reglas', en: '60+ rules' },
     role: 'team',
     status: 'live',
     kind: 'professional',
@@ -360,6 +384,8 @@ export const PROJECTS: ProjectEntry[] = [
   },
   {
     slug: 'trk',
+    dek: { es: 'Producto propio · en uso diario', en: 'Own product · in daily use' },
+    proof: { es: 'CLI · API · skill', en: 'CLI · API · skill' },
     role: 'developed',
     status: 'live',
     kind: 'personal',

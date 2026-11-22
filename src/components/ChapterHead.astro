@@ -1,0 +1,33 @@
+---
+interface Props {
+  page: string;
+  label: string;
+  pageLabel: string;
+}
+
+const { page, label, pageLabel } = Astro.props;
+---
+
+<div class="head meta">
+  <span>{label}</span>
+  <span>{pageLabel} <span class="serif folio">{page}</span></span>
+</div>
+
+<style>
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--ink-2);
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .folio {
+    font-size: 18px;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--ink);
+    margin-left: 4px;
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import ChapterHead from '@/components/ChapterHead.astro';
+import type { ProjectEntry } from '@/data/projects';
+import { getLocalizedPath, useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+  project: ProjectEntry;
+  page: string;
+}
+
+const { lang, project, page } = Astro.props;
+const t = useTranslations(lang);
+const href = getLocalizedPath(`/proyectos/${project.slug}/`, lang);
+const flow = project.flow?.[lang];
+const company = project.company?.name;
+const meta = [company, project.period[lang]].filter(Boolean).join(' · ');
+// The chapter head already names the company when a dek exists; the side then only needs the period.
+const sideMeta = project.dek ? project.period[lang] : meta;
+---
+
+<section class="chapter" id={project.slug} aria-labelledby={`${project.slug}-title`}>
+  <ChapterHead page={page} label={project.dek?.[lang] ?? meta} pageLabel={t('index.page')} />
+  <div class="body">
+    <div class="lead">
+      <h2 id={`${project.slug}-title`} class="title serif" data-reveal>
+        <a href={href}>{project.title[lang]}</a>
+      </h2>
+      {project.proof && <p class="pull serif">{project.proof[lang]}</p>}
+    </div>
+    <div class="side">
+      <p class="meta when">{sideMeta}</p>
+      <p class="desc">{project.description[lang]}</p>
+      {
+        flow && (
+          <ol class="flow serif" aria-label={t('case.flow')}>
+            {flow.map((step) => (
+              <li>{step}</li>
+            ))}
+          </ol>
+        )
+      }
+      <div class="foot">
+        <a class="read draw" href={href}>
+          {t('case.read')}
+          <ArrowRight />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chapter {
+    padding: 14vh var(--gutter) 0;
+    scroll-margin-top: 40px;
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 6vw;
+    align-items: start;
+    padding: 6vh 0 10vh;
+    border-bottom: 1px solid var(--rule);
+  }
+  .title {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(44px, 6.4vw, 104px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .title a {
+    transition: color 0.4s var(--ease);
+  }
+  .title a:hover {
+    color: var(--volt);
+  }
+  .side {
+    padding-top: 10px;
+  }
+  .when {
+    color: var(--ink-2);
+    margin: 0 0 14px;
+  }
+  .desc {
+    margin: 0;
+    color: var(--ink-2);
+    font-size: 17px;
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+  .flow {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    counter-reset: step;
+    font-size: 21px;
+    line-height: 1.2;
+  }
+  .flow li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    padding: 9px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .flow li::before {
+    content: counter(step, decimal-leading-zero);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-3);
+    padding-top: 4px;
+  }
+  .foot {
+    margin-top: 28px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 24px;
+  }
+  .pull {
+    margin: 0.6em 0 0;
+    font-style: italic;
+    font-size: clamp(26px, 2.8vw, 44px);
+    line-height: 1.1;
+    color: var(--ink-2);
+  }
+  .read {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  @media (max-width: 900px) {
+    .body {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+  }
+</style>

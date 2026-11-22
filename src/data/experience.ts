@@ -59,19 +59,19 @@ export const EXPERIENCE: ExperienceEntry[] = [
     },
     summary: {
       es:
-        'Integraciones con HubSpot para una aseguradora de arrendamientos en Colombia, como líder técnico de un equipo de 5 personas, sobre Next.js, TypeScript, SQL Server y Azure.',
+        'Integraciones con HubSpot para una aseguradora de arrendamientos en Colombia, como líder técnico de los equipos que participan según el proyecto, sobre Next.js, TypeScript, SQL Server y Azure.',
       en:
-        'HubSpot integrations for a lease-insurance company in Colombia, as tech lead of a team of 5, built on Next.js, TypeScript, SQL Server and Azure.',
+        'HubSpot integrations for a lease-insurance company in Colombia, as tech lead of the teams involved on each project, built on Next.js, TypeScript, SQL Server and Azure.',
     },
     responsibilities: {
       es: [
-        'Liderazgo técnico de un equipo de 5 personas y definición de las pautas de prueba y revisión para QA.',
+        'Liderazgo técnico de varios equipos según el proyecto y definición de las pautas de prueba y revisión para QA.',
         'Desarrollo con varios agentes de IA en paralelo, con revisión y fusión centralizadas y ejecución controlada de los scripts y despliegues de producción.',
         'Diseño de pagos idempotentes con Wompi (webhook, retorno y barrido) y de despliegues con interruptores apagados por defecto.',
         'Puesta al día del portal de asesores para una demo con el CEO, con 5 agentes de IA trabajando en paralelo.',
       ],
       en: [
-        'Technical leadership of a team of 5 and definition of the testing and review guidelines for QA.',
+        'Technical leadership of several teams depending on the project and definition of the testing and review guidelines for QA.',
         'Development with several AI agents in parallel, with centralized review and merging and controlled execution of production scripts and deployments.',
         'Design of idempotent payments with Wompi (webhook, return page and sweep) and of deployments behind feature flags that ship off by default.',
         'Catch-up of the sales-advisor portal for a demo with the CEO, with 5 AI agents working in parallel.',

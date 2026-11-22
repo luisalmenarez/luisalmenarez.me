@@ -1,0 +1,272 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { CREDENTIALS } from '@/data/credentials';
+import { EXPERIENCE } from '@/data/experience';
+import { PROFILE } from '@/data/profile';
+import { PROJECTS, SELECTED_WORK } from '@/data/projects';
+import { getLangFromUrl, useTranslations } from '@/i18n';
+import type { GetStaticPaths } from 'astro';
+
+/**
+ * The résumé, generated from the same data as the site so the two cannot drift.
+ * On screen it is a sheet laid on the site's ground; printed, only the sheet
+ * remains, in black on white. The English level is deliberately left out
+ * (decision of 2026-11-21).
+ */
+export const getStaticPaths = (() => {
+  return [{ params: { lang: undefined } }, { params: { lang: 'en' } }];
+}) satisfies GetStaticPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const month = new Intl.DateTimeFormat(lang === 'es' ? 'es-CO' : 'en-US', {
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const when = (iso: string) => month.format(new Date(`${iso}-01T00:00:00Z`));
+const present = lang === 'es' ? 'Actualidad' : 'Present';
+
+const selected = SELECTED_WORK.map((slug) => PROJECTS.find((p) => p.slug === slug)).filter(
+  (p): p is NonNullable<typeof p> => Boolean(p)
+);
+const site = PROFILE.url.replace(/^https?:\/\//, '');
+---
+
+<Layout title={`${t('cv.title')} · ${PROFILE.name}`} lang={lang}>
+  <main class="wrap">
+    <div class="tools">
+      <button class="pill" type="button" data-print>{t('cv.print')}</button>
+    </div>
+
+    <article class="sheet">
+      <header class="top">
+        <div>
+          <h1 class="serif name">{PROFILE.name}</h1>
+          <p class="role">{t('cover.lede').replace(/<\/?em>/g, '')}</p>
+        </div>
+        <ul class="contact">
+          <li><a href={`mailto:${PROFILE.email}`}>{PROFILE.email}</a></li>
+          <li><a href={PROFILE.url}>{site}</a></li>
+          <li><a href={PROFILE.social.linkedin}>linkedin.com/in/luisalmenarez</a></li>
+          <li><a href={PROFILE.social.github}>github.com/luisalmenarez</a></li>
+        </ul>
+      </header>
+
+      <section>
+        <h2 class="label">{t('cv.profile')}</h2>
+        <p>{t('meta.description')}</p>
+      </section>
+
+      <section>
+        <h2 class="label">{t('cv.experience')}</h2>
+        {
+          EXPERIENCE.map((role) => (
+            <div class="role-block">
+              <div class="role-head">
+                <h3 class="serif">
+                  {role.title[lang]} · {role.company}
+                </h3>
+                <span class="dates">
+                  {when(role.dateISO.start)} – {role.dateISO.end ? when(role.dateISO.end) : present}
+                </span>
+              </div>
+              <p class="where">{role.location[lang]}</p>
+              <p>{role.summary[lang]}</p>
+              <ul>
+                {role.achievements[lang].map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </section>
+
+      <section>
+        <h2 class="label">{t('cv.projects')}</h2>
+        {
+          selected.map((project) => (
+            <div class="project">
+              <h3 class="serif">{project.title[lang]}</h3>
+              <p>{project.description[lang]}</p>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="split">
+        <div>
+          <h2 class="label">{t('cv.education')}</h2>
+          <ul class="plain">
+            {
+              CREDENTIALS[lang].education.map((entry) => (
+                <li>
+                  {entry.title} · {entry.institution} · {entry.period}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+        <div>
+          <h2 class="label">{t('cv.skills')}</h2>
+          <p>{PROFILE.knowsAbout.join(' · ')}</p>
+        </div>
+      </section>
+    </article>
+  </main>
+</Layout>
+
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .wrap {
+    padding: 104px var(--gutter) 12vh;
+  }
+  .tools {
+    max-width: 860px;
+    margin: 0 auto 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .tools .pill {
+    background: none;
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+  }
+  .tools .pill:hover {
+    background: var(--volt);
+    color: var(--ground);
+  }
+  .sheet {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #f4f1ea;
+    color: #1a1a18;
+    padding: 64px 64px 72px;
+    border-radius: 2px;
+    box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+  .top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1a1a18;
+  }
+  .name {
+    margin: 0;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .role {
+    margin: 10px 0 0;
+    color: #4a4843;
+    max-width: 44ch;
+  }
+  .contact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    color: #4a4843;
+  }
+  section {
+    margin-top: 28px;
+  }
+  .label {
+    font-family: var(--font-meta);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6b6962;
+    margin: 0 0 10px;
+  }
+  p {
+    margin: 0 0 8px;
+  }
+  h3 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  .role-block,
+  .project {
+    padding: 12px 0;
+    border-top: 1px solid #d8d4ca;
+  }
+  .role-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .dates,
+  .where {
+    color: #6b6962;
+    white-space: nowrap;
+  }
+  .where {
+    margin: 2px 0 6px;
+  }
+  ul {
+    margin: 4px 0 0;
+    padding-left: 18px;
+  }
+  .plain {
+    list-style: none;
+    padding: 0;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 700px) {
+    .sheet {
+      padding: 32px 22px;
+    }
+    .top,
+    .split {
+      grid-template-columns: 1fr;
+    }
+    .contact {
+      text-align: left;
+    }
+    .role-head {
+      flex-direction: column;
+      gap: 2px;
+    }
+  }
+  @media print {
+    :global(html),
+    :global(body) {
+      background: #fff !important;
+    }
+    .wrap {
+      padding: 0;
+    }
+    .tools {
+      display: none;
+    }
+    .sheet {
+      max-width: none;
+      box-shadow: none;
+      padding: 0;
+      background: #fff;
+    }
+    .role-block,
+    .project {
+      break-inside: avoid;
+    }
+  }
+</style>

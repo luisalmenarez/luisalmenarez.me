@@ -2,15 +2,10 @@
 import { Image } from 'astro:assets';
 import type { GetStaticPaths } from 'astro';
 import Layout from '@/layouts/Layout.astro';
-import SectionContainer from '@/components/SectionContainer.astro';
-import ArrowDown from '@/components/icons/ArrowDown.astro';
-import ExternalLink from '@/components/icons/ExternalLink.astro';
-import GitHub from '@/components/icons/GitHub.astro';
+import ArrowRight from '@/components/icons/ArrowRight.astro';
 import {
   PROJECTS,
-  ROLE_CLASS,
   ROLE_LABEL,
-  STATUS_CLASS,
   STATUS_LABEL,
   buildProjectSchema,
 } from '@/data/projects';
@@ -76,189 +71,256 @@ const ogImageSize = project.image
   ogImageAlt={project.image ? title : undefined}
   schema={schema}
 >
-  <main class="px-6 mx-auto">
-    <SectionContainer class="w-full lg:w-[740px] mx-auto pb-20">
-      <a
-        href={`${getLocalizedPath('/', lang)}#proyectos`}
-        class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white print:hidden inline-flex items-center gap-1.5 mb-8 text-sm transition-colors"
-      >
-        <ArrowDown class="size-4 rotate-90" />
-        {t('projects.backToList')}
-      </a>
+  <main class="page">
+    <a class="back meta" href={`${getLocalizedPath('/', lang)}#${project.slug}`}>
+      <ArrowRight class="flip" />
+      {t('projects.backToList')}
+    </a>
 
-      <header class="mb-8">
-        <div class="flex flex-wrap items-center gap-2 mb-3">
-          <span class="text-zinc-500 dark:text-zinc-400 text-sm">
-            {project.period[lang]}
-          </span>
-          <span
-            class={`inline-flex items-center rounded-full border text-[11px] py-0.5 px-2 ${ROLE_CLASS[project.role]}`}
-          >
-            {t(ROLE_LABEL[project.role])}
-          </span>
-          {
-            statusKey && (
-              <span
-                class={`inline-flex items-center rounded-full border text-[11px] py-0.5 px-2 ${STATUS_CLASS[statusKey]}`}
-              >
-                {t(STATUS_LABEL[statusKey])}
-              </span>
-            )
-          }
-        </div>
+    <header class="head">
+      <h1 class="serif title">{title}</h1>
+      <p class="meta tags">
+        <span>{project.period[lang]}</span>
+        <span>{t(ROLE_LABEL[project.role])}</span>
+        {statusKey && <span>{t(STATUS_LABEL[statusKey])}</span>}
+        {project.proof && <span>{project.proof[lang]}</span>}
+      </p>
+      {
+        project.company && (
+          <p class="company">
+            {project.company.url ? (
+              <a class="draw" href={project.company.url} target="_blank" rel="noopener noreferrer">
+                {project.company.name}
+              </a>
+            ) : (
+              <span>{project.company.name}</span>
+            )}
+            {companyDescription && <span> · {companyDescription}</span>}
+          </p>
+        )
+      }
+    </header>
 
-        <h1
-          class="text-pretty mb-3 text-3xl font-bold text-gray-900 dark:text-gray-100"
-        >
-          {title}
-        </h1>
+    <p class="serif lede">{description}</p>
 
+    {
+      project.image && (
+        <Image
+          src={project.image}
+          alt={title}
+          class="shot"
+          loading="eager"
+          fetchpriority="high"
+          widths={[640, 1080, 1600]}
+          sizes="(min-width: 1200px) 1100px, 100vw"
+        />
+      )
+    }
+
+    <div class="columns">
+      <div class="main">
         {
-          project.company && (
-            <p class="text-zinc-600 dark:text-zinc-400 text-sm">
-              <span>@ </span>
-              {project.company.url ? (
-                <a
-                  href={project.company.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="hover:text-black dark:hover:text-white underline underline-offset-2 transition-colors"
-                >
-                  {project.company.name}
-                </a>
-              ) : (
-                <span>{project.company.name}</span>
-              )}
-              {companyDescription && <span> · {companyDescription}</span>}
-            </p>
+          flow && (
+            <section aria-labelledby="flow-heading">
+              <h2 id="flow-heading" class="meta label">{t('projects.flow')}</h2>
+              <ol class="flow serif">
+                {flow.map((step) => <li>{step}</li>)}
+              </ol>
+            </section>
           )
         }
-      </header>
-
-      {
-        project.image && (
-          <Image
-            src={project.image}
-            alt={title}
-            class="aspect-video object-cover border-zinc-200 dark:border-zinc-800 w-full mb-8 border rounded-lg print:hidden"
-            loading="eager"
-            fetchpriority="high"
-            widths={[480, 740, 1480]}
-            sizes="(min-width: 1024px) 740px, 100vw"
-          />
-        )
-      }
-
-      <p class="text-zinc-700 dark:text-zinc-300 text-pretty mb-10 text-base">
-        {description}
-      </p>
-
-      {
-        flow && (
-          <section class="mb-10" aria-labelledby="flow-heading">
-            <h2 id="flow-heading" class="mb-4 text-xl font-semibold">
-              {t('projects.flow')}
-            </h2>
-            <ol class="sm:flex-row sm:flex-wrap sm:items-center flex flex-col gap-2 text-sm">
-              {flow.map((step, index) => (
-                <li class="flex items-center gap-2">
-                  <span class="border-indigo-200 dark:border-indigo-500/30 bg-indigo-500/5 text-indigo-700 dark:text-indigo-300 inline-flex items-center gap-2 px-3 py-1.5 border rounded-lg">
-                    <span class="font-mono text-xs opacity-70">{index + 1}</span>
-                    {step}
-                  </span>
-                  {index < flow.length - 1 && (
-                    <span class="text-zinc-400 sm:inline hidden" aria-hidden="true">
-                      →
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </section>
-        )
-      }
-
-      {
-        caseStudy ? (
-          caseStudy.map((section) => (
-            <section class="mb-10">
-              <h2 class="mb-4 text-xl font-semibold">{section.heading}</h2>
-              {section.body && (
-                <p class="text-zinc-700 dark:text-zinc-300 text-pretty text-base">
-                  {section.body}
-                </p>
-              )}
-              {section.items && (
-                <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
-                  {section.items.map((item) => (
-                    <li class="flex items-start gap-3">
-                      <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
-                      <span class="text-pretty">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))
-        ) : (
-          <section class="mb-10">
-            <h2 class="mb-4 text-xl font-semibold">{t('projects.features')}</h2>
-            <ul class="text-zinc-700 dark:text-zinc-300 flex flex-col gap-3 text-sm">
-              {highlights.map((highlight) => (
-                <li class="flex items-start gap-3">
-                  <div class="bg-indigo-500 dark:bg-indigo-400 flex-shrink-0 w-1.5 h-1.5 mt-2 rounded-full" />
-                  <span class="text-pretty">{highlight}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )
-      }
-
-      <section class="mb-10">
-        <h2 class="mb-4 text-xl font-semibold">{t('projects.technologies')}</h2>
-        <ul class="flex flex-wrap gap-2">
-          {
-            project.tags.map((tag) => (
-              <li
-                class={`inline-flex items-center gap-1.5 rounded-full text-xs py-1 px-2.5 ${tag.class}`}
-              >
-                <tag.icon class="size-3" />
-                {tag.name}
-              </li>
+        {
+          caseStudy ? (
+            caseStudy.map((section) => (
+              <section>
+                <h2 class="serif h2">{section.heading}</h2>
+                {section.body && <p class="prose">{section.body}</p>}
+                {section.items && (
+                  <ul class="items">
+                    {section.items.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+              </section>
             ))
-          }
-        </ul>
-      </section>
+          ) : (
+            <section>
+              <h2 class="serif h2">{t('projects.features')}</h2>
+              <ul class="items">
+                {highlights.map((highlight) => <li>{highlight}</li>)}
+              </ul>
+            </section>
+          )
+        }
+      </div>
 
-      {
-        (project.link || project.github) && (
-          <div class="border-zinc-200 dark:border-zinc-800 print:hidden flex flex-wrap gap-6 pt-6 border-t">
-            {project.link && (
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
-              >
-                <ExternalLink class="size-5" />
-                {t('projects.visitSite')}
-              </a>
-            )}
-            {project.github && (
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-zinc-500 dark:text-zinc-400 hover:text-black dark:hover:text-white inline-flex items-center gap-2 text-sm transition-colors"
-              >
-                <GitHub class="size-5" />
-                {t('projects.viewGithub')}
-              </a>
-            )}
-          </div>
-        )
-      }
-    </SectionContainer>
+      <aside class="side">
+        <h2 class="meta label">{t('projects.technologies')}</h2>
+        <ul class="tech serif">
+          {project.tags.map((tag) => <li>{tag.name}</li>)}
+        </ul>
+        {
+          (project.link || project.github) && (
+            <div class="out">
+              {project.link && (
+                <a class="pill" href={project.link} target="_blank" rel="noopener noreferrer">
+                  {t('projects.visitSite')}
+                  <ArrowRight />
+                </a>
+              )}
+              {project.github && (
+                <a class="draw" href={project.github} target="_blank" rel="noopener noreferrer">
+                  {t('projects.viewGithub')}
+                </a>
+              )}
+            </div>
+          )
+        }
+      </aside>
+    </div>
   </main>
 </Layout>
+
+<style>
+  .page {
+    padding: 112px var(--gutter) 12vh;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--ink-2);
+    transition: color 0.3s;
+  }
+  .back:hover {
+    color: var(--ink);
+  }
+  .back :global(.flip) {
+    transform: rotate(180deg);
+  }
+  .head {
+    margin-top: 8vh;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    color: var(--ink-2);
+    margin: 26px 0 0;
+  }
+  .title {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .company {
+    margin: 22px 0 0;
+    color: var(--ink-2);
+  }
+  .lede {
+    margin: 8vh 0 0;
+    font-size: clamp(22px, 2.2vw, 32px);
+    line-height: 1.3;
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+  .shot {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 8vh;
+    border-radius: 2px;
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 8vw;
+    margin-top: 10vh;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+  }
+  .main section + section {
+    margin-top: 7vh;
+  }
+  .label {
+    margin: 0 0 14px;
+    color: var(--ink-3);
+  }
+  .h2 {
+    margin: 0 0 18px;
+    font-weight: 400;
+    font-size: clamp(26px, 2.6vw, 38px);
+    line-height: 1.1;
+  }
+  .prose {
+    margin: 0;
+    color: var(--ink-2);
+    max-width: 64ch;
+    text-wrap: pretty;
+  }
+  .items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 64ch;
+  }
+  .items li {
+    padding: 12px 0;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+  .flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: step;
+    font-size: 22px;
+  }
+  .flow li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    padding: 10px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .flow li::before {
+    content: counter(step, decimal-leading-zero);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-3);
+    padding-top: 5px;
+  }
+  .side {
+    align-self: start;
+    position: sticky;
+    top: 96px;
+  }
+  .tech {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    line-height: 1.45;
+  }
+  .out {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 22px;
+  }
+  @media (max-width: 900px) {
+    .columns {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+    }
+  }
+</style>

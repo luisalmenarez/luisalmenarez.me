@@ -1,0 +1,148 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '@/assets/avatar.jpg';
+import ChapterHead from '@/components/ChapterHead.astro';
+import { PROFILE } from '@/data/profile';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+  page: string;
+}
+
+const { lang, page } = Astro.props;
+const t = useTranslations(lang);
+const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as const;
+---
+
+<section class="chapter" id="como-trabajo" aria-labelledby="how-title">
+  <ChapterHead page={page} label={t('chapter.how')} pageLabel={t('index.page')} />
+  <div class="grid">
+    <figure class="photo">
+      <Image src={avatar} alt={PROFILE.name} width={360} height={360} densities={[1, 2]} />
+    </figure>
+    <div class="text">
+      <h2 id="how-title" class="lead serif" data-reveal>{t('how.lead')}</h2>
+      <div class="about">
+        <p set:html={t('about.p1')} />
+        <p set:html={t('about.p2')} />
+      </div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div>
+      <h3 class="meta">{t('how.ai')}</h3>
+      <ol class="rules">
+        {
+          RULES.map((key) => (
+            <li>{t(key)}</li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chapter {
+    padding: 14vh var(--gutter) 0;
+    scroll-margin-top: 40px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 6vw;
+    padding: 6vh 0;
+    align-items: start;
+  }
+  .photo {
+    margin: 0;
+  }
+  .photo :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 2px;
+    filter: grayscale(1) contrast(1.05) brightness(0.92);
+    transition: filter 0.8s var(--ease);
+  }
+  .photo:hover :global(img) {
+    filter: none;
+  }
+  .lead {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(30px, 3.4vw, 54px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+  .about {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    color: var(--ink-2);
+    max-width: 900px;
+  }
+  .about p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .about :global(strong) {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 4vh 0 10vh;
+    border-bottom: 1px solid var(--rule);
+  }
+  h3.meta {
+    margin: 0 0 14px;
+    color: var(--ink-3);
+  }
+  .rules {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: rule;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+  }
+  @media (max-width: 900px) {
+    .rules {
+      grid-template-columns: 1fr;
+    }
+  }
+  .rules li {
+    counter-increment: rule;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+    text-wrap: pretty;
+  }
+  .rules li::before {
+    content: counter(rule, decimal-leading-zero);
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--ink-3);
+  }
+  @media (max-width: 900px) {
+    .grid,
+    .cols,
+    .about {
+      grid-template-columns: 1fr;
+    }
+    .photo {
+      max-width: 220px;
+    }
+  }
+</style>

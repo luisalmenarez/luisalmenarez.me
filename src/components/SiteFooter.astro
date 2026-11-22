@@ -1,0 +1,121 @@
+---
+import ArrowRight from '@/components/icons/ArrowRight.astro';
+import { PROFILE } from '@/data/profile';
+import { useTranslations } from '@/i18n';
+import type { Locale } from '@/i18n';
+
+interface Props {
+  lang: Locale;
+  /** The home closes with the full contact chapter; inner pages only need the strip. */
+  withContact?: boolean;
+}
+
+const { lang, withContact = false } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="foot" id="contacto">
+  {
+    withContact && (
+      <div class="contact">
+        <h2 class="heading serif">{t('contact.heading')}</h2>
+        <a class="mail serif" href={`mailto:${PROFILE.email}`}>
+          <span>{PROFILE.email}</span>
+          <ArrowRight class="arrow" />
+        </a>
+        <p class="body">{t('contact.body')}</p>
+      </div>
+    )
+  }
+  <div class="strip meta">
+    <span>© {new Date().getFullYear()} {PROFILE.name}</span>
+    <span class="links">
+      <a class="draw" href={PROFILE.social.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a class="draw" href={PROFILE.social.github} target="_blank" rel="noopener">GitHub</a>
+      <a class="draw" href={`mailto:${PROFILE.email}`}>Email</a>
+    </span>
+    <span class="made">{t('footer.rights')} <time data-clock>—</time></span>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    padding: 0 var(--gutter);
+    scroll-margin-top: 40px;
+  }
+  .contact {
+    padding: 18vh 0 14vh;
+  }
+  .heading {
+    margin: 0;
+    font-weight: 400;
+    font-size: clamp(40px, 5.6vw, 92px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 44px;
+    font-style: italic;
+    font-size: clamp(20px, 3vw, 48px);
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    color: var(--ink);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 6px;
+    transition: color 0.3s;
+  }
+  .mail:hover {
+    color: var(--volt);
+  }
+  .mail span {
+    min-width: 0;
+  }
+  .mail :global(.arrow) {
+    width: 0.7em;
+    height: 0.7em;
+    transition: transform 0.5s var(--ease);
+  }
+  .mail:hover :global(.arrow) {
+    transform: translateX(8px);
+  }
+  .body {
+    margin: 22px 0 0;
+    color: var(--ink-2);
+  }
+  .strip {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    padding: 22px 0 26px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-2);
+  }
+  .links {
+    display: flex;
+    gap: 20px;
+  }
+  .links a:hover {
+    color: var(--ink);
+  }
+  .made {
+    text-align: right;
+  }
+  @media (max-width: 760px) {
+    .strip {
+      grid-template-columns: 1fr;
+    }
+    .made {
+      text-align: left;
+    }
+  }
+  @media print {
+    .foot {
+      display: none;
+    }
+  }
+</style>
