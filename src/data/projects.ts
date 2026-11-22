@@ -101,7 +101,7 @@ export const PROJECTS: ProjectEntry[] = [
     // No client or brand names, domains, repos, PR numbers, IDs, rates, people
     // or screenshots. Every figure comes from the project write-up; do not add more.
     slug: 'migracion-arrendamiento-hubspot',
-    shortTitle: { es: 'Arrendamiento → HubSpot', en: 'Lease workflow → HubSpot' },
+    shortTitle: { es: 'Arrendamiento a HubSpot', en: 'Lease workflow to HubSpot' },
     dek: {
       es: 'NGDS · líder técnico · en producción desde el 17 nov 2026',
       en: 'NGDS · tech lead · live since 17 Nov 2026',

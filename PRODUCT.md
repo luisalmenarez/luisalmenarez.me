@@ -24,8 +24,8 @@ A full stack engineer who takes critical integrations and automations to product
 ## Operating Context
 
 - **Where visitors come from:** LinkedIn, job applications and direct links. The page is also opened on phones.
-- **Résumé:** a printable résumé is expected. It lives at `/hoja-de-vida` (and `/en/resume`) and is generated from the same data as the site.
-- **Case studies:** each one lives at its own route (`/projects/<slug>`) and follows problem → role and decisions → measurable result.
+- **Résumé:** a printable résumé is expected. It lives at `/cv/` (and `/en/cv/`) and is generated from the same data as the site.
+- **Case studies:** each one lives at its own route (`/proyectos/<slug>`, `/en/proyectos/<slug>`) and follows problem → role and decisions → measurable result.
 
 ## Capabilities and Constraints
 

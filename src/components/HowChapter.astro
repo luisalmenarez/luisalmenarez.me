@@ -42,12 +42,6 @@ const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as co
         }
       </ol>
     </div>
-    <div>
-      <h3 class="meta">{t('how.stack')}</h3>
-      <ul class="stack serif">
-        {PROFILE.knowsAbout.map((item) => <li>{item}</li>)}
-      </ul>
-    </div>
   </div>
 </section>
 
@@ -105,8 +99,7 @@ const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as co
   }
   .cols {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 6vw;
+    grid-template-columns: minmax(0, 860px);
     padding: 4vh 0 10vh;
     border-bottom: 1px solid var(--rule);
   }
@@ -133,16 +126,6 @@ const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as co
     font-family: var(--font-serif);
     font-style: italic;
     color: var(--ink-3);
-  }
-  .stack {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 28px;
-    font-size: 24px;
-    line-height: 1.3;
   }
   @media (max-width: 900px) {
     .grid,

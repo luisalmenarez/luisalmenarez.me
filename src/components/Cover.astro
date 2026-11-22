@@ -68,7 +68,7 @@ const cv = getLocalizedPath('/cv/', lang);
   </nav>
 
   <span class="corner meta" aria-hidden="true">HubSpot · n8n · Next.js · TypeScript · SQL Server · Azure</span>
-  <span class="corner r meta" aria-hidden="true">{t('cover.scroll')} ↓</span>
+  <span class="corner r meta" aria-hidden="true">{t('cover.scroll')} <ArrowRight class="down" /></span>
 </section>
 
 <script>
@@ -258,6 +258,14 @@ const cv = getLocalizedPath('/cv/', lang);
   .corner.r {
     left: auto;
     right: var(--gutter);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .corner :global(.down) {
+    width: 12px;
+    height: 12px;
+    transform: rotate(90deg);
   }
 
   @media (max-width: 900px) {

@@ -78,13 +78,13 @@ const ogImageSize = project.image
     </a>
 
     <header class="head">
+      <h1 class="serif title">{title}</h1>
       <p class="meta tags">
         <span>{project.period[lang]}</span>
         <span>{t(ROLE_LABEL[project.role])}</span>
         {statusKey && <span>{t(STATUS_LABEL[statusKey])}</span>}
-        {project.proof && <span class="proof">{project.proof[lang]}</span>}
+        {project.proof && <span>{project.proof[lang]}</span>}
       </p>
-      <h1 class="serif title">{title}</h1>
       {
         project.company && (
           <p class="company">
@@ -207,13 +207,7 @@ const ogImageSize = project.image
     flex-wrap: wrap;
     gap: 8px 20px;
     color: var(--ink-2);
-    margin: 0 0 22px;
-  }
-  .tags .proof {
-    background: var(--volt);
-    color: var(--ground);
-    padding: 2px 8px 1px;
-    border-radius: 2px;
+    margin: 26px 0 0;
   }
   .title {
     margin: 0;
