@@ -6,6 +6,11 @@ import adminDashboard from '@/assets/projects/admin-dashboard.webp';
 import commissionSettlement from '@/assets/projects/commission-settlement.webp';
 import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
 import gymplate from '@/assets/projects/gymplate.webp';
+import gymplateClientHome from '@/assets/projects/gymplate-client-home.webp';
+import gymplatePhoneHome from '@/assets/projects/gymplate-phone-home.webp';
+import gymplatePhoneNutrition from '@/assets/projects/gymplate-phone-nutrition.webp';
+import gymplateStrength from '@/assets/projects/gymplate-strength.webp';
+import gymplateTemplates from '@/assets/projects/gymplate-templates.webp';
 import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
 
 export type ProjectRole = 'developed' | 'contributed' | 'team';
@@ -26,6 +31,13 @@ export interface CaseStudySection {
   heading: string;
   body?: string;
   items?: string[];
+}
+
+/** A screen of the product, shown in the project page gallery. The caption doubles as alt text. */
+export interface GalleryShot {
+  image: ImageMetadata;
+  device: 'desktop' | 'phone';
+  caption: Localized<string>;
 }
 
 export interface ProjectEntry {
@@ -53,6 +65,8 @@ export interface ProjectEntry {
   dek?: Localized<string>;
   /** The single fact that proves the case, shown on hover and as a chip. Only figures from the write-up. */
   proof?: Localized<string>;
+  /** Screens of the product, in reading order. Consecutive phone shots sit side by side. */
+  gallery?: GalleryShot[];
 }
 
 /** The cases the home leads with, in reading order. Everything else goes to the archive. */
@@ -299,6 +313,47 @@ export const PROJECTS: ProjectEntry[] = [
     featured: true,
     // Landing of gymplate.app, captured 2026-11-21, hero cropped to 1920x900.
     image: gymplate,
+    // Inside the app, signed in as the owner's own account on 2026-11-21. Picked
+    // so no third-party names, emails or body measurements appear.
+    gallery: [
+      {
+        image: gymplateClientHome,
+        device: 'desktop',
+        caption: {
+          es: 'Inicio del cliente: las rutinas de la semana, la adherencia y lo que queda pendiente.',
+          en: "Client home: the week's routines, adherence and what is still pending.",
+        },
+      },
+      {
+        image: gymplatePhoneHome,
+        device: 'phone',
+        caption: { es: 'La misma vista en el celular.', en: 'The same view on a phone.' },
+      },
+      {
+        image: gymplatePhoneNutrition,
+        device: 'phone',
+        caption: {
+          es: 'Mi nutrición: calorías y macros del día frente al plan, comida por comida.',
+          en: "My nutrition: the day's calories and macros against the plan, meal by meal.",
+        },
+      },
+      {
+        image: gymplateStrength,
+        device: 'desktop',
+        caption: {
+          es: 'Progreso de fuerza: cada ejercicio contra su sesión anterior y los últimos récords.',
+          en: 'Strength progress: each exercise against its previous session, plus the latest records.',
+        },
+      },
+      {
+        image: gymplateTemplates,
+        device: 'desktop',
+        caption: {
+          es: 'Panel del entrenador: plantillas de planes para asignar a un cliente en un paso.',
+          en: 'Coach panel: plan templates to assign to a client in one step.',
+        },
+      },
+    ],
     link: 'https://www.gymplate.app',
     tags: [
       TAGS.NEXTJS,
