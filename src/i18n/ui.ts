@@ -85,9 +85,9 @@ const es = {
   'notFound.home': 'Volver al inicio',
   'notFound.projects': 'Ver proyectos',
   'about.p1':
-    'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Llevo más de 4 años construyendo aplicaciones web</strong> que resuelven problemas reales y se sienten bien al usarlas.',
+    'Mi nombre es Luis Carlos, aunque todos me dicen Lucho. <strong>Desde 2022 llevo sistemas a producción</strong> en logística, educación, fintech y seguros: de la automatización de procesos en Coordinadora de Tanques a la migración a HubSpot de una aseguradora de arrendamientos.',
   'about.p2':
-    'He trabajado en proyectos donde <strong>los equipos reducían semanas de trabajo a días con las herramientas correctas, y donde procesos manuales simplemente dejaban de existir.</strong> Eso es lo que me motiva: ver el impacto directo de lo que se construye.',
+    'El flujo de arrendamiento <strong>va de la radicación a la emisión en HubSpot desde el 17 de noviembre de 2026</strong>, y la liquidación de comisiones <strong>se validó en 7 ciclos quincenales reales con más de 60 reglas versionadas</strong>. Me quedo hasta que el sistema funciona en producción y dejo una revisión diaria que lo mantiene así.',
   'about.p3':
     'Trabajo remoto desde Rionegro, Antioquia 🇨🇴, como <strong class="text-blue-300 italic">Desarrollador Fullstack Senior en NGDS</strong>, principalmente con Next.js, TypeScript y HubSpot. Fuera del código, me encontrarás entrenando en el gym, montando en moto, jugando Fortnite, o metiéndole mano a la orquestación de flujos con <strong class="text-blue-300 italic">n8n.</strong>',
   'edition.label': 'Edición 2026',
@@ -209,9 +209,9 @@ const en: Record<keyof typeof es, string> = {
   'notFound.home': 'Back to home',
   'notFound.projects': 'View projects',
   'about.p1':
-    "My name is Luis Carlos, though everyone calls me Lucho. <strong>I've been building web applications for over 4 years</strong> that solve real problems and feel great to use.",
+    "My name is Luis Carlos, though everyone calls me Lucho. <strong>Since 2022 I have taken systems to production</strong> in logistics, education, fintech and insurance: from process automation at Coordinadora de Tanques to a lease-insurance company's migration to HubSpot.",
   'about.p2':
-    "I've worked on projects where <strong>teams cut weeks of work down to days with the right tools, and where manual processes simply ceased to exist.</strong> That's what drives me: seeing the direct impact of what we build.",
+    'The lease workflow <strong>has run from filing to issuance in HubSpot since 17 November 2026</strong>, and the commission settlement <strong>was validated across 7 real biweekly cycles with more than 60 versioned rules</strong>. I stay until the system works in production and leave a daily review that keeps it that way.',
   'about.p3':
     'Working remotely from Rionegro, Antioquia 🇨🇴 as a <strong class="text-blue-300 italic">Senior Full Stack Developer at NGDS</strong>, mainly with Next.js, TypeScript and HubSpot. Outside of code, you\'ll find me at the gym, out riding my motorcycle, playing Fortnite, or diving into workflow orchestration with <strong class="text-blue-300 italic">n8n.</strong>',
   'edition.label': 'Edition 2026',
