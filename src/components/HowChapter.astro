@@ -99,7 +99,7 @@ const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as co
   }
   .cols {
     display: grid;
-    grid-template-columns: minmax(0, 860px);
+    grid-template-columns: 1fr;
     padding: 4vh 0 10vh;
     border-bottom: 1px solid var(--rule);
   }
@@ -112,6 +112,14 @@ const RULES = ['ai.parallel', 'ai.reviewer', 'ai.production', 'ai.checks'] as co
     margin: 0;
     padding: 0;
     counter-reset: rule;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 6vw;
+  }
+  @media (max-width: 900px) {
+    .rules {
+      grid-template-columns: 1fr;
+    }
   }
   .rules li {
     counter-increment: rule;
