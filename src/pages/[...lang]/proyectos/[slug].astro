@@ -46,6 +46,15 @@ const statusKey =
     : null;
 const companyDescription = project.company?.description?.[lang];
 
+// Consecutive phone shots share a row; every desktop shot takes the full measure.
+type GalleryRow = { device: 'desktop' | 'phone'; shots: NonNullable<typeof project.gallery> };
+const galleryRows = (project.gallery ?? []).reduce<GalleryRow[]>((rows, shot) => {
+  const last = rows.at(-1);
+  if (shot.device === 'phone' && last?.device === 'phone') last.shots.push(shot);
+  else rows.push({ device: shot.device, shots: [shot] });
+  return rows;
+}, []);
+
 const canonical = new URL(Astro.url.pathname, Astro.site).toString();
 const schema = buildProjectSchema({ project, lang, url: canonical });
 
@@ -177,6 +186,34 @@ const ogImageSize = project.image
         }
       </aside>
     </div>
+
+    {
+      galleryRows.length > 0 && (
+        <section class="gallery" aria-labelledby="gallery-heading">
+          <h2 id="gallery-heading" class="meta label">{t('projects.gallery')}</h2>
+          {galleryRows.map((row) => (
+            <div class:list={['row', row.device]}>
+              {row.shots.map((shot) => (
+                <figure data-reveal>
+                  <Image
+                    src={shot.image}
+                    alt={shot.caption[lang]}
+                    loading="lazy"
+                    widths={row.device === 'phone' ? [400, 600, 900] : [800, 1280, 1800, 2400]}
+                    sizes={
+                      row.device === 'phone'
+                        ? '(min-width: 900px) 340px, 45vw'
+                        : '(min-width: 1280px) 1232px, 100vw'
+                    }
+                  />
+                  <figcaption>{shot.caption[lang]}</figcaption>
+                </figure>
+              ))}
+            </div>
+          ))}
+        </section>
+      )
+    }
   </main>
 </Layout>
 
@@ -314,6 +351,41 @@ const ogImageSize = project.image
     flex-wrap: wrap;
     align-items: center;
     gap: 16px 22px;
+  }
+  .gallery {
+    margin-top: 14vh;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+  }
+  .gallery .row + .row {
+    margin-top: 10vh;
+  }
+  .gallery figure {
+    margin: 0;
+  }
+  .gallery img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+  }
+  .gallery .phone {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 340px));
+    justify-content: center;
+    gap: clamp(16px, 6vw, 96px);
+  }
+  .gallery .phone img {
+    border-color: var(--rule-strong);
+    border-radius: 28px;
+  }
+  .gallery figcaption {
+    margin-top: 16px;
+    max-width: 56ch;
+    color: var(--ink-2);
+    font-size: 15px;
+    text-wrap: pretty;
   }
   @media (max-width: 900px) {
     .columns {
