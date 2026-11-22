@@ -55,7 +55,7 @@ const es = {
     'Producción fuera del alcance de los agentes: los scripts de producción tienen modo «ver» y modo «aplicar» con respaldo, y se ejecutan a mano.',
   'ai.checks':
     'Verificaciones locales obligatorias al acelerar: typecheck, lint, pruebas y build antes de fusionar.',
-  'projects.features': 'Características:',
+  'projects.features': 'Características',
   'projects.showMore': 'Mostrar más',
   'projects.showLess': 'Mostrar menos',
   'projects.backToList': 'Volver a proyectos',
@@ -180,7 +180,7 @@ const en: Record<keyof typeof es, string> = {
     'Production stays out of reach of the agents: production scripts have a "preview" and an "apply" mode with a backup, and run by hand.',
   'ai.checks':
     'Mandatory local checks when speeding up: typecheck, lint, tests and build before merging.',
-  'projects.features': 'Features:',
+  'projects.features': 'Features',
   'projects.showMore': 'Show more',
   'projects.showLess': 'Show less',
   'projects.backToList': 'Back to projects',
