@@ -5,7 +5,7 @@ import { TAGS } from './tags';
 import adminDashboard from '@/assets/projects/admin-dashboard.webp';
 import commissionSettlement from '@/assets/projects/commission-settlement.webp';
 import cloudfleetExtract from '@/assets/projects/cloudfleet-extract.webp';
-import manfit from '@/assets/projects/manfit.webp';
+import gymplate from '@/assets/projects/gymplate.webp';
 import uniandesEcosistema from '@/assets/projects/uniandes-ecosistema.webp';
 
 export type ProjectRole = 'developed' | 'contributed' | 'team';
@@ -59,7 +59,7 @@ export interface ProjectEntry {
 export const SELECTED_WORK = [
   'migracion-arrendamiento-hubspot',
   'commission-settlement',
-  'trk',
+  'gymplate',
 ] as const;
 
 /**
@@ -287,13 +287,18 @@ export const PROJECTS: ProjectEntry[] = [
   },
   {
     slug: 'gymplate',
+    dek: {
+      es: 'Construido de punta a punta · en producción desde oct 2026',
+      en: 'Built end to end · live since Oct 2026',
+    },
+    proof: { es: '1.600+ commits', en: '1,600+ commits' },
     role: 'developed',
     status: 'live',
     kind: 'professional',
     period: { es: '2026 - Actualidad', en: '2026 - Present' },
     featured: true,
-    // Screenshot predates the GymPlate rebrand; replace it with a current capture.
-    image: manfit,
+    // Landing of gymplate.app, captured 2026-11-21, hero cropped to 1920x900.
+    image: gymplate,
     link: 'https://www.gymplate.app',
     tags: [
       TAGS.NEXTJS,
